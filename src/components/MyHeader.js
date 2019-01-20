@@ -131,7 +131,7 @@ class MyHeader extends React.Component {
                     >
                     <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" color="inherit" noWrap>
+                    <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
                     STEAM LAB
                     </Typography>
                 </Toolbar>

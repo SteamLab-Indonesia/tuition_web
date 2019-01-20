@@ -27,3 +27,9 @@
 #main {
     background-color: cornflowerblue;
 }
+
+#title {
+    text-decoration: none;
+    color: white;
+    font-family: 'Lucida Sans';
+}
