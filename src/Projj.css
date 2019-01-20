@@ -1,0 +1,24 @@
+.first {
+    padding-top: 120px;
+    padding-left: 240px;
+    padding-right: 200px;
+}
+
+.second {
+    padding-top: 80px;
+    padding-left: 240px;
+    padding-right: 200px;
+    padding-bottom: 120px;
+}
+
+.classes.icon{
+    size: 50px;
+}
+
+#name {
+    font-size: 20px;
+}
+
+#main {
+    background-color: cornflowerblue;
+}
