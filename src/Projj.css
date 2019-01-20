@@ -15,6 +15,11 @@
     size: 50px;
 }
 
+.dis-content {
+    text-decoration: none;
+    color: black;
+}
+
 #name {
     font-size: 20px;
 }

@@ -87,7 +87,7 @@ const styles = theme => ({
       },
     });
 
-    const theme = createMuiTheme({
+    const gtheme = createMuiTheme({
       palette: {
         type: 'dark', // Switching the dark mode on is a single property value change.
       },
@@ -111,6 +111,7 @@ class MyHeader extends React.Component {
       render() {
         const { classes, theme } = this.props;
         const { open } = this.state;
+
       return(
           <div className={classes.root}>
               <CssBaseline />
@@ -136,7 +137,7 @@ class MyHeader extends React.Component {
                 </Toolbar>
                 </AppBar>
               </MuiThemeProvider>
-              <MuiThemeProvider theme={theme}>            
+              <MuiThemeProvider theme={gtheme}>            
                 <Drawer
                 className={classes.drawer}
                 variant="persistent"
@@ -161,7 +162,7 @@ class MyHeader extends React.Component {
                       <ListItemIcon><GroupIcon /></ListItemIcon>
                       <ListItemText primary="Teacher" />
                   </ListItem> */}
-                  {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},{text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendence',icon: <BarChartIcon />,link: '/attenence'},
+                  {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},{text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendence',icon: <BarChartIcon />,link: '/attendence'},
                   {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'}].map((item, index) => (
                       <ListItem button key={item.text} component={ Link } to={item.link}>
                           <ListItemIcon>{item.icon}</ListItemIcon>
@@ -171,10 +172,10 @@ class MyHeader extends React.Component {
                 </List>
                 <Divider />
                 <List>
-                    {['Settings', 'Feedback'].map((text, index) => (
-                    <ListItem button key={text}>
+                    {[{text: 'Settings',link: '/settings'},{text: 'Feedback',link: '/feedback'}].map((item, index) => (
+                    <ListItem button key={item.text} component={Link} to={item.link}>
                         <ListItemIcon>{index % 2 === 0 ? <SettingsIcon /> : <FeedbackIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                        <ListItemText primary={item.text} />
                     </ListItem>
                     ))}
                 </List>

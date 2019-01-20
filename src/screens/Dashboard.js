@@ -17,6 +17,7 @@ import FeedbackIcon from '@material-ui/icons/Feedback';
 import { Button } from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue, pink } from '@material-ui/core/colors';
+import { Link } from "react-router-dom";
 
 
 const styles = theme => ({
@@ -64,7 +65,7 @@ const styles = theme => ({
                 <div class="first">
                     <Grid container spacing={40}>
                         <Button>
-                            <Grid item>
+                            <Grid item component={Link} to="/users" class="dis-content">
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <PersonIcon className={classes.icon} />
@@ -74,7 +75,7 @@ const styles = theme => ({
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item>
+                            <Grid item component={Link} to="/teacher" class="dis-content">
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <GroupIcon className={classes.icon} />
@@ -84,7 +85,7 @@ const styles = theme => ({
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item>
+                            <Grid item component={Link} to="/courses" class="dis-content">
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <BookIcon className={classes.icon} />
@@ -99,7 +100,7 @@ const styles = theme => ({
                 <div class="second">
                     <Grid container spacing={40}>
                         <Button>
-                            <Grid item>
+                            <Grid item component={Link} to="/attendence" class="dis-content">
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <BarChartIcon className={classes.icon} />
@@ -109,7 +110,7 @@ const styles = theme => ({
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item>
+                            <Grid item component={Link} to="/payment" class="dis-content">
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <AttachMoneyIcon className={classes.icon} />
@@ -119,7 +120,7 @@ const styles = theme => ({
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item>
+                            <Grid item component={Link} to="/feedback" class="dis-content">
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <FeedbackIcon className={classes.icon} />
