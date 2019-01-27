@@ -15,43 +15,9 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import { Button } from '@material-ui/core';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { blue, pink } from '@material-ui/core/colors';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
-
-
-const styles = theme => ({
-    root: {
-      color: theme.palette.text.primary,
-    },
-    icon: {
-      margin: theme.spacing.unit,
-      fontSize: 70,
-    },
-    card: {
-        minWidth: 300,
-      },
-      bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-      },
-      title: {
-        fontSize: 14,
-      },
-      pos: {
-        marginBottom: 12,
-      },
-    });
-
-    const theme = createMuiTheme({
-        palette: {
-          //type: 'dark', // Switching the dark mode on is a single property value change.
-          primary: blue,
-          secondary: pink,
-        },
-        typography: { useNextVariants: true },
-      });
+import { styles, theme } from '../styles';
 
 //export default class Dashboard extends Component {
     //render() {

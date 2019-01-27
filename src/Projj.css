@@ -33,3 +33,9 @@
     color: white;
     font-family: 'Lucida Sans';
 }
+
+#surface { 
+    padding-left: 200px;
+    padding-right: 200px;
+    padding-top: 150px;
+}

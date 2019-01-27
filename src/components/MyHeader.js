@@ -115,12 +115,13 @@ class MyHeader extends React.Component {
       return(
           <div className={classes.root}>
               <CssBaseline />
-                <MuiThemeProvider theme={theme}>
+                <MuiThemeProvider theme={gtheme}>
                     <AppBar
                         position="fixed"
                         className={classNames(classes.appBar, {
                             [classes.appBarShift]: open,
                         })}
+                        color="primary"
                     >
                 <Toolbar disableGutters={!open}>
                     <IconButton
