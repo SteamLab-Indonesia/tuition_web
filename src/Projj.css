@@ -1,15 +1,16 @@
 .first {
-    padding-top: 120px;
-    padding-left: 240px;
-    padding-right: 200px;
+    padding-top: 140px;
+    padding-left: 220px;
+    padding-right: 210px;
+    padding-bottom: 141px;
 }
 
-.second {
+/* .second {
     padding-top: 80px;
     padding-left: 240px;
     padding-right: 200px;
     padding-bottom: 120px;
-}
+} */
 
 .classes.icon{
     size: 50px;
@@ -38,4 +39,16 @@
     padding-left: 200px;
     padding-right: 200px;
     padding-top: 150px;
+    background-image: url("./img/abstract-art-background-370799.jpg");
+}
+
+#inside {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 30px;
+}
+
+#papert{
+    font-family: 'Gill Sans MT';
+    font-weight: 800;
 }

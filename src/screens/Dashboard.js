@@ -31,8 +31,8 @@ import { styles, theme } from '../styles';
                 <div class="first">
                     <Grid container spacing={40}>
                         <Button>
-                            <Grid item component={Link} to="/users" class="dis-content">
-                                <Card className={classes.card}>
+                            <Grid item component={Link} to="/users" class="dis-content" lg={4} xs={12}>
+                                <Card className={classes.card} >
                                     <CardContent>
                                         <PersonIcon className={classes.icon} />
                                         <p id="name">users</p>
@@ -41,7 +41,7 @@ import { styles, theme } from '../styles';
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item component={Link} to="/teacher" class="dis-content">
+                            <Grid item component={Link} to="/teacher" class="dis-content" lg={4} xs={12}>
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <GroupIcon className={classes.icon} />
@@ -51,7 +51,7 @@ import { styles, theme } from '../styles';
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item component={Link} to="/courses" class="dis-content">
+                            <Grid item component={Link} to="/courses" class="dis-content" lg={4} xs={12}>
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <BookIcon className={classes.icon} />
@@ -60,13 +60,13 @@ import { styles, theme } from '../styles';
                                 </Card>        
                             </Grid>
                         </Button>
-                    </Grid>
+                    {/* </Grid>
                 </div>
 
                 <div class="second">
-                    <Grid container spacing={40}>
+                    <Grid container spacing={40}> */}
                         <Button>
-                            <Grid item component={Link} to="/attendence" class="dis-content">
+                            <Grid item component={Link} to="/attendence" class="dis-content" lg={4} xs={12}>
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <BarChartIcon className={classes.icon} />
@@ -76,7 +76,7 @@ import { styles, theme } from '../styles';
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item component={Link} to="/payment" class="dis-content">
+                            <Grid item component={Link} to="/payment" class="dis-content" lg={4} xs={12}>
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <AttachMoneyIcon className={classes.icon} />
@@ -86,7 +86,7 @@ import { styles, theme } from '../styles';
                             </Grid>
                         </Button>
                         <Button>
-                            <Grid item component={Link} to="/feedback" class="dis-content">
+                            <Grid item component={Link} to="/feedback" class="dis-content" lg={4} xs={12}>
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <FeedbackIcon className={classes.icon} />
