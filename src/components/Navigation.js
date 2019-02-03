@@ -10,7 +10,7 @@ export default class Navigation extends Component{
         return (
             <Switch>
                 <Route exact path='/' component={Dashboard}/>
-                {/* <Route path='/users' component={users}/> */}
+                <Route path='/users' component={users}/>
                 <Route path='/teacher' component={Teacher}/>
                 <Route path='/courses' component={AddCourses}/>
                 {/* <Route path='/attendence' component={attendence}/>
