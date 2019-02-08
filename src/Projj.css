@@ -1,3 +1,9 @@
+#base {
+    background-image: url("./img/abstract-art-background-370799.jpg");
+    /* height: 657px; */
+    background-attachment: fixed;
+}
+
 .first {
     padding-top: 140px;
     padding-left: 220px;
@@ -25,9 +31,11 @@
     font-size: 20px;
 }
 
-#main {
-    background-color: cornflowerblue;
-}
+/* #main {
+     background-color: cornflowerblue; 
+    background-image: url("./img/abstract-art-background-370799.jpg");
+    background-attachment: fixed;
+} */
 
 #title {
     text-decoration: none;
@@ -35,17 +43,31 @@
     font-family: 'Lucida Sans';
 }
 
+/* .surface { 
+    background-image: url("./img/abstract-art-background-370799.jpg");
+    height: 657px; 
+    background-attachment: fixed;
+} */
+
 #surface { 
     padding-left: 200px;
     padding-right: 200px;
     padding-top: 150px;
-    background-image: url("./img/abstract-art-background-370799.jpg");
+    padding-bottom: 141px;
+}
+
+#msurface { 
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 100px;
+    padding-bottom: 141px;
 }
 
 #inside {
     padding-left: 100px;
     padding-right: 100px;
     padding-top: 30px;
+    padding-bottom: 15px;
 }
 
 #papert{

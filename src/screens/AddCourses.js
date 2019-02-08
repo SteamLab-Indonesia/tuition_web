@@ -7,14 +7,14 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import '../Projj.css';
 import { Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
 
 const styles = theme => ({
    root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,   
+    paddingBottom: theme.spacing.unit * 2,  
   },
   container: {
     display: 'flex',
@@ -40,6 +40,52 @@ const styles = theme => ({
   },
 });
 
+const subject = [
+  {
+    value: 'none',
+    label: 'Select Subject',
+  },
+  {
+    value: 'Robotic',
+    label: 'Robotic',
+  },
+  {
+    value: 'tes',
+    label: 'tes',
+  },
+  // {
+  //   value: 'BTC',
+  //   label: '฿',
+  // },
+  // {
+  //   value: 'JPY',
+  //   label: '¥',
+  // },
+];
+
+const curriculum = [
+  {
+    value: 'none',
+    label: 'Select Curriculum',
+  },
+  {
+    value: 'Creativity',
+    label: 'Creativity',
+  },
+  {
+    value: 'tes',
+    label: 'tes',
+  },
+  // {
+  //   value: 'BTC',
+  //   label: '฿',
+  // },
+  // {
+  //   value: 'JPY',
+  //   label: '¥',
+  // },
+];
+
 class TextFields extends React.Component {
 
   handleChange = name => event => {
@@ -47,12 +93,16 @@ class TextFields extends React.Component {
       [name]: event.target.value,
     });
   };
+  state = {
+    subject: 'none',
+    curriculum: 'none',
+  }
 
   render() {
     const { classes } = this.props;
 
     return (
-        <div className={classes.root} id="surface">
+        <div className={classes.root} id="surface" class="surface">
         <Paper elevation={1} id="inside">
             <form className={classes.container} noValidate autoComplete="off">
                 <Typography variant="h5" component="h3" id="papert">
@@ -60,20 +110,48 @@ class TextFields extends React.Component {
                 </Typography>
                 <TextField
                 id="standard-name"
+                select
                 label="Subject"
                 className={classes.textField}
-                placeholder="Please enter a subject here"
-                onChange={this.handleChange('name')}
+                value={this.state.subject}
+                onChange={this.handleChange('subject')}
                 margin="normal"
-                />
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="Please select your subject"
+                margin="normal"
+                >
+                {subject.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+                </TextField>
                 <TextField
-                id="standard-name"
+                select
+                //id="standard-name"
                 label="Curriculum"
                 className={classes.textField}
-                placeholder="Please enter a curriculum"
-                onChange={this.handleChange('name')}
+                value={this.state.curriculum}
+                onChange={this.handleChange('curriculum')}
                 margin="normal"
-                />
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="Please select your curriculum"
+                margin="normal"
+                >
+                {curriculum.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+                </TextField>
                 <TextField
                 id="standard-name"
                 label="Level"
