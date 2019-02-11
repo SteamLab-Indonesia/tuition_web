@@ -3,6 +3,7 @@ import {Switch, Route} from 'react-router-dom';
 import Dashboard from '../screens/Dashboard';
 import AddCourses from '../screens/AddCourses';
 import Teacher from '../screens/Teacher';
+import users from '../screens/users'
 
 
 export default class Navigation extends Component{
