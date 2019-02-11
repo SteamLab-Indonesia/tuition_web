@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import '../Projj.css';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     icon: {
@@ -21,6 +22,7 @@ const styles = theme => ({
   },
   container: {
     display: 'flex',
+    flexDirection:'column',
     flexWrap: 'wrap',
   },
   textField: {
@@ -32,6 +34,10 @@ const styles = theme => ({
   },
   menu: {
     width: 200,
+  },
+  button: {
+    margin: theme.spacing.unit,
+    width: 230,
   },
 });
 
@@ -99,8 +105,8 @@ class TextFields extends React.Component {
     const { classes } = this.props;
 
     return (
-        <div className={classes.root} id="surface">
-        <Paper elevation={1}>
+        <div className={classes.root} id="surface" class="surface">
+        <Paper elevation={1} id="inside">
             <form className={classes.container} noValidate autoComplete="off">
                 <Grid 
                 container spacing={0}
@@ -158,7 +164,7 @@ class TextFields extends React.Component {
                             select
                             label="Select Country Code"
                             className={classes.textField}
-                            style={{width: '18%'}}
+                            style={{width: '23%'}}
                             onChange={this.handleChange('currency')}
                             margin="normal"
                             >
@@ -172,12 +178,17 @@ class TextFields extends React.Component {
                             className={classes.textField}
                             value={this.state.name}
                             label="Enter Your Phone Number"   
-                            style={{width: '76%'}}
+                            style={{width: '71%'}}
                             margin="normal"
                             />
                         </Grid>
                     </Grid>
                 </Grid>
+                <br />
+                <div>
+                  <Button variant="contained" color="secondary" className={classes.button}>save</Button>
+                  <Button variant="outlined" className={classes.button}>cancel</Button>
+                </div>
             </form>
         </Paper>
         </div>
