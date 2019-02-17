@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
 import '../users.css';
 import '../Projj.css'
 const CustomTableCell = withStyles(theme => ({
@@ -88,7 +89,8 @@ return (
       </Table>
     </Paper>
     <div class='button'>
-      <a> <Button variant="contained" color="primary" className={classes.button}>Add a student
+      <a> <Button variant="contained" color="primary" className={classes.button} 
+      component={Link} to="addusers">Add a student
       </Button></a>
     </div>
   </div>

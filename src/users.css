@@ -12,6 +12,10 @@
     padding-left: 20px;
     /* padding-right: 10px; */
     
-    padding-bottom :120px
-    
+    padding-bottom :120px   
+}
+
+.papert{
+    font-family: 'Segoe UI';
+    font-Weight :"fontWeightMedium";
 }
