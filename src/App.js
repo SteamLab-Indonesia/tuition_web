@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import MyHeader from './components/MyHeader';
 //import Dashboard from './screens/Dashboard';
 import Navigation from './components/Navigation';
+import {initFirebase} from './libs/firebase'
 
+initFirebase();
 class App extends Component {
   render() {
     return (
