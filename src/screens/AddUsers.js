@@ -51,6 +51,18 @@ const styles = theme => ({
   },
 });
 
+const gender = [
+  {
+    value: 'male',
+    label: 'Male',
+  },
+  {
+    value: 'female',
+    label: 'Female',
+  },
+];
+
+
 class TextFields extends React.Component {
   state = {
     age: '',
@@ -77,6 +89,7 @@ class TextFields extends React.Component {
       phone: this.state.phone,
       address: this.state.address,
       school: this.state.school,
+      gender : this.state.gender
     });  
     this.setState({
       name: '',
@@ -87,6 +100,7 @@ class TextFields extends React.Component {
       phone: '',
       address: '',
       school: '',
+      gender: '',
     });
   }
 
@@ -119,7 +133,7 @@ class TextFields extends React.Component {
                   label="Name" 
                   className={classes.textField} 
                   value={this.state.name}
-                  style={{width: '46%'}} 
+                  style={{width: '47%'}} 
                   margin="normal"
                   onChange={this.handleChange('name')}
                   />
@@ -128,7 +142,7 @@ class TextFields extends React.Component {
                   className={classes.textField}
                   value={this.state.username}
                   label="Username"   
-                  style={{width: '48%'}}
+                  style={{width: '47%'}}
                   margin="normal"
                   onChange={this.handleChange('username')}
                   />
@@ -178,11 +192,33 @@ class TextFields extends React.Component {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  style={{width: '96%'}}
+                  style={{width: '46%'}}
                   margin="normal"
                   onChange={this.handleChange('birthday')}
-                  //variant='filled'
+                  //variant='outlined'
                   />
+
+                  <TextField
+                    id="Gender"
+                    select
+                    label="Gender"
+                    className={classes.textField}
+                    value={this.state.gender}
+                    style={{width: '47%'}}
+                    margin="normal"
+                    onChange={this.handleChange('gender')}
+                    SelectProps={{
+                      MenuProps: {
+                        className: classes.menu,
+                      },
+                    }}
+                  >
+                    {gender.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
 
                   <TextField
                   className={classes.textField}
