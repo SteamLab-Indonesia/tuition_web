@@ -204,6 +204,9 @@ class TextFields extends React.Component {
                     label="Gender"
                     className={classes.textField}
                     value={this.state.gender}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     style={{width: '47%'}}
                     margin="normal"
                     onChange={this.handleChange('gender')}
