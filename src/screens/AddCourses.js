@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import '../Projj.css';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import firebase from 'firebase';
 
 
 const styles = theme => ({
@@ -88,6 +89,25 @@ const curriculum = [
 
 class TextFields extends React.Component {
 
+  addCourses = () => {
+    const db = firebase.firestore();
+      db.settings({
+      timestampsInSnapshots: true
+    });
+    const userRef = db.collection("program").add({
+      subject: this.state.subject,
+      curriculum: this.state.curriculum,
+      level: parseInt(this.state.level),
+      description: this.state.description
+    });
+    this.setState({
+      subject: "",
+      curriculum: "",
+      level: 0,
+      description: ""
+    });
+  };
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -104,7 +124,7 @@ class TextFields extends React.Component {
     return (
         <div className={classes.root} id="surface" class="surface">
         <Paper elevation={1} id="inside">
-            <form className={classes.container} noValidate autoComplete="off">
+            <form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
                 <Typography variant="h5" component="h3" id="papert">
                     New Courses
                 </Typography>
@@ -157,7 +177,7 @@ class TextFields extends React.Component {
                 label="Level"
                 className={classes.textField}
                 placeholder="Please select a level"
-                onChange={this.handleChange('name')}
+                onChange={this.handleChange('level')}
                 margin="normal"
                 />
                 <TextField
@@ -168,10 +188,11 @@ class TextFields extends React.Component {
                 placeholder="Please enter description here"
                 className={classes.textField}
                 margin="normal"
+                onChange={this.handleChange('description')}
                 />
                 <br />
                 <div>
-                  <Button variant="contained" color="secondary" className={classes.button}>save</Button>
+                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.addCourses}>save</Button>
                   <Button variant="outlined" className={classes.button}>cancel</Button>
                 </div>
                 
