@@ -25,7 +25,7 @@ const CustomTableCell = withStyles(theme => ({
     body: {
       fontSize: 14,
     },
-  }))(TableCell);
+}))(TableCell);
 
 const styles = theme => ({
   root: {
@@ -55,18 +55,14 @@ const styles = theme => ({
 });
 
 let id = 0;
-function createData(name, birth, clazz, idnum, address, gol) {
+function createData(name, username, email, password, birthday, gender, phone, address, school) {
   id += 1;
-  return { id, name, birth, clazz, idnum, address, gol };
+  return {name, username, email, password, birthday, gender, phone, address, school };
 }
 
 const rows = [
-  createData('Student 1', '01/11/2002','XI-Science-10', 89182 , 'Jl. Sutomo No.32A', 'O'),
-  createData('Student 2', '13/04/2002','XI-Science-09', 89183 , 'Jl. Sutomo No.32B', 'A'),
-  createData('Student 3', '30/03/2002','XI-Science-11', 89184 , 'Jl. Sutomo No.32C', 'B'),
-  createData('Student 4', '21/07/2002','XI-Science-12', 89185 , 'Jl. Sutomo No.32D', 'AB'),
-  createData('Student 5', '12/05/2002','XI-Science-10', 89186 , 'Jl. Sutomo No.32E', 'A'),
-  
+  createData('Junior', 'ijuntan','juniortanaya@gmail.com', '12345678' , '2002/06/01', 'male', 
+             '012345678', 'Jl.Gurami no.19D', 'Sutomo 1')
 ];
 
 function SimpleTable(props) {
@@ -74,49 +70,57 @@ function SimpleTable(props) {
 
   return (
     <div id="msurface" class="surface">
-        <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
-            <CardContent>
-                <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
-                    <Grid container spacing={24}>
-                        <Grid item xs={10}>
-                        <Typography variant="h5" component="h3" id="papert">Users</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                        <Button variant="contained" color="secondary" className={classes.button} 
-                        component={Link} to="addusers">add student</Button>
-                        </Grid>
-                    </Grid>
-                </div>
-                <Paper className={classes.root}>
-      <Table className={classes.table} >
-        <TableHead>
-          <TableRow>
-            <CustomTableCell>Student</CustomTableCell>
-            <CustomTableCell align="center">Birth</CustomTableCell>
-            <CustomTableCell align="center">Class</CustomTableCell>
-            <CustomTableCell align="center">ID Number</CustomTableCell>
-            <CustomTableCell align="center">Address</CustomTableCell>
-            <CustomTableCell align="center">Gol.Darah</CustomTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow className={classes.row} key={row.id}>
-              <CustomTableCell component="th" scope="row">
-                {row.name}
-              </CustomTableCell>
-              <CustomTableCell align="right">{row.birth}</CustomTableCell>
-              <CustomTableCell align="right">{row.clazz}</CustomTableCell>
-              <CustomTableCell align="right">{row.idnum}</CustomTableCell>
-              <CustomTableCell align="right">{row.address}</CustomTableCell>
-              <CustomTableCell align="right">{row.gol}</CustomTableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      </Paper>
-            </CardContent>
-        </Card>
+      <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
+        <CardContent>
+
+          <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
+            <Grid container spacing={24}>
+              <Grid item xs={10}>
+                <Typography variant="h5" component="h3">Users</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
+                  add student
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+
+          <Paper className={classes.root}>
+            <Table className={classes.table} >
+              <TableHead>
+                <TableRow>
+                  <CustomTableCell>Student</CustomTableCell>
+                  <CustomTableCell align="center">Username</CustomTableCell>
+                  <CustomTableCell align="center">Email</CustomTableCell>
+                  <CustomTableCell align="center">Password</CustomTableCell>
+                  <CustomTableCell align="center">Birthday</CustomTableCell>
+                  <CustomTableCell align="center">Gender</CustomTableCell>
+                  <CustomTableCell align="center">Phone Number</CustomTableCell>
+                  <CustomTableCell align="center">Address</CustomTableCell>
+                  <CustomTableCell align="center">School</CustomTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow className={classes.row} key={row.id}>
+                    <CustomTableCell component="th" scope="row">{row.name}</CustomTableCell>
+                    <CustomTableCell align="right">{row.username}</CustomTableCell>
+                    <CustomTableCell align="right">{row.email}</CustomTableCell>
+                    <CustomTableCell align="right">{row.password}</CustomTableCell>
+                    <CustomTableCell align="right">{row.birthday}</CustomTableCell>
+                    <CustomTableCell align="right">{row.gender}</CustomTableCell>
+                    <CustomTableCell align="right">{row.phone}</CustomTableCell>
+                    <CustomTableCell align="right">{row.address}</CustomTableCell>
+                    <CustomTableCell align="right">{row.school}</CustomTableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+
+        </CardContent>
+      </Card>
     </div>
   );
 }
