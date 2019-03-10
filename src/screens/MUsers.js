@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import IconButton from '@material-ui/core/IconButton';
+import { getUser } from '../libs/User';
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -54,75 +55,87 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(name, username, email, password, birthday, gender, phone, address, school) {
-  id += 1;
-  return {name, username, email, password, birthday, gender, phone, address, school };
-}
+class SimpleTable extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: []
+    }
+  }
 
-const rows = [
-  createData('Junior', 'ijuntan','juniortanaya@gmail.com', '12345678' , '2002/06/01', 'male', 
-             '012345678', 'Jl.Gurami no.19D', 'Sutomo 1')
-];
+  componentDidMount() {
+    getUser((user_list) => {
+      // console.log(user_list);
+      this.setState({
+        user: user_list
+      })
+    });
+  }
+  
+  render() {
+    const { classes } = this.props;
 
-function SimpleTable(props) {
-  const { classes } = props;
-
-  return (
-    <div id="msurface" class="surface">
-      <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
-        <CardContent>
-
-          <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
-            <Grid container spacing={24}>
-              <Grid item xs={10}>
-                <Typography variant="h5" component="h3">Users</Typography>
+    return (
+      <div id="msurface" className="surface">
+        <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '0px',paddingLeft: '0px'}}>
+          <CardContent>
+  
+            <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
+              <Grid container spacing={24}>
+                <Grid item xs={10}>
+                  <Typography variant="h5" component="h3">Users</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
+                    add student
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={2}>
-                <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
-                  add student
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
-
-          <Paper className={classes.root}>
-            <Table className={classes.table} >
-              <TableHead>
-                <TableRow>
-                  <CustomTableCell>Student</CustomTableCell>
-                  <CustomTableCell align="center">Username</CustomTableCell>
-                  <CustomTableCell align="center">Email</CustomTableCell>
-                  <CustomTableCell align="center">Password</CustomTableCell>
-                  <CustomTableCell align="center">Birthday</CustomTableCell>
-                  <CustomTableCell align="center">Gender</CustomTableCell>
-                  <CustomTableCell align="center">Phone Number</CustomTableCell>
-                  <CustomTableCell align="center">Address</CustomTableCell>
-                  <CustomTableCell align="center">School</CustomTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map(row => (
-                  <TableRow className={classes.row} key={row.id}>
-                    <CustomTableCell component="th" scope="row">{row.name}</CustomTableCell>
-                    <CustomTableCell align="right">{row.username}</CustomTableCell>
-                    <CustomTableCell align="right">{row.email}</CustomTableCell>
-                    <CustomTableCell align="right">{row.password}</CustomTableCell>
-                    <CustomTableCell align="right">{row.birthday}</CustomTableCell>
-                    <CustomTableCell align="right">{row.gender}</CustomTableCell>
-                    <CustomTableCell align="right">{row.phone}</CustomTableCell>
-                    <CustomTableCell align="right">{row.address}</CustomTableCell>
-                    <CustomTableCell align="right">{row.school}</CustomTableCell>
+            </div>
+  
+            <Paper className={classes.root}>
+              <Table className={classes.table} >
+                <TableHead>
+                  <TableRow>
+                    <CustomTableCell align="center">Student</CustomTableCell>
+                    <CustomTableCell align="center">Username</CustomTableCell>
+                    <CustomTableCell align="center">Email</CustomTableCell>
+                    <CustomTableCell align="center">Password</CustomTableCell>
+                    <CustomTableCell align="center">Birthday</CustomTableCell>
+                    <CustomTableCell align="center">Gender</CustomTableCell>
+                    <CustomTableCell align="center">Phone Number</CustomTableCell>
+                    <CustomTableCell align="center">Address</CustomTableCell>
+                    <CustomTableCell align="center">School</CustomTableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
+                </TableHead>
+  
+                <TableBody>
+                  {
+                    this.state.user.map((item) => (
+                      <TableRow>
+                        <CustomTableCell align="center">{item.data.name}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.username}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.email}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.password}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.birthday}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.gender}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.phone}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.address}</CustomTableCell>
+                        <CustomTableCell align="center">{item.data.school}</CustomTableCell>
+                      </TableRow>
+                    ))
+                  }
+                </TableBody>
+  
+              </Table>
+            </Paper>
+  
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
-        </CardContent>
-      </Card>
-    </div>
-  );
 }
 
 SimpleTable.propTypes = {
