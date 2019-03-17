@@ -84,7 +84,7 @@ class TextFields extends React.Component {
       name: this.state.name,
       email: this.state.email,
       username: this.state.username,
-      birthday: new Date(this.state.birthday),
+      birthday: this.state.birthday,
       password: this.state.password,
       phone: this.state.phone,
       address: this.state.address,
@@ -183,12 +183,9 @@ class TextFields extends React.Component {
                 <Grid direction="column" justify="flex-start" alignItems="flex-start">
                   <TextField
                   className={classes.textField}
-                  value={this.state.birthday}
-                  id ='date'
-                  type = 'date'
+                  value={this.state.birthday}   
                   label="Birthday"
-                  defaultValue="1111-11-11"
-                  style={{color:'red'}}
+                  placeholder= '00/00/0000'
                   InputLabelProps={{
                     shrink: true,
                   }}

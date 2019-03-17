@@ -77,7 +77,7 @@ class SimpleTable extends Component {
 
     return (
       <div id="msurface" className="surface">
-        <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '0px',paddingLeft: '0px'}}>
+        <Card className={classes.card} style={{paddingTop: '10px'}}>
           <CardContent>
   
             <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
