@@ -33,14 +33,14 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
-    flexGrow: 1,
+    flexGrow: 1,    
   },
   table: {
     minWidth: 700,
   },
   card: {
     minWidth: 275,
-    height: '95%',
+    height: window.innerHeight
   },
   bullet: {
     display: 'inline-block',
