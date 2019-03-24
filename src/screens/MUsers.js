@@ -51,6 +51,15 @@ const styles = theme => ({
   },
   table: {
     minWidth: 500,
+    overflowX: 'auto',
+    flexGrow: 1,    
+  },
+  table: {
+    minWidth: 700,
+  },
+  card: {
+    minWidth: 275,
+    height: window.innerHeight
   },
   tableWrapper: {
     overflowX: 'auto',
