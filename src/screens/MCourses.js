@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -16,6 +16,21 @@ import { Link } from "react-router-dom";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import IconButton from '@material-ui/core/IconButton';
+import { getCourses } from '../libs/Courses';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+
+const actionsStyles = theme => ({
+  root: {
+    flexShrink: 0,
+    color: theme.palette.text.secondary,
+    marginLeft: theme.spacing.unit * 2.5,
+  },
+});
 
 const styles = theme => ({
   root: {
@@ -29,7 +44,7 @@ const styles = theme => ({
   },
   card: {
     minWidth: 275,
-    height: '95%',
+    height: '550px',
   },
   bullet: {
     display: 'inline-block',
@@ -44,22 +59,112 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(subject, curriculum, level) {
-  id += 1;
-  return { subject, curriculum, level };
+
+
+// getOrganization((org_list) =>{
+//   this.setState({organization:org_list});
+// });
+
+class TablePaginationActions extends React.Component {
+  handleFirstPageButtonClick = event => {
+    this.props.onChangePage(event, 0);
+  };
+
+  handleBackButtonClick = event => {
+    this.props.onChangePage(event, this.props.page - 1);
+  };
+
+  handleNextButtonClick = event => {
+    this.props.onChangePage(event, this.props.page + 1);
+  };
+
+  handleLastPageButtonClick = event => {
+    this.props.onChangePage(
+      event,
+      Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
+    );
+  };
+
+  render() {
+    const { classes, count, page, rowsPerPage, theme } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <IconButton
+          onClick={this.handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="First Page"
+        >
+          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleBackButtonClick}
+          disabled={page === 0}
+          aria-label="Previous Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Next Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+        <IconButton
+          onClick={this.handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Last Page"
+        >
+          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      </div>
+    );
+  }
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+TablePaginationActions.propTypes = {
+  classes: PropTypes.object.isRequired,
+  count: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  theme: PropTypes.object.isRequired,
+};
 
-function SimpleTable(props) {
-  const { classes } = props;
+const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
+  TablePaginationActions,
+);
+
+class SimpleTable extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      courses: [],
+      page: 0,
+      rowsPerPage: 5,
+    }
+  }
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value });
+  };
+
+  componentDidMount() {
+    getCourses((cou_list) => {
+      this.setState({
+        courses: cou_list
+      })
+    });
+  }
+
+  render(){
+    const { classes } = this.props;
+    const { courses, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, courses.length - page * rowsPerPage);
 
   return (
     <div id="msurface" class="surface">
@@ -87,15 +192,14 @@ function SimpleTable(props) {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.id}>
-                        <TableCell component="th" scope="row">
-                            {row.name}
-                        </TableCell>
-                        <TableCell align="left">{row.subject}</TableCell>
-                        <TableCell align="left">{row.curriculum}</TableCell>
-                        <TableCell align="left">{row.level}</TableCell>
-                        <TableCell align="left">
+                    {
+                      this.state.courses.map((item,index)=>(
+                        <TableRow>
+                          <TableCell>{index+1}</TableCell>
+                          <TableCell align="left">{item.data.subject}</TableCell>
+                          <TableCell align="left">{item.data.curriculum}</TableCell>
+                          <TableCell align="left">{item.data.level}</TableCell>
+                          <TableCell align="left">
                         <div>
                         <IconButton aria-label="Delete" className={classes.margin}>
                           <VisibilityIcon className={classes.icon} />
@@ -106,14 +210,39 @@ function SimpleTable(props) {
                         </div>
                         </TableCell>
                         </TableRow>
-                    ))}
+                      ))
+                    }
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 48 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
                     </TableBody>
+                    <TableFooter>
+                      <TableRow>
+                        <TablePagination
+                          rowsPerPageOptions={[5, 10, 25]}
+                          colSpan={3}
+                          count={courses.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          SelectProps={{
+                            native: true,
+                          }}
+                          onChangePage={this.handleChangePage}
+                          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                          ActionsComponent={TablePaginationActionsWrapped}
+                        />
+                      </TableRow>
+                    </TableFooter>
                 </Table>
                 </Paper>
             </CardContent>
         </Card>
     </div>
   );
+  }
+  
 }
 
 SimpleTable.propTypes = {

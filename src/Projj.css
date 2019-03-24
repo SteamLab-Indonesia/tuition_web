@@ -1,7 +1,7 @@
 #base {
     background-image: url("./img/abstract-art-background-370799.jpg");
-    /* height: 657px; */
-    background-attachment: fixed;
+    /* height: calc(100vh);
+    background-attachment: fixed; */
 }
 
 .first {
