@@ -128,7 +128,6 @@ class TextFields extends React.Component {
 
               <Grid item style={{width: "100%"}}>
                 <Grid direction="row" justify="flex-start" alignItems="center">
-                  <div>
                   <TextField 
                   label="Name" 
                   className={classes.textField} 
@@ -146,16 +145,6 @@ class TextFields extends React.Component {
                   margin="normal"
                   onChange={this.handleChange('username')}
                   />
-
-                  <TextField
-                  className={classes.textField}
-                  value={this.state.email}
-                  label="Email"   
-                  style={{width: '96%'}}
-                  margin="normal"
-                  onChange={this.handleChange('email')}
-                  />
-                  </div>
                 </Grid>
 
                 <Grid>
@@ -219,6 +208,15 @@ class TextFields extends React.Component {
                       </MenuItem>
                     ))}
                   </TextField>
+
+                  <TextField
+                  className={classes.textField}
+                  value={this.state.email}
+                  label="Email"   
+                  style={{width: '96%'}}
+                  margin="normal"
+                  onChange={this.handleChange('email')}
+                  />
 
                   <TextField
                   className={classes.textField}
