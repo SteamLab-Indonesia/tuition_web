@@ -23,6 +23,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 
 const actionsStyles = theme => ({
   root: {
@@ -39,12 +41,25 @@ const styles = theme => ({
     overflowX: 'auto',
     flexGrow: 1,
   },
+  paper: {
+    
+  },
+  search: {
+    alignItems: 'flex-end',
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  iconButton: {
+    padding: 7,
+  },
   table: {
     minWidth: 700,
   },
   card: {
     minWidth: 275,
-    height: '550px',
+    height: '900px',
   },
   bullet: {
     display: 'inline-block',
@@ -142,9 +157,10 @@ class SimpleTable extends Component{
     this.state = {
       courses: [],
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 10,
     }
   }
+
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -170,13 +186,21 @@ class SimpleTable extends Component{
     <div id="msurface" class="surface">
         <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
             <CardContent>
-                <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
+                <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '30px'}}>
                     <Grid container spacing={24}>
-                        <Grid item xs={10}>
-                        <Typography variant="h5" component="h3" id="papert">Courses</Typography>
+                        <Grid item lg={6}>
+                          <Typography variant="h5" component="h3" id="papert">Courses</Typography>
                         </Grid>
-                        <Grid item xs={2}>
-                        <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addcourses">add courses</Button>
+                        <Grid item lg={4} style={{textAlign: 'right'}}>   
+                          <Paper className={classes.paper} style={{width: '80%'}}>                       
+                          <InputBase className={classes.input} placeholder="Search Course" />
+                          <IconButton className={classes.iconButton} aria-label="Search">
+                            <SearchIcon />
+                          </IconButton>
+                          </Paper>
+                        </Grid>
+                        <Grid item lg={2} style={{marginRight: 0}}>
+                          <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addcourses">add courses</Button>
                         </Grid>
                     </Grid>
                 </div>
@@ -193,7 +217,7 @@ class SimpleTable extends Component{
                     </TableHead>
                     <TableBody>
                     {
-                      this.state.courses.map((item,index)=>(
+                      this.state.courses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
                         <TableRow>
                           <TableCell>{index+1}</TableCell>
                           <TableCell align="left">{item.data.subject}</TableCell>
@@ -221,8 +245,8 @@ class SimpleTable extends Component{
                     <TableFooter>
                       <TableRow>
                         <TablePagination
-                          rowsPerPageOptions={[5, 10, 25]}
-                          colSpan={3}
+                          rowsPerPageOptions={[10]}
+                          colSpan={8}
                           count={courses.length}
                           rowsPerPage={rowsPerPage}
                           page={page}

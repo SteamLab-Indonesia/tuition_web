@@ -5,7 +5,7 @@ export function getCourses(callback){
     db.settings({
         timestampsInSnapshots : true
     });
-    db.collection("courses").get()
+    db.collection("program").get()
     .then((snapshot) => {
         let cou_list = []
         snapshot.forEach((doc) => {
