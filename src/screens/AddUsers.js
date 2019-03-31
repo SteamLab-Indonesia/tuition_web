@@ -86,7 +86,7 @@ class TextFields extends React.Component {
       phone: this.state.phone,
       address: this.state.address,
       school: this.state.school,
-      gender : this.state.gender
+      gender : this.state.gender,
     });
     addUser(new_user);
 
@@ -237,7 +237,7 @@ class TextFields extends React.Component {
 
                   <TextField
                   className={classes.textField}
-                  value={this.state.School}
+                  value={this.state.school}
                   label="School"   
                   style={{width: '96%'}}
                   margin="normal"

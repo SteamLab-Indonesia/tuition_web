@@ -68,8 +68,14 @@ export function getUser(callback) {
     });
 };
 
+
+
 export function addUser(user)
 {
     const db = firebase.firestore();
-    db.collection('user').add(user.toJson());      
+    db.collection('user').add(user.toJson());     
+    firebase.auth().createUserWithEmailAndPassword(user.email,user.password).catch(function(error){
+        var errorCode = error.code;
+        var errorMessage=error.Message
+    }); 
 }
