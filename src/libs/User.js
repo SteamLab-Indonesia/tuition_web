@@ -5,6 +5,8 @@ export const GENDER = {
     FEMALE: 'f'
 };
 
+
+
 export class User {
 
     name = '';
@@ -79,3 +81,13 @@ export function addUser(user)
         var errorMessage=error.Message
     }); 
 }
+
+export function userLogin(user)
+{
+    firebase.auth().signInWithEmailAndPassword(user.email,user.password).catch(function(error){
+        var errorCode = error.code;
+        var errorMessage=error.Message
+        console.log(error)
+    }); 
+}
+

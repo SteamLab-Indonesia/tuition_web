@@ -18,6 +18,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import '../Projj.css';
 import '../users.css';
+import { userLogin, User } from '../libs/User';
 
 
 const styles = theme => ({
@@ -55,28 +56,22 @@ const styles = theme => ({
 
 class TextFields extends React.Component {
   state = {
-    age: '',
-    multiline: '',
-    currency: 'EUR',
-    amount: '',
+    email: '',
     password: '',
-    weight: '',
-    weightRange: '',
-    showPassword: false,
   };
 
-  addMe = () => {
-    const db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true
-    });
-    const userRef = db.collection('users').add({
-      name: this.state.name,
+  login = () => {
+
+    let new_user = new User({
       email: this.state.email,
-    });  
-    this.setState({
-      name: '',
-      email: '',
+      password: this.state.password,
+    });
+
+    userLogin(new_user);
+
+    this.setState({      
+      email: '',    
+      password: '',
     });
   }
 
@@ -100,30 +95,30 @@ class TextFields extends React.Component {
 
               <Grid item style={{width: "100%"}}>
                   <TextField 
-                  label="Name" 
+                  label="Email" 
                   className={classes.textField} 
-                  value={this.state.name}
+                  value={this.state.email}
                   style={{width: '98%'}} 
                   margin="normal"
-                  onChange={this.handleChange('name')}
+                  onChange={this.handleChange('email')}
                   />
                 </Grid>
 
                 <Grid direction="column" justify="flex-start" alignItems="flex-start">
                   <TextField
                   className={classes.textField}
-                  value={this.state.email}
-                  label="Email"   
+                  value={this.state.password}
+                  label="Password"   
                   style={{width: '98%'}}
                   margin="normal"
-                  onChange={this.handleChange('email')}
+                  onChange={this.handleChange('password')}
                   />
             </Grid>
            
            
             <br/>
             <div> 
-              <Button variant="contained" color="secondary" className={classes.button} onClick={this.addMe}>
+              <Button variant="contained" color="secondary" className={classes.button} onClick={this.login}>
               Login
               </Button>
             </div>
