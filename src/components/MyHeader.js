@@ -94,7 +94,7 @@ const styles = theme => ({
       typography: { useNextVariants: true },
     });
 
-class MyHeader extends React.Component {
+class MyHeader extends Component {
 
     state = {
         open: false,
@@ -102,10 +102,14 @@ class MyHeader extends React.Component {
     
       handleDrawerOpen = () => {
         this.setState({ open: true });
+        if (this.props.updateDrawerState)
+          this.props.updateDrawerState(true);
       };
     
       handleDrawerClose = () => {
         this.setState({ open: false });
+        if (this.props.updateDrawerState)
+          this.props.updateDrawerState(false);
       };
     
       render() {
@@ -186,10 +190,5 @@ class MyHeader extends React.Component {
         );
     }
 }
-
-// PersistentDrawerLeft.propTypes = {
-//     classes: PropTypes.object.isRequired,
-//     theme: PropTypes.object.isRequired,
-//   };
   
 export default withStyles(styles, { withTheme: true })(MyHeader);
