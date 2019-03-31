@@ -8,7 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import firebase from 'firebase';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
@@ -16,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import {User, addUser, GENDER} from '../libs/User';
 import '../Projj.css';
 import '../users.css';
 
@@ -53,11 +53,11 @@ const styles = theme => ({
 
 const gender = [
   {
-    value: 'male',
+    value: GENDER.MALE,
     label: 'Male',
   },
   {
-    value: 'female',
+    value: GENDER.FEMALE,
     label: 'Female',
   },
 ];
@@ -76,11 +76,8 @@ class TextFields extends React.Component {
   };
 
   addMe = () => {
-    const db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true
-    });
-    const userRef = db.collection('user').add({
+
+    let new_user = new User({
       name: this.state.name,
       email: this.state.email,
       username: this.state.username,
@@ -90,7 +87,9 @@ class TextFields extends React.Component {
       address: this.state.address,
       school: this.state.school,
       gender : this.state.gender
-    });  
+    });
+    addUser(new_user);
+
     this.setState({
       name: '',
       email: '',
