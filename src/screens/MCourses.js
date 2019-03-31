@@ -25,6 +25,7 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const actionsStyles = theme => ({
   root: {
@@ -44,8 +45,22 @@ const styles = theme => ({
   paper: {
     
   },
+  // search: {
+  //   alignItems: 'flex-end',
+  // },
   search: {
-    alignItems: 'flex-end',
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing.unit,
+      width: 'auto',
+    },
   },
   input: {
     marginLeft: 8,
@@ -71,6 +86,15 @@ const styles = theme => ({
   },
   pos: {
     marginBottom: 12,
+  },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -156,8 +180,10 @@ class SimpleTable extends Component{
     super(props);
     this.state = {
       courses: [],
+      searchResult:[],
       page: 0,
       rowsPerPage: 10,
+      state: "",
     }
   }
 
@@ -169,6 +195,15 @@ class SimpleTable extends Component{
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
+  BtnClick = () => {
+    console.log(this.state.search);
+    let searchResult = this.state.courses.filter((item) => {
+      console.log(item.data.subject);
+      return item.data.subject.toLowerCase() == this.state.search.toLowerCase();
+    })
+    this.setState({searchResult});
+  }
+
   componentDidMount() {
     getCourses((cou_list) => {
       this.setState({
@@ -179,8 +214,10 @@ class SimpleTable extends Component{
 
   render(){
     const { classes } = this.props;
-    const { courses, rowsPerPage, page } = this.state;
+    const { courses, rowsPerPage, page, searchResult } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, courses.length - page * rowsPerPage);
+    let courseList = (searchResult.length > 0 ? searchResult : courses);
+
 
   return (
     <div id="msurface" class="surface">
@@ -188,13 +225,22 @@ class SimpleTable extends Component{
             <CardContent>
                 <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '30px'}}>
                     <Grid container spacing={24}>
-                        <Grid item lg={6}>
+                        <Grid item lg={5}>
                           <Typography variant="h5" component="h3" id="papert">Courses</Typography>
                         </Grid>
-                        <Grid item lg={4} style={{textAlign: 'right'}}>   
-                          <Paper className={classes.paper} style={{width: '80%'}}>                       
-                          <InputBase className={classes.input} placeholder="Search Course" />
-                          <IconButton className={classes.iconButton} aria-label="Search">
+                        <Grid 
+                          container
+                          justify="flex-end"
+                          item lg={5}   
+                        >   
+                          <Paper className={classes.paper} style={{width: '65%'}}>                       
+                          <InputBase 
+                            className={classes.input} 
+                            placeholder="Search Course..." 
+                            value={this.state.search}
+                            onChange={(e) => {this.setState({search: e.target.value})}}
+                          />
+                          <IconButton className={classes.iconButton} aria-label="Search" onClick={this.BtnClick}>
                             <SearchIcon />
                           </IconButton>
                           </Paper>
@@ -217,7 +263,7 @@ class SimpleTable extends Component{
                     </TableHead>
                     <TableBody>
                     {
-                      this.state.courses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
+                      courseList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
                         <TableRow>
                           <TableCell>{index+1}</TableCell>
                           <TableCell align="left">{item.data.subject}</TableCell>
