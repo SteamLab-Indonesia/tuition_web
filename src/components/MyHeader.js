@@ -26,6 +26,8 @@ import FeedbackIcon from '@material-ui/icons/Feedback';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 
 const drawerWidth = 240;
@@ -121,12 +123,13 @@ class MyHeader extends Component {
               <CssBaseline />
                 <MuiThemeProvider theme={gtheme}>
                     <AppBar
-                        position="fixed"
+                        position="static"
                         className={classNames(classes.appBar, {
                             [classes.appBarShift]: open,
                         })}
                         color="primary"
                     >
+                    
                 <Toolbar disableGutters={!open}>
                     <IconButton
                     color="inherit"
@@ -136,9 +139,18 @@ class MyHeader extends Component {
                     >
                     <MenuIcon />
                     </IconButton>
+                    <Grid item xs={11}>
                     <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
-                    STEAM LAB
+                    STEAM LAB 
                     </Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                    <Typography variant="h6" color="inherit" noWrap component={ Link } to='/login' id="Login">
+                    <Grid direction="row">
+                    Login
+                    </Grid>
+                    </Typography>
+                    </Grid>
                 </Toolbar>
                 </AppBar>
               </MuiThemeProvider>
