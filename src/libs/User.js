@@ -71,5 +71,12 @@ export function getUser(callback) {
 export function addUser(user)
 {
     const db = firebase.firestore();
+    firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(function(error) {
+        // Handle Errors here.
+        console.log(error);
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+    });    
     db.collection('user').add(user.toJson());      
 }
