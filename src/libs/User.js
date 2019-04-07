@@ -1,11 +1,9 @@
 import firebase from 'firebase';
 
 export const GENDER = {
-    MALE: 'm',
-    FEMALE: 'f'
+    MALE: 'male',
+    FEMALE: 'female'
 };
-
-
 
 export class User {
 
@@ -70,12 +68,9 @@ export function getUser(callback) {
     });
 };
 
-
-
 export function addUser(user)
 {
     const db = firebase.firestore();
-<<<<<<< HEAD
     db.collection('user').add(user.toJson());     
     firebase.auth().createUserWithEmailAndPassword(user.email,user.password).catch(function(error){
         var errorCode = error.code;
@@ -92,14 +87,3 @@ export function userLogin(user)
     }); 
 }
 
-=======
-    firebase.auth().createUserWithEmailAndPassword(user.email, user.password).catch(function(error) {
-        // Handle Errors here.
-        console.log(error);
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-    });    
-    db.collection('user').add(user.toJson());      
-}
->>>>>>> 6893fdc1f037784b0b0a9dc7f00d66fc17d3251f

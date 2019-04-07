@@ -62,7 +62,6 @@ const gender = [
   },
 ];
 
-
 class TextFields extends React.Component {
   state = {
     age: '',
