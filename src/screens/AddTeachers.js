@@ -5,10 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import firebase from 'firebase';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
@@ -16,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import {Teacher, addTeacher, GENDER} from '../libs/Teacher';
 import '../Projj.css';
 import '../users.css';
 
@@ -51,6 +51,17 @@ const styles = theme => ({
   },
 });
 
+const gender = [
+  {
+    value: GENDER.MALE,
+    label: 'Male',
+  },
+  {
+    value: GENDER.FEMALE,
+    label: 'Female',
+  },
+];
+
 class TextFields extends React.Component {
   state = {
     age: '',
@@ -64,20 +75,20 @@ class TextFields extends React.Component {
   };
 
   addMe = () => {
-    const db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true
-    });
-    const userRef = db.collection('users').add({
+
+    let new_teacher = new Teacher({
       name: this.state.name,
       email: this.state.email,
       username: this.state.username,
-      birthday: new Date(this.state.birthday),
+      birthday: this.state.birthday,
       password: this.state.password,
       phone: this.state.phone,
       address: this.state.address,
-      school: this.state.school,
-    });  
+      subject: this.state.subject,
+      gender : this.state.gender,
+    });
+    addTeacher(new_teacher);
+
     this.setState({
       name: '',
       email: '',
@@ -86,7 +97,8 @@ class TextFields extends React.Component {
       password: '',
       phone: '',
       address: '',
-      school: '',
+      subject: '',
+      gender: '',
     });
   }
 
@@ -118,46 +130,18 @@ class TextFields extends React.Component {
                   label="Name" 
                   className={classes.textField} 
                   value={this.state.name}
-                  style={{width: '96%'}} 
+                  style={{width: '47%'}} 
                   margin="normal"
                   onChange={this.handleChange('name')}
-                  />
-                </Grid>
-
-                <Grid direction="column" justify="flex-start" alignItems="flex-start">
-                  <TextField
-                  className={classes.textField}
-                  value={this.state.email}
-                  label="Email"   
-                  style={{width: '96%'}}
-                  margin="normal"
-                  onChange={this.handleChange('email')}
                   />
 
                   <TextField
                   className={classes.textField}
                   value={this.state.username}
                   label="Username"   
-                  style={{width: '96%'}}
+                  style={{width: '47%'}}
                   margin="normal"
                   onChange={this.handleChange('username')}
-                  />
-
-                  <TextField
-                  className={classes.textField}
-                  value={this.state.birthday}
-                  id ='date'
-                  type = 'date'
-                  label="Birthday"
-                  defaultValue="1111-11-11"
-                  style={{color:'red'}}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  style={{width: '96%'}}
-                  margin="normal"
-                  onChange={this.handleChange('birthday')}
-                  //variant='filled'
                   />
                 </Grid>
 
@@ -182,8 +166,56 @@ class TextFields extends React.Component {
                       } />
                   </FormControl>
                 </Grid>
-                  
-                <Grid direction="row" justify="flex-start" alignItems="flex-start">
+
+                <Grid direction="column" justify="flex-start" alignItems="flex-start">
+                  <TextField
+                  className={classes.textField}
+                  value={this.state.birthday}   
+                  label="Birthday"
+                  placeholder= '00/00/0000'
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  style={{width: '46%'}}
+                  margin="normal"
+                  onChange={this.handleChange('birthday')}
+                  //variant='outlined'
+                  />
+
+                  <TextField
+                    id="Gender"
+                    select
+                    label="Gender"
+                    className={classes.textField}
+                    value={this.state.gender}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    style={{width: '47%'}}
+                    margin="normal"
+                    onChange={this.handleChange('gender')}
+                    SelectProps={{
+                      MenuProps: {
+                        className: classes.menu,
+                      },
+                    }}
+                  >
+                    {gender.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+                  <TextField
+                  className={classes.textField}
+                  value={this.state.email}
+                  label="Email"   
+                  style={{width: '96%'}}
+                  margin="normal"
+                  onChange={this.handleChange('email')}
+                  />
+
                   <TextField
                   className={classes.textField}
                   value={this.state.phone}
@@ -204,12 +236,12 @@ class TextFields extends React.Component {
 
                   <TextField
                   className={classes.textField}
-                  value={this.state.School}
-                  label="School"   
+                  value={this.state.subject}
+                  label="Subject"   
                   style={{width: '96%'}}
                   margin="normal"
-                  onChange={this.handleChange('school')}
-                  />        
+                  onChange={this.handleChange('subject')}
+                  />    
                 </Grid>
               </Grid>
             </Grid>

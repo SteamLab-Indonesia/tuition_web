@@ -149,8 +149,10 @@ class SimpleTable extends Component {
     super(props);
     this.state = {
       user: [],
+      searchResult: [],
       page: 0,
-      rowsPerPage: 10
+      rowsPerPage:10,
+      state : ''
     }
   }
 
@@ -171,7 +173,15 @@ class SimpleTable extends Component {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
-  
+  BtnClick = () => {
+    console.log(this.state.search);
+    let searchResult = this.state.user.filter((item) => {
+      console.log(item.data.name);
+      return item.data.name.toLowerCase() == this.state.search.toLowerCase();
+    })
+    this.setState({searchResult});
+  }
+
   render() {
     const { classes } = this.props;
     const { user, rowsPerPage, page } = this.state;
@@ -190,8 +200,13 @@ class SimpleTable extends Component {
 
                 <Grid item xs={3}>
                   <Paper style={{width:'100%'}}>
-                    <InputBase className={classes.input} placeholder="Search Student" autocomplete='on' />
-                    <IconButton className={classes.iconButton} aria-label="Search">
+                    <InputBase 
+                      className={classes.input} 
+                      value={this.state.search}
+                      placeholder="Search User..."
+                      onChange={(e) => {this.setState({search: e.target.value})}}
+                    />
+                    <IconButton className={classes.iconButton} aria-label="Search" onClick={this.BtnClick}>
                       <SearchIcon />
                     </IconButton>
                   </Paper>
