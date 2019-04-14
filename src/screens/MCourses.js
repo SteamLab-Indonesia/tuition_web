@@ -26,6 +26,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import BookIcon from '@material-ui/icons/Book';
+import { Tooltip } from '@material-ui/core';
 
 const actionsStyles = theme => ({
   root: {
@@ -183,7 +185,7 @@ class SimpleTable extends Component{
       searchResult:[],
       page: 0,
       rowsPerPage: 10,
-      state: "",
+      search: "",
     }
   }
 
@@ -197,11 +199,17 @@ class SimpleTable extends Component{
 
   BtnClick = () => {
     console.log(this.state.search);
-    let searchResult = this.state.courses.filter((item) => {
-      console.log(item.data.subject);
-      return item.data.subject.toLowerCase() == this.state.search.toLowerCase();
-    })
-    this.setState({searchResult});
+    if(this.state.search != ""){
+      let searchResult = this.state.courses.filter((item) => {
+        console.log(item.data.subject);
+        return item.data.subject.toLowerCase() == this.state.search.toLowerCase();
+      })
+      this.setState({searchResult});
+    }
+    else
+    {
+      this.setState({searchResult: this.state.courses});
+    }
   }
 
   componentDidMount() {
@@ -257,8 +265,8 @@ class SimpleTable extends Component{
                         <TableCell style={{width: '5%'}}>No.</TableCell>
                         <TableCell style={{width: '30%'}} align="left">Subject</TableCell>
                         <TableCell style={{width: '30%'}} align="left">Curriculum</TableCell>
-                        <TableCell style={{width: '20%'}} align="left">Level</TableCell>
-                        <TableCell style={{width: '15%'}} align="center">Actions</TableCell>
+                        <TableCell style={{width: '15%'}} align="center">Level</TableCell>
+                        <TableCell style={{width: '20%'}} align="center">Actions</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
@@ -271,12 +279,21 @@ class SimpleTable extends Component{
                           <TableCell align="left">{item.data.level}</TableCell>
                           <TableCell align="left">
                         <div>
-                        <IconButton aria-label="Delete" className={classes.margin}>
-                          <VisibilityIcon className={classes.icon} />
-                        </IconButton>
-                        <IconButton aria-label="Delete" className={classes.margin}>
-                          <ArchiveIcon className={classes.icon} />
-                        </IconButton>
+                        <Tooltip title='view'>
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to="viewcourses">
+                            <VisibilityIcon className={classes.icon} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='archive'>
+                          <IconButton aria-label="Delete" className={classes.margin}>
+                            <ArchiveIcon className={classes.icon} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='lesson'>
+                          <IconButton aria-label="Delete" className={classes.margin}>
+                            <BookIcon className={classes.icon} />
+                          </IconButton>
+                        </Tooltip>
                         </div>
                         </TableCell>
                         </TableRow>

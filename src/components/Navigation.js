@@ -7,6 +7,7 @@ import MTeacher from '../screens/MTeacher';
 import MUsers from '../screens/MUsers';
 import AddUsers from '../screens/AddUsers';
 import AddTeachers from '../screens/AddTeachers';
+import VCourses from '../screens/VCourses';
 
 
 export default class Navigation extends Component{
@@ -20,6 +21,7 @@ export default class Navigation extends Component{
                 <Route path='/addcourses' component={AddCourses}/>
                 <Route path='/addusers' component={AddUsers}/>
                 <Route path='/addTeachers' component={AddTeachers}/>
+                <Route path='/viewcourses' component={VCourses}/>
                 {/* <Route path='/attendence' component={attendence}/>
                 <Route path='/payment' component={payment}/>
                 <Route path='/feedback' component={feedback}/> */}
