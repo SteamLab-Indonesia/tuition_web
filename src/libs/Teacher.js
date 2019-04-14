@@ -5,7 +5,7 @@ export const GENDER = {
     FEMALE: 'Female'
 };
 
-export class User {
+export class Teacher {
 
     name = '';
     email = '';
@@ -14,22 +14,22 @@ export class User {
     password = '';
     phone = '';
     address = '';
-    school = '';
+    subject = '';
     gender = GENDER.MALE;
 
-    constructor(user)
+    constructor(teacher)
     {
-        if (user)
+        if (teacher)
         {
-            this.name = user.name;
-            this.email = user.email;
-            this.username = user.username;
-            this.birthday = user.birthday;
-            this.password = user.password;
-            this.phone = user.phone;
-            this.address = user.address;
-            this.school = user.school;
-            this.gender = user.gender;    
+            this.name = teacher.name;
+            this.email = teacher.email;
+            this.username = teacher.username;
+            this.birthday = teacher.birthday;
+            this.password = teacher.password;
+            this.phone = teacher.phone;
+            this.address = teacher.address;
+            this.subject = teacher.subject;
+            this.gender = teacher.gender;    
         }
     }
 
@@ -42,45 +42,45 @@ export class User {
             password: this.password,
             phone: this.phone,
             address: this.address,
-            school: this.school,
+            subject: this.subject,
             gender: this.gender
         }
 
     }
 }
 
-export function getUser(callback) {
+export function getTeacher(callback) {
     const db = firebase.firestore();
-    db.collection("user").get()
+    db.collection("teacher").get()
     .then((snapshot) => {
-        let user_list = []
+        let teacher_list = []
         snapshot.forEach((doc) => {
             console.log(doc.id, '=>', doc.data());
-            user_list.push({
+            teacher_list.push({
                 id: doc.id,
                 data: doc.data()
             });
         });
-        callback(user_list);
+        callback(teacher_list);
     })
     .catch((err) => {
         console.log('Error getting documents', err);
     });
 };
 
-export function addUser(user)
+export function addTeacher(teacher)
 {
     const db = firebase.firestore();
-    db.collection('user').add(user.toJson());     
-    firebase.auth().createUserWithEmailAndPassword(user.email,user.password).catch(function(error){
+    db.collection('teacher').add(teacher.toJson());     
+    firebase.auth().createUserWithEmailAndPassword(teacher.email,teacher.password).catch(function(error){
         var errorCode = error.code;
         var errorMessage=error.Message
     }); 
 }
 
-export function userLogin(user)
+export function teacherLogin(teacher)
 {
-    firebase.auth().signInWithEmailAndPassword(user.email,user.password).catch(function(error){
+    firebase.auth().signInWithEmailAndPassword(teacher.email,teacher.password).catch(function(error){
         var errorCode = error.code;
         var errorMessage=error.Message
         console.log(error)

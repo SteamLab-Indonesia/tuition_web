@@ -149,8 +149,10 @@ class SimpleTable extends Component {
     super(props);
     this.state = {
       user: [],
+      searchResult: [],
       page: 0,
-      rowsPerPage: 10
+      rowsPerPage:10,
+      state : ''
     }
   }
 
@@ -171,7 +173,15 @@ class SimpleTable extends Component {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
-  
+  BtnClick = () => {
+    console.log(this.state.search);
+    let searchResult = this.state.user.filter((item) => {
+      console.log(item.data.name);
+      return item.data.name.toLowerCase() == this.state.search.toLowerCase();
+    })
+    this.setState({searchResult});
+  }
+
   render() {
     const { classes } = this.props;
     const { user, rowsPerPage, page } = this.state;
@@ -190,8 +200,13 @@ class SimpleTable extends Component {
 
                 <Grid item xs={3}>
                   <Paper style={{width:'100%'}}>
-                    <InputBase className={classes.input} placeholder="Search Student" autocomplete='on' />
-                    <IconButton className={classes.iconButton} aria-label="Search">
+                    <InputBase 
+                      className={classes.input} 
+                      value={this.state.search}
+                      placeholder="Search User..."
+                      onChange={(e) => {this.setState({search: e.target.value})}}
+                    />
+                    <IconButton className={classes.iconButton} aria-label="Search" onClick={this.BtnClick}>
                       <SearchIcon />
                     </IconButton>
                   </Paper>
@@ -209,28 +224,28 @@ class SimpleTable extends Component {
               <Table className={classes.table} >
                 <TableHead>
                   <TableRow>
-                    <CustomTableCell align="center">Student</CustomTableCell>
-                    <CustomTableCell align="center">Username</CustomTableCell>
-                    <CustomTableCell align="center">Email</CustomTableCell>                    
-                    <CustomTableCell align="center">Birthday</CustomTableCell>
-                    <CustomTableCell align="center">Gender</CustomTableCell>
-                    <CustomTableCell align="center">Phone Number</CustomTableCell>
-                    <CustomTableCell align="center">Address</CustomTableCell>
-                    <CustomTableCell align="center">School</CustomTableCell>
+                    <TableCell align="center" >Student</TableCell>
+                    <TableCell align="center" >Username</TableCell>
+                    <TableCell align="center" >Email</TableCell>                    
+                    <TableCell align="center" >Birthday</TableCell>
+                    <TableCell align="center" >Gender</TableCell>
+                    <TableCell align="center" >Phone Number</TableCell>
+                    <TableCell align="center" >Address</TableCell>
+                    <TableCell align="center" >School</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {
                     this.state.user.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                     <TableRow>
-                      <CustomTableCell align="center">{item.data.name}</CustomTableCell>
-                      <CustomTableCell align="center">{item.data.username}</CustomTableCell>
-                      <CustomTableCell align="center">{item.data.email}</CustomTableCell>
-                      <CustomTableCell align="center">{item.data.birthday}</CustomTableCell>
-                      <CustomTableCell align="center">{item.data.gender}</CustomTableCell>
-                      <CustomTableCell align="center">{item.data.phone}</CustomTableCell>
-                      <CustomTableCell align="center">{item.data.address}</CustomTableCell>
-                      <CustomTableCell align="center">{item.data.school}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.name}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.username}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.email}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.birthday}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.gender}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.phone}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.address}</CustomTableCell>
+                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.school}</CustomTableCell>
                     </TableRow>
                   ))
                   }
