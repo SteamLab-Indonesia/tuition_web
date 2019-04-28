@@ -21,7 +21,7 @@ export default class Navigation extends Component{
                 <Route path='/courses' component={MCourses}/>
                 <Route path='/addcourses' component={AddCourses}/>
                 <Route path='/addusers' component={AddUsers}/>
-                <Route path='/addTeachers' component={AddTeachers}/>
+                <Route path='/addteachers' component={AddTeachers}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/viewcourses' component={VCourses}/>
                 {/* <Route path='/attendence' component={attendence}/>
