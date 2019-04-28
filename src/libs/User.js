@@ -78,12 +78,25 @@ export function addUser(user)
     }); 
 }
 
-export function userLogin(user)
-{
-    firebase.auth().signInWithEmailAndPassword(user.email,user.password).catch(function(error){
-        var errorCode = error.code;
-        var errorMessage=error.Message
-        console.log(error)
-    }); 
+
+export function getUserDetails(username, callback) {
+    const db = firebase.firestore();
+    let query = db.collection("user").where("email", '==', username)
+    query.get().then((snapshot) => {
+        let user_list = []
+        snapshot.forEach((doc) => {
+            console.log(doc.id, '=>', doc.data());
+        });
+    })
 }
 
+export function userLogin(user)
+{
+    firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
+        getUserDetails(user.email);
+    }).catch(function(error){
+        var errorCode = error.code;
+        var errorMessage=error.Message
+    }); 
+}
+    

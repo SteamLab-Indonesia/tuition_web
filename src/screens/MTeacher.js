@@ -213,7 +213,7 @@ class SimpleTable extends Component {
                 </Grid>
 
                 <Grid item xs={2}>
-                  <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
+                  <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addteachers">
                     add teacher
                   </Button>
                 </Grid>
