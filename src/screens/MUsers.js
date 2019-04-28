@@ -223,7 +223,7 @@ class SimpleTable extends Component {
           <DialogTitle id="alert-dialog-title">NOT FOUND!</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-               {searchResult} is not found!
+               Try to search again..
             </DialogContentText>
           </DialogContent>
           <DialogActions>
