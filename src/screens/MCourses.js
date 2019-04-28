@@ -259,7 +259,7 @@ class SimpleTable extends Component{
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{"Not Found"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{"NOT FOUND!"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 Try to search again..
