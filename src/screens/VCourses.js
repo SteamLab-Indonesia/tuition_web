@@ -97,11 +97,11 @@ class TextFields extends React.Component {
                 helperText="Please select your subject"
                 margin="normal"
                 >
-                {subject.map(option => (
+                {/* {subject.map(option => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
-                ))}
+                ))} */}
                 </TextField>
                 <TextField
                 select
@@ -119,11 +119,11 @@ class TextFields extends React.Component {
                 helperText="Please select your curriculum"
                 margin="normal"
                 >
-                {curriculum.map(option => (
+                {/* {curriculum.map(option => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
-                ))}
+                ))} */}
                 </TextField>
                 <TextField
                 id="standard-name"
