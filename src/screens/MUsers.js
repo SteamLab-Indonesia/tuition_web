@@ -10,7 +10,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -24,7 +23,11 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import { getUser } from '../libs/User';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -152,7 +155,7 @@ class SimpleTable extends Component {
       searchResult: [],
       page: 0,
       rowsPerPage:10,
-      state : ''
+      search : '',
     }
   }
 
@@ -173,21 +176,63 @@ class SimpleTable extends Component {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   BtnClick = () => {
     console.log(this.state.search);
-    let searchResult = this.state.user.filter((item) => {
-      console.log(item.data.name);
-      return item.data.name.toLowerCase() == this.state.search.toLowerCase();
-    })
-    this.setState({searchResult});
+    if(this.state.search !== ""){
+        let searchResult = this.state.user.filter((item) => {
+        console.log(item.data.name);
+        return item.data.name.toLowerCase() == this.state.search.toLowerCase();
+      });
+      if (!searchResult || searchResult.length == 0){
+        this.setState({searchResult: this.state.user, open: true, search:''});        
+      }
+      else{
+        this.setState({searchResult, search:''})
+      }
+      this.setState({searchResult});
+    }
+    else
+    {
+      this.setState({searchResult: this.state.user});
+    }
   }
 
   render() {
     const { classes } = this.props;
-    const { user, rowsPerPage, page } = this.state;
+    const { user, rowsPerPage, page, searchResult } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
+    let userList = (searchResult.length > 0 ? searchResult : user);
 
     return (
+      <div>
+      <div>
+         <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">NOT FOUND!</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+               {searchResult} is not found!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" autoFocus>
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
       <div id="msurface" className="surface">
         <Card className={classes.card} style={{paddingTop: '10px'}}>
           <CardContent>
@@ -236,7 +281,7 @@ class SimpleTable extends Component {
                 </TableHead>
                 <TableBody>
                   {
-                    this.state.user.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
+                    userList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                     <TableRow>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.name}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.username}</CustomTableCell>
@@ -274,6 +319,7 @@ class SimpleTable extends Component {
   
           </CardContent>
         </Card>
+      </div>
       </div>
     );
   }

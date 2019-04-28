@@ -75,6 +75,10 @@ class TextFields extends React.Component {
     });
   }
 
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
+  
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -104,16 +108,27 @@ class TextFields extends React.Component {
                   />
                 </Grid>
 
-                <Grid direction="column" justify="flex-start" alignItems="flex-start">
-                  <TextField
-                  className={classes.textField}
-                  value={this.state.password}
-                  label="Password"   
-                  style={{width: '98%'}}
-                  margin="normal"
-                  onChange={this.handleChange('password')}
-                  />
-            </Grid>
+                <Grid>
+                  <FormControl style={{width:'100%'}} className={classNames(classes.margin, classes.textField)}>
+                    <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                    <Input
+                      id="adornment-password"
+                      type={this.state.showPassword ? 'text' : 'password'}
+                      value={this.state.password}
+                      style={{width: '96%'}}
+                      onChange={this.handleChange('password')}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="Toggle password visibility"
+                            onClick={this.handleClickShowPassword}
+                          >
+                          {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      } />
+                  </FormControl>
+                </Grid>
            
            
             <br/>
