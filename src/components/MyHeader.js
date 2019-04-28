@@ -123,7 +123,7 @@ class MyHeader extends Component {
               <CssBaseline />
                 <MuiThemeProvider theme={gtheme}>
                     <AppBar
-                        position="static"
+                        position="fixed"
                         className={classNames(classes.appBar, {
                             [classes.appBarShift]: open,
                         })}
