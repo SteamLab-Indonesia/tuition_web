@@ -28,6 +28,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import BookIcon from '@material-ui/icons/Book';
 import { Tooltip } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const actionsStyles = theme => ({
   root: {
@@ -186,6 +191,7 @@ class SimpleTable extends Component{
       page: 0,
       rowsPerPage: 10,
       search: "",
+      open: false,
     }
   }
 
@@ -197,14 +203,30 @@ class SimpleTable extends Component{
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   BtnClick = () => {
+    //console.log('==================> BTN CLICK');
     console.log(this.state.search);
     if(this.state.search != ""){
       let searchResult = this.state.courses.filter((item) => {
         console.log(item.data.subject);
         return item.data.subject.toLowerCase() == this.state.search.toLowerCase();
-      })
-      this.setState({searchResult});
+      });
+      if (!searchResult || searchResult.length == 0)
+      {
+        this.setState({searchResult: this.state.courses, open: true, search: ''});        
+      }
+      else
+      {
+        this.setState({searchResult, search: ''});
+      }      
     }
     else
     {
@@ -226,9 +248,30 @@ class SimpleTable extends Component{
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, courses.length - page * rowsPerPage);
     let courseList = (searchResult.length > 0 ? searchResult : courses);
 
-
+    console.log('re-render');
   return (
     <div id="msurface" class="surface">
+      <div>
+        
+        <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"NOT FOUND!"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Try to search again..
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary" autoFocus>
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
+      </div>
         <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
             <CardContent>
                 <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '30px'}}>
@@ -264,8 +307,8 @@ class SimpleTable extends Component{
                     <TableRow>
                         <TableCell style={{width: '5%'}}>No.</TableCell>
                         <TableCell style={{width: '30%'}} align="left">Subject</TableCell>
-                        <TableCell style={{width: '30%'}} align="left">Curriculum</TableCell>
-                        <TableCell style={{width: '15%'}} align="center">Level</TableCell>
+                        <TableCell style={{width: '20%'}} align="left">Curriculum</TableCell>
+                        <TableCell style={{width: '25%'}} align="center">Level</TableCell>
                         <TableCell style={{width: '20%'}} align="center">Actions</TableCell>
                     </TableRow>
                     </TableHead>
@@ -276,7 +319,7 @@ class SimpleTable extends Component{
                           <TableCell>{index+1}</TableCell>
                           <TableCell align="left">{item.data.subject}</TableCell>
                           <TableCell align="left">{item.data.curriculum}</TableCell>
-                          <TableCell align="left">{item.data.level}</TableCell>
+                          <TableCell align="center">{item.data.level}</TableCell>
                           <TableCell align="left">
                         <div>
                         <Tooltip title='view'>
