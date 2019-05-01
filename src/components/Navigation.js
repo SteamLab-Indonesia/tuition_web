@@ -9,7 +9,7 @@ import AddUsers from '../screens/AddUsers';
 import AddTeachers from '../screens/AddTeachers';
 import Login from '../screens/Login';
 import VCourses from '../screens/VCourses';
-
+import Attendance from '../screens/MAttendance'
 
 export default class Navigation extends Component{
     render() {
@@ -24,8 +24,8 @@ export default class Navigation extends Component{
                 <Route path='/addteachers' component={AddTeachers}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/viewcourses' component={VCourses}/>
-                {/* <Route path='/attendence' component={attendence}/>
-                <Route path='/payment' component={payment}/>
+                <Route path='/attendance' component={Attendance}/>
+                {/* <Route path='/payment' component={payment}/>
                 <Route path='/feedback' component={feedback}/> */}
             </Switch>
         );

@@ -66,7 +66,7 @@ import { styles, theme } from '../styles';
                 <div class="second">
                     <Grid container spacing={40}> */}
                         <Button>
-                            <Grid item component={Link} to="/attendence" class="dis-content" lg={4} xs={12}>
+                            <Grid item component={Link} to="/attendance" class="dis-content" lg={4} xs={12}>
                                 <Card className={classes.card}>
                                     <CardContent>
                                         <BarChartIcon className={classes.icon} />

@@ -179,7 +179,8 @@ class MyHeader extends Component {
                       <ListItemIcon><GroupIcon /></ListItemIcon>
                       <ListItemText primary="Teacher" />
                   </ListItem> */}
-                  {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},{text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendence',icon: <BarChartIcon />,link: '/attendence'},
+                  {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},
+                  {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},
                   {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'}].map((item, index) => (
                       <ListItem button key={item.text} component={ Link } to={item.link}>
                           <ListItemIcon>{item.icon}</ListItemIcon>
