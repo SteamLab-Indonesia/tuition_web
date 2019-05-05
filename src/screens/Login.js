@@ -67,7 +67,15 @@ class TextFields extends React.Component {
       password: this.state.password,
     });
 
-    userLogin(new_user);
+    userLogin(new_user).then((user) => {
+      if (user)
+      {
+        this.props.history.push('/');
+      }  
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 
     this.setState({      
       email: '',    

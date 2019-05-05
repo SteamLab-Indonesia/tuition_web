@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { initFirebase } from './firebase';
 
 export const GENDER = {
     MALE: 'Male',
@@ -50,6 +51,7 @@ export class User {
 }
 
 export function getUser(callback) {
+    initFirebase();
     const db = firebase.firestore();
     db.collection("user").get()
     .then((snapshot) => {
@@ -70,9 +72,16 @@ export function getUser(callback) {
 
 export function addUser(user)
 {
+    initFirebase();
     const db = firebase.firestore();
     db.collection('user').add(user.toJson());     
-    firebase.auth().createUserWithEmailAndPassword(user.email,user.password).catch(function(error){
+    firebase.auth().createUserWithEmailAndPassword(user.email,user.password)
+    .then((success) => {
+        success.updateProfile({
+            displayName: user.name
+        });
+    })
+    .catch(function(error){
         var errorCode = error.code;
         var errorMessage=error.Message
     }); 
@@ -80,23 +89,46 @@ export function addUser(user)
 
 
 export function getUserDetails(username, callback) {
-    const db = firebase.firestore();
-    let query = db.collection("user").where("email", '==', username)
-    query.get().then((snapshot) => {
-        let user_list = []
-        snapshot.forEach((doc) => {
-            console.log(doc.id, '=>', doc.data());
-        });
+    return new Promise((resolve, reject) => {
+        initFirebase();
+        const db = firebase.firestore();
+        let query = db.collection("user").where("email", '==', username)
+        query.get().then((snapshot) => {
+            if (snapshot.empty)
+                resolve(null);
+            resolve(snapshot.docs[0].data());
+        })
+        .catch((error) => {
+            reject(error);
+        })
     })
+
 }
 
 export function userLogin(user)
 {
-    firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
-        getUserDetails(user.email);
-    }).catch(function(error){
-        var errorCode = error.code;
-        var errorMessage=error.Message
-    }); 
+    return new Promise((resolve, reject) => {
+        initFirebase();
+        firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
+            getUserDetails(user.email).then((data) => {
+                resolve(data);
+            }).catch((err) => {
+                reject(err);
+            })
+        }).catch(function(error){
+            reject(error);
+        });             
+    })    
 }
-    
+
+export function getCurrentUser()
+{
+    initFirebase();
+    let user = firebase.auth().currentUser;
+    if (user)
+    {
+        return { name: user.displayName, email: user.email };
+    }
+    else
+        return null;
+}

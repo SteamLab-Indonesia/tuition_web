@@ -28,6 +28,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import { getCurrentUser } from '../libs/User';
 
 
 const drawerWidth = 240;
@@ -117,7 +118,9 @@ class MyHeader extends Component {
       render() {
         const { classes, theme } = this.props;
         const { open } = this.state;
-
+        const user = getCurrentUser();
+        console.log("====> GET USER");
+        console.log(user);
       return(
           <div className={classes.root}>
               <CssBaseline />
@@ -145,11 +148,17 @@ class MyHeader extends Component {
                     </Typography>
                     </Grid>
                     <Grid item xs={1}>
-                    <Typography variant="h6" color="inherit" noWrap component={ Link } to='/login' id="Login">
-                    <Grid direction="row">
-                    Login
-                    </Grid>
-                    </Typography>
+                        {
+                          user ? (
+                            <Typography variant="h6" color="inherit" noWrap>
+                              {user.email}
+                            </Typography>
+                          ) : (
+                            <Typography variant="h6" color="inherit" noWrap component={ Link } to='/login' id="Login">
+                              Login
+                            </Typography>
+                          )
+                        }
                     </Grid>
                 </Toolbar>
                 </AppBar>
