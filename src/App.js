@@ -10,6 +10,12 @@ initFirebase();
 // })
 class App extends Component {
   render() {
+    // console.log("Line 1");
+    // setTimeout(() => {
+    //   console.log("wait 2 sec")
+    // }, 2000);
+    // console.log("Line 2");
+
     return (
       <div className="App" id='base'>
         <MyHeader />
