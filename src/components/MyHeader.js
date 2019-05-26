@@ -154,9 +154,9 @@ class MyHeader extends Component {
                               {user.email}
                             </Typography>
                           ) : (
-                            <Typography variant="h6" color="inherit" noWrap component={ Link } to='/login' id="Login">
+                            <Button variant="h6" color="inherit" noWrap component={ Link } to='/login' id="Login">
                               Login
-                            </Typography>
+                            </Button>
                           )
                         }
                     </Grid>

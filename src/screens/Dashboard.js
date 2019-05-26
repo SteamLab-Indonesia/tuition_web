@@ -23,7 +23,7 @@ import { styles, theme } from '../styles';
     //render() {
     function SimpleCard(props) {
         const { classes } = props;
-        console.log("Simple Card");
+        //console.log("Simple Card");
         
         return (
             <MuiThemeProvider theme={theme}>
