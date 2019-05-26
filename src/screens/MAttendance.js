@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
   root: {
@@ -26,8 +27,18 @@ class SimpleTable extends Component  {
         super(props)
     }
 
+    state = {
+        checkedA: true,
+        checkedB: true,
+      };
+    
+      handleChange = name => event => {
+        this.setState({ [name]: event.target.checked });
+      };
+
     render(){
         const { classes } = this.props;
+        console.log(this.state.checkedB)
         return (
             <div id="msurface" className="surface">
             <Card>
@@ -49,6 +60,17 @@ class SimpleTable extends Component  {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>
+                                        <Switch
+                                        style={{paddingLeft:'-20px'}}
+                                        checked={this.state.checkedB}
+                                        onChange={this.handleChange('checkedB')}
+                                        value={this.state.checkedB}
+                                        color="primary"
+                                        />                                                      
+                                    </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>

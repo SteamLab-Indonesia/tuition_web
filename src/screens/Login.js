@@ -71,6 +71,7 @@ class TextFields extends React.Component {
       if (user)
       {
         this.props.history.push('/');
+        // window.location='/';
       }  
     })
     .catch((error) => {
