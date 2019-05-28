@@ -52,8 +52,9 @@ const styles = theme => ({
         }),
       },
       menuButton: {
-        marginLeft: 12,
-        marginRight: 20,
+        // marginLeft: 12,
+        // marginRight: 20,
+        marginRight: theme.spacing.unit * 2,
       },
       hide: {
         display: 'none',

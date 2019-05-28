@@ -21,86 +21,81 @@ import { styles, theme } from '../styles';
 
 //export default class Dashboard extends Component {
     //render() {
-    function SimpleCard(props) {
-        const { classes } = props;
-        //console.log("Simple Card");
-        
-        return (
-            <MuiThemeProvider theme={theme}>
-            <div id="main">
-                <div className="first">
-                    <Grid container spacing={40}>
-                        <Button>
-                            <Grid item component={Link} to="/users" className="dis-content" lg={4} xs={12}>
-                                <Card className={classes.card} >
-                                    <CardContent>
-                                        <PersonIcon className={classes.icon} />
-                                        <p id="name">users</p>
-                                    </CardContent>
-                                </Card>        
-                            </Grid>
-                        </Button>
-                        <Button>
-                            <Grid item component={Link} to="/teacher" className="dis-content" lg={4} xs={12}>
-                                <Card className={classes.card}>
-                                    <CardContent>
-                                        <GroupIcon className={classes.icon} />
-                                        <p id="name">teacher</p>
-                                    </CardContent>
-                                </Card>        
-                            </Grid>
-                        </Button>
-                        <Button>
-                            <Grid item component={Link} to="/courses" className="dis-content" lg={4} xs={12}>
-                                <Card className={classes.card}>
-                                    <CardContent>
-                                        <BookIcon className={classes.icon} />
-                                        <p id="name">courses</p>
-                                    </CardContent>
-                                </Card>        
-                            </Grid>
-                        </Button>
-                    {/* </Grid>
-                </div>
-
-                <div class="second">
-                    <Grid container spacing={40}> */}
-                        <Button>
-                            <Grid item component={Link} to="/attendance" className="dis-content" lg={4} xs={12}>
-                                <Card className={classes.card}>
-                                    <CardContent>
-                                        <BarChartIcon className={classes.icon} />
-                                        <p id="name">attendance</p>
-                                    </CardContent>
-                                </Card>        
-                            </Grid>
-                        </Button>
-                        <Button>
-                            <Grid item component={Link} to="/payment" className="dis-content" lg={4} xs={12}>
-                                <Card className={classes.card}>
-                                    <CardContent>
-                                        <AttachMoneyIcon className={classes.icon} />
-                                        <p id="name">payment</p>
-                                    </CardContent>
-                                </Card>        
-                            </Grid>
-                        </Button>
-                        <Button>
-                            <Grid item component={Link} to="/feedback" className="dis-content" lg={4} xs={12}>
-                                <Card className={classes.card}>
-                                    <CardContent>
-                                        <FeedbackIcon className={classes.icon} />
-                                        <p id="name">feedback</p>
-                                    </CardContent>
-                                </Card>        
-                            </Grid>
-                        </Button>
-                    </Grid>
-                </div>
+function SimpleCard(props) {
+    const { classes } = props;
+    //console.log("Simple Card");
+    
+    return (
+        <MuiThemeProvider theme={theme}>
+        <div id="main">
+            <div className="first">
+                <Grid container spacing={40}>
+                    <Button component={Link} to="/users" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <PersonIcon className={classes.icon} />
+                                    <p id="name">users</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                    <Button component={Link} to="/teacher" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <GroupIcon className={classes.icon} />
+                                    <p id="name">teacher</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                    <Button component={Link} to="/courses" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <BookIcon className={classes.icon} />
+                                    <p id="name">courses</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                    <Button component={Link} to="/attendance" lg={4} xs={12}>
+                        <Grid item  className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <BarChartIcon className={classes.icon} />
+                                    <p id="name">attendance</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                    <Button component={Link} to="/payment" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <AttachMoneyIcon className={classes.icon} />
+                                    <p id="name">payment</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                    <Button component={Link} to="/feedback" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <FeedbackIcon className={classes.icon} />
+                                    <p id="name">feedback</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                </Grid>
             </div>
-            </MuiThemeProvider>
-        )        
-    }
+        </div>
+        </MuiThemeProvider>
+    )        
+}
 
 
 SimpleCard.propTypes = {
