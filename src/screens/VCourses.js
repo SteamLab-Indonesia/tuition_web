@@ -9,6 +9,8 @@ import '../Projj.css';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import firebase from 'firebase';
+import { getCoursesDetails } from '../libs/Courses';
+import { setCoursesDetails } from '../libs/Courses';
 
 const styles = theme => ({
    root: {
@@ -40,6 +42,55 @@ const styles = theme => ({
   },
 });
 
+const subject = [
+  {
+    value: 'none',
+    label: 'Select Subject',
+  },
+  {
+    value: 'Robotic',
+    label: 'Robotic',
+  },
+  {
+    value: 'tes',
+    label: 'tes',
+  },
+];
+
+const curriculum = [
+  {
+    value: 'none',
+    label: 'Select Curriculum',
+  },
+  {
+    value: 'Creativity',
+    label: 'Creativity',
+  },
+  {
+    value: 'tes',
+    label: 'tes',
+  },
+];
+
+const level = [
+  {
+    value: 'none',
+    label: 'Select Level',
+  },
+  {
+    value: '1',
+    label: '1',
+  },
+  {
+    value: '2',
+    label: '2',
+  },
+  {
+    value: '3',
+    label: '3',
+  },
+];
+
 class TextFields extends React.Component {
 
   addCourses = () => {
@@ -69,6 +120,28 @@ class TextFields extends React.Component {
   state = {
     subject: 'none',
     curriculum: 'none',
+    level: 'none',
+  }
+
+  handleSave = () => {
+    setCoursesDetails(this.props.match.params.id, this.state.subject, this.state.curriculum, this.state.level)
+  }
+
+  componentDidMount = () => {
+    //console.log(this.props);
+    const id_num = this.props.match.params.id;
+    //console.log(this.props.match.params);
+    getCoursesDetails(id_num).then((courseData) => {
+      // data from firebase docs[0].data
+      if (courseData)
+      {
+        this.setState({
+          subject: courseData.subject,
+          curriculum: courseData.curriculum,
+          level: courseData.level,
+        })
+      }
+    })
   }
 
   render() {
@@ -97,11 +170,11 @@ class TextFields extends React.Component {
                 helperText="Please select your subject"
                 margin="normal"
                 >
-                {/* {subject.map(option => (
+                {subject.map(option => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
-                ))} */}
+                ))}
                 </TextField>
                 <TextField
                 select
@@ -119,20 +192,34 @@ class TextFields extends React.Component {
                 helperText="Please select your curriculum"
                 margin="normal"
                 >
-                {/* {curriculum.map(option => (
+                {curriculum.map(option => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
-                ))} */}
+                ))}
                 </TextField>
                 <TextField
-                id="standard-name"
+                select
                 label="Level"
                 className={classes.textField}
-                placeholder="Please select a level"
+                value={this.state.level}
+                //placeholder="Please select a level"
                 onChange={this.handleChange('level')}
                 margin="normal"
-                />
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="Please select your level"
+                margin="normal"
+                >
+                {level.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+                </TextField>
                 <TextField
                 id="standard-multiline-static"
                 label="Description"
@@ -145,7 +232,7 @@ class TextFields extends React.Component {
                 />
                 <br />
                 <div>
-                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.addCourses}>save</Button>
+                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.handleSave}>save</Button>
                   <Button variant="outlined" className={classes.button}>cancel</Button>
                 </div>
                 

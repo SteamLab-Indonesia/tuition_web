@@ -23,7 +23,7 @@ export default class Navigation extends Component{
                 <Route path='/addusers' component={AddUsers}/>
                 <Route path='/addteachers' component={AddTeachers}/>
                 <Route path='/login' component={Login}/>
-                <Route path='/viewcourses' component={VCourses}/>
+                <Route path='/viewcourses/:id' component={VCourses}/>
                 <Route path='/attendance' component={Attendance}/>
                 {/* <Route path='/payment' component={payment}/>
                 <Route path='/feedback' component={feedback}/> */}
