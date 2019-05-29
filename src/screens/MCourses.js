@@ -247,6 +247,7 @@ class MCourses extends Component{
     const { courses, rowsPerPage, page, searchResult } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, courses.length - page * rowsPerPage);
     let courseList = (searchResult.length > 0 ? searchResult : courses);
+    console.log(courses);
 
     console.log('re-render');
   return (
@@ -323,7 +324,7 @@ class MCourses extends Component{
                           <TableCell align="left">
                         <div>
                         <Tooltip title='view'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to="viewcourses">
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"viewcourses/"+item.id}>
                             <VisibilityIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>

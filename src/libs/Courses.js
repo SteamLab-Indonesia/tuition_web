@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { initFirebase } from './firebase';
 
 export function getCourses(callback){
     const db = firebase.firestore()
@@ -21,3 +22,33 @@ export function getCourses(callback){
         console.log('Error getting documents', err);
     });
 };
+
+export function getCoursesDetails(id_num) {
+    console.log(id_num);
+    return new Promise((resolve, reject) => {
+        initFirebase();
+        const db = firebase.firestore();
+        let query = db.collection("program").doc(id_num);
+        query.get().then((doc) => {
+            if (!doc.exists)
+                resolve(null);
+            else
+                resolve(doc.data());
+        })
+        .catch((error) => {
+            reject(error);
+        })
+    })
+
+}
+
+export function setCoursesDetails(id_num, subject, curriculum, level) {
+    console.log(id_num);
+    initFirebase();
+    const db = firebase.firestore();
+    let query = db.collection("program").doc(id_num);
+    query.set({
+        subject,curriculum, level
+    });
+
+}

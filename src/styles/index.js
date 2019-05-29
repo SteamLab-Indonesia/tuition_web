@@ -1,5 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { blue, pink } from '@material-ui/core/colors';
+import { Background } from "../img/abstract-art-background-370799.jpg";
+
+let imgUrl = '../img/abstract-art-background-370799.jpg';
 
 export const styles = theme => ({
     root: {
@@ -10,6 +13,9 @@ export const styles = theme => ({
         fontSize: 70,
     },
     card: {
+        // marginLeft: '-90px',
+        // marginRight: '80px',
+        //paddingLeft: '0px',
         minWidth: 300,
     },
     bullet: {
@@ -23,6 +29,14 @@ export const styles = theme => ({
     pos: {
         marginBottom: 12,
     },
+    tes: {
+        paddingTop: '120px',
+        paddingLeft: '240px',
+        // backgroundColor: 'cornflowerblue',
+        backgroundImage: 'url(' + imgUrl + ')',
+        overflow: 'hidden',
+        //height: window.innerHeight
+    }
 });
 
 export const theme = createMuiTheme({
@@ -35,10 +49,12 @@ export const theme = createMuiTheme({
 });
 
 export const ScreenStyle = {
-    paddingTop: '120px',
-    paddingLeft: '240px',
-    backgroundColor: 'cornflowerblue',
-    height: window.innerHeight   
+    tes: {
+        paddingTop: '120px',
+        paddingLeft: '240px',
+        backgroundColor: 'cornflowerblue',
+        height: window.innerHeight
+    }   
 };
 
 export const ScreenCloseStyle = {

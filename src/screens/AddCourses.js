@@ -54,14 +54,6 @@ const subject = [
     value: 'tes',
     label: 'tes',
   },
-  // {
-  //   value: 'BTC',
-  //   label: '฿',
-  // },
-  // {
-  //   value: 'JPY',
-  //   label: '¥',
-  // },
 ];
 
 const curriculum = [
@@ -77,14 +69,25 @@ const curriculum = [
     value: 'tes',
     label: 'tes',
   },
-  // {
-  //   value: 'BTC',
-  //   label: '฿',
-  // },
-  // {
-  //   value: 'JPY',
-  //   label: '¥',
-  // },
+];
+
+const level = [
+  {
+    value: 'none',
+    label: 'Select Level',
+  },
+  {
+    value: '1',
+    label: '1',
+  },
+  {
+    value: '2',
+    label: '2',
+  },
+  {
+    value: '3',
+    label: '3',
+  },
 ];
 
 class TextFields extends React.Component {
@@ -116,6 +119,7 @@ class TextFields extends React.Component {
   state = {
     subject: 'none',
     curriculum: 'none',
+    level: 'none',
   }
 
   render() {
@@ -142,6 +146,13 @@ class TextFields extends React.Component {
                   },
                 }}
                 helperText="Please select your subject"
+                margin="normal"
+                SelectProps={{
+                  MenuProps: {
+                    className: classes.menu,
+                  },
+                }}
+                helperText="Please select your curriculum"
                 margin="normal"
                 >
                 {subject.map(option => (
@@ -173,13 +184,22 @@ class TextFields extends React.Component {
                 ))}
                 </TextField>
                 <TextField
-                id="standard-name"
+                select
+                //id="standard-name"
                 label="Level"
                 className={classes.textField}
-                placeholder="Please select a level"
+                value={this.state.level}
+                //placeholder="Please select a level"
                 onChange={this.handleChange('level')}
                 margin="normal"
-                />
+                >
+                >
+                {level.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+                </TextField>
                 <TextField
                 id="standard-multiline-static"
                 label="Description"
