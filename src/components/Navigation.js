@@ -10,11 +10,8 @@ import AddTeachers from '../screens/AddTeachers';
 import Login from '../screens/Login';
 import VCourses from '../screens/VCourses';
 import Attendance from '../screens/MAttendance'
-<<<<<<< HEAD
 import UserDetails from '../screens/UserDetails'
-=======
 import Payment from '../screens/MPayment'
->>>>>>> 6f01fc992d63e459e14a3586c19c591deffe19b0
 
 export default class Navigation extends Component{
     render() {
@@ -30,14 +27,11 @@ export default class Navigation extends Component{
                 <Route path='/login' component={Login}/>
                 <Route path='/viewcourses/:id' component={VCourses}/>
                 <Route path='/attendance' component={Attendance}/>
-<<<<<<< HEAD
                 <Route path='/userdetails/:id' component={UserDetails}/>
                 {/* <Route path='/payment' component={payment}/>
                 <Route path='/feedback' component={feedback}/> */}
-=======
                 <Route path='/payment' component={Payment}/>
                 {/*<Route path='/feedback' component={feedback}/> */}
->>>>>>> 6f01fc992d63e459e14a3586c19c591deffe19b0
             </Switch>
         );
     }
