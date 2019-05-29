@@ -28,6 +28,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import BookIcon from '@material-ui/icons/Book';
+import { Tooltip } from '@material-ui/core';
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -272,11 +276,10 @@ class MUsers extends Component {
                     <TableCell align="center" >Student</TableCell>
                     <TableCell align="center" >Username</TableCell>
                     <TableCell align="center" >Email</TableCell>                    
-                    <TableCell align="center" >Birthday</TableCell>
-                    <TableCell align="center" >Gender</TableCell>
                     <TableCell align="center" >Phone Number</TableCell>
                     <TableCell align="center" >Address</TableCell>
                     <TableCell align="center" >School</TableCell>
+                    <TableCell align="center" style={{width:"100%"}} >Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -286,11 +289,28 @@ class MUsers extends Component {
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.name}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.username}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.email}</CustomTableCell>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.birthday}</CustomTableCell>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.gender}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.phone}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.address}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.school}</CustomTableCell>
+                      <CustomTableCell align="left">
+                        <div>
+                        <Tooltip title='view'>
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to="userdetails/:id">
+                            <VisibilityIcon className={classes.icon} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='archive'>
+                          <IconButton aria-label="Delete" className={classes.margin}>
+                            <ArchiveIcon className={classes.icon} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='lesson'>
+                          <IconButton aria-label="Delete" className={classes.margin}>
+                            <BookIcon className={classes.icon} />
+                          </IconButton>
+                        </Tooltip>
+                        </div>
+                        </CustomTableCell>
                     </TableRow>
                   ))
                   }
