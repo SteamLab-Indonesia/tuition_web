@@ -13,10 +13,9 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
-import { Link } from "react-router-dom";
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { getUserDetails } from '../libs/User';
+import {User, addUser, GENDER, getUserDetails, setUserDetails} from '../libs/User';
 import '../Projj.css';
 import '../users.css';
 
@@ -52,55 +51,108 @@ const styles = theme => ({
   },
 });
 
-class UserDetails extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          user: [],
-        }
-      }
+const gender = [
+  {
+    value: GENDER.MALE,
+    label: 'Male',
+  },
+  {
+    value: GENDER.FEMALE,
+    label: 'Female',
+  },
+];
 
-    componentDidMount() {
-        let id_num = this.props.match.params.id
-        getUserDetails (id_num)
-            .then((status,data)=>{
-                console.log('status='+status)
-                console.log(data)})
-            .catch((error)=>{
-                console.log(error)
-            })
+class VUser extends React.Component {
+  state = {
+    age: '',
+    password: '',
+    showPassword: false,
+  };
+
+  componentDidMount = () => {
+    //console.log(this.props);
+    const id_num = this.props.match.params.id;
+    //console.log(this.props.match.params);
+    getUserDetails(id_num).then((userData) => {
+      // data from firebase docs[0].data
+      if (userData)
+      {
+        this.setState({
+          name: userData.name,
+          username: userData.username,
+          password: userData.password,
+          birthday: userData.birthday,
+          gender : userData.gender,
+          email: userData.email,
+          phone: userData.phone,
+          address: userData.address,
+          school: userData.school,
+        })
       }
+    })
+  }
+
+  handleSave = () => {
+    setUserDetails(
+      this.props.match.params.id, 
+      this.state.name, 
+      this.state.username, 
+      this.state.password,
+      this.state.birthday,
+      this.state.gender,
+      this.state.email,
+      this.state.phone,
+      this.state.address,
+      this.state.school,
+      )
+  }
+
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+      });
+  };
 
   render() {
     const { classes } = this.props;
     return (
-        <div className={classes.root} id="surface" class="surface" link>
+      <div className={classes.root} id="surface" class="surface">
         <Paper elevation={1} id="inside">
           <form className={classes.container} noValidate autoComplete="on">
-
             <Grid container spacing={0} direction="column" justify="center" alignItems="center">
               <Grid item>
                 <AccountCircleIcon className={classes.icon}/>
-                <div class='papert'>User Sign Up</div>    
+                <div class='papert'>User Details</div>    
               </Grid>
 
               <Grid item style={{width: "100%"}}>
                 <Grid direction="row" justify="flex-start" alignItems="center">
                   <TextField 
-                  label="Name" 
                   className={classes.textField} 
                   value={this.state.name}
+                  label="Name" 
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   style={{width: '47%'}} 
                   margin="normal"
+                  onChange={this.handleChange('name')}
                   />
 
                   <TextField
                   className={classes.textField}
                   value={this.state.username}
                   label="Username"   
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   style={{width: '47%'}}
                   margin="normal"
-                  
+                  onChange={this.handleChange('username')}
                   />
                 </Grid>
 
@@ -112,6 +164,7 @@ class UserDetails extends React.Component {
                       type={this.state.showPassword ? 'text' : 'password'}
                       value={this.state.password}
                       style={{width: '96%'}}
+                      onChange={this.handleChange('password')}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -136,8 +189,7 @@ class UserDetails extends React.Component {
                   }}
                   style={{width: '46%'}}
                   margin="normal"
-                 
-                  //variant='outlined'
+                  onChange={this.handleChange('birthday')}
                   />
 
                   <TextField
@@ -151,63 +203,86 @@ class UserDetails extends React.Component {
                     }}
                     style={{width: '47%'}}
                     margin="normal"
-                   
+                    onChange={this.handleChange('gender')}
                     SelectProps={{
                       MenuProps: {
                         className: classes.menu,
                       },
                     }}
                   >
+                    {gender.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
                   </TextField>
 
                   <TextField
                   className={classes.textField}
                   value={this.state.email}
                   label="Email"   
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   style={{width: '96%'}}
                   margin="normal"
-                 
+                  onChange={this.handleChange('email')}
                   />
 
                   <TextField
                   className={classes.textField}
                   value={this.state.phone}
                   label="Phone Number"   
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   style={{width: '96%'}}
                   margin="normal"
-                 
+                  onChange={this.handleChange('phone')}
                   />
 
                   <TextField
                   className={classes.textField}
                   value={this.state.address}
                   label="Address"   
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   style={{width: '96%'}}
                   margin="normal"
-                 
+                  onChange={this.handleChange('address')}
                   />
 
                   <TextField
                   className={classes.textField}
                   value={this.state.school}
                   label="School"   
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   style={{width: '96%'}}
                   margin="normal"
-                  
+                  onChange={this.handleChange('school')}
                   />    
                 </Grid>
               </Grid>
             </Grid>
             <br/>
-            </form>
-            </Paper>
+            <div> 
+              <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleSave}>
+              save
+              </Button>
+              <Button variant="outlined" className={classes.button}>cancel</Button>
             </div>
+          </form>
+        </Paper>
+      </div>
     )
   }
 }
 
-UserDetails.propTypes = {
+VUser.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(UserDetails);
+export default withStyles(styles)(VUser);

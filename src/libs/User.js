@@ -88,7 +88,7 @@ export function addUser(user)
 }
 
 
-export function getUserDetails(username, callback) {
+export function getUserDetail2(username, callback) {
     return new Promise((resolve, reject) => {
         initFirebase();
         const db = firebase.firestore();
@@ -102,7 +102,6 @@ export function getUserDetails(username, callback) {
             reject(error);
         })
     })
-
 }
 
 export function userLogin(user)
@@ -110,7 +109,7 @@ export function userLogin(user)
     return new Promise((resolve, reject) => {
         initFirebase();
         firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
-            getUserDetails(user.email).then((data) => {
+            getUserDetail2(user.email).then((data) => {
                 resolve(data);
             }).catch((err) => {
                 reject(err);
@@ -132,3 +131,33 @@ export function getCurrentUser()
     else
         return null;
 }
+
+export function getUserDetails(id_num) {
+    console.log(id_num);
+    return new Promise((resolve, reject) => {
+        initFirebase();
+        const db = firebase.firestore();
+        let query = db.collection("user").doc(id_num);
+        query.get().then((doc) => {
+            if (!doc.exists)
+                resolve(null);
+            else
+                resolve(doc.data());
+        })
+        .catch((error) => {
+            reject(error);
+        })
+    })
+}
+
+export function setUserDetails(id_num,name,username,password,birthday,gender,email,phone,address,school) {
+    console.log(id_num);
+    initFirebase();
+    const db = firebase.firestore();
+    let query = db.collection("user").doc(id_num);
+    query.set({
+        name,username,password,birthday,gender,email,phone,address,school
+    });
+
+}
+

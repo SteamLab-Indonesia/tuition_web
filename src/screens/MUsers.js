@@ -295,7 +295,7 @@ class MUsers extends Component {
                       <CustomTableCell align="left">
                         <div>
                         <Tooltip title='view'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to="userdetails/:id">
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"viewuser/" + item.id}>
                             <VisibilityIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>
