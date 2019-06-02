@@ -53,12 +53,56 @@ const subject = [
     label: 'Select Subject',
   },
   {
-    value: 'Robotic',
-    label: 'Robotic',
+    value: 'Mathematics',
+    label: 'Mathematics',
   },
   {
-    value: 'tes',
-    label: 'tes',
+    value: 'Physics',
+    label: 'Physics',
+  },
+  {
+    value: 'Chemistry',
+    label: 'Chemistry',
+  },
+  {
+    value: 'Coding',
+    label: 'Coding',
+  },
+  {
+    value: 'Robotics',
+    label: 'Robotics',
+  },
+  {
+    value: 'English',
+    label: 'English',
+  },
+  {
+    value: 'Biology',
+    label: 'Biology',
+  },
+  {
+    value: 'Economics',
+    label: 'Economics',
+  },
+  {
+    value: 'Mandarin',
+    label: 'Mandarin',
+  },
+  {
+    value: 'Accounting',
+    label: 'Accounting',
+  },
+  {
+    value: 'Business Studies',
+    label: 'Business Studies',
+  },
+  {
+    value: 'Bahasa Indonesia',
+    label: 'Bahasa Indonesia',
+  },
+  {
+    value: 'Civics',
+    label: 'Civics',
   },
 ];
 
@@ -68,12 +112,20 @@ const curriculum = [
     label: 'Select Curriculum',
   },
   {
-    value: 'Creativity',
-    label: 'Creativity',
+    value: 'Lower Elementary',
+    label: 'Lower Elementary',
   },
   {
-    value: 'tes',
-    label: 'tes',
+    value: 'Upper Elementary',
+    label: 'Upper Elementary',
+  },
+  {
+    value: 'Junior High',
+    label: 'Junior High',
+  },
+  {
+    value: 'Senior High',
+    label: 'Senior High',
   },
 ];
 
@@ -124,8 +176,8 @@ class TextFields extends React.Component {
       this.setState({open1: true});
     }else if(this.state.level == 'none'){
       this.setState({open1: true});
-    }else if(this.state.description == 'none'){
-      this.setState({open1: true});
+    }else if(this.state.description == ''){
+      this.setState({open2: true});
     }else{
       this.setState({open2: true});
       // this.addCourses();
@@ -157,6 +209,7 @@ class TextFields extends React.Component {
     subject: 'none',
     curriculum: 'none',
     level: 'none',
+    description: '',
   }
 
   render() {
@@ -293,7 +346,7 @@ class TextFields extends React.Component {
                 <br />
                 <div>
                   <Button variant="contained" color="secondary" className={classes.button}  onClick={this.BtnClick}>save</Button>
-                  <Button variant="outlined" className={classes.button}>cancel</Button>
+                  <Button variant="outlined" className={classes.button} component={ Link } to="/courses">cancel</Button>
                 </div>
                 
             </form>
