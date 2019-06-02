@@ -11,6 +11,7 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
+import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 
 
@@ -80,18 +81,19 @@ const styles = theme => ({
   },
 });
 
-class MPayment extends Component  {
+class SimpleTable extends Component  {
     constructor(props){
         super(props)
     }
-    handleChange = month => event => {
-        this.setState({
-          [month]: event.target.value,
-          });
-      };
       state = {
         month: '',
+        checkedB: true,
       }
+      handleChange = name => event => {
+        this.setState({
+          [name]: event.target.value,
+          });
+      };
     render(){
         const { classes } = this.props;
         return (
@@ -123,12 +125,20 @@ class MPayment extends Component  {
                                 <TableCell align="left">Status</TableCell>
                                 <TableCell align="left">Note</TableCell>
                             </TableRow>
-                            <TableRow>
-                            <TableCell align='left'>No</TableCell>
-                            </TableRow>
+                            
                             </TableHead>
                             <TableBody>
                                 <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>
+                                        <Switch
+                                        style={{paddingLeft:'-20px'}}
+                                        onChange={this.handleChange('checkedB')}
+                                        value={this.state.checkedB}
+                                        color="primary"
+                                        />                                                      
+                                    </TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -140,9 +150,9 @@ class MPayment extends Component  {
     }
 }
 
-MPayment.propTypes = {
+SimpleTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MPayment);
+export default withStyles(styles)(SimpleTable);
 
