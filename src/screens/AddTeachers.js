@@ -62,7 +62,7 @@ const gender = [
   },
 ];
 
-class TextFields extends React.Component {
+class AddTeachers extends React.Component {
   state = {
     age: '',
     multiline: '',
@@ -259,8 +259,8 @@ class TextFields extends React.Component {
   }
 }
 
-TextFields.propTypes = {
+AddTeachers.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TextFields);
+export default withStyles(styles)(AddTeachers);

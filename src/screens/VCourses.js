@@ -91,7 +91,7 @@ const level = [
   },
 ];
 
-class TextFields extends React.Component {
+class VCourses extends React.Component {
 
   addCourses = () => {
     const db = firebase.firestore();
@@ -243,10 +243,10 @@ class TextFields extends React.Component {
   }
 }
 
-TextFields.propTypes = {
+VCourses.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
 
 
-export default withStyles(styles)(TextFields);
+export default withStyles(styles)(VCourses);

@@ -54,7 +54,7 @@ const styles = theme => ({
   },
 });
 
-class TextFields extends React.Component {
+class Login extends React.Component {
   state = {
     email: '',
     password: '',
@@ -154,8 +154,8 @@ class TextFields extends React.Component {
   }
 }
 
-TextFields.propTypes = {
+Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TextFields);
+export default withStyles(styles)(Login);

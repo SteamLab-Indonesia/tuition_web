@@ -144,7 +144,7 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
   TablePaginationActions,
 );
 
-class SimpleTable extends Component {
+class MTeacher extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -280,8 +280,8 @@ class SimpleTable extends Component {
 
 }
 
-SimpleTable.propTypes = {
+MTeacher.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleTable);
+export default withStyles(styles)(MTeacher);

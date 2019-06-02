@@ -21,7 +21,7 @@ import { styles, theme } from '../styles';
 
 //export default class Dashboard extends Component {
     //render() {
-function SimpleCard(props) {
+function Dashboard(props) {
     const { classes } = props;
     //console.log("Simple Card");
     
@@ -98,9 +98,9 @@ function SimpleCard(props) {
 }
 
 
-SimpleCard.propTypes = {
+Dashboard.propTypes = {
     classes: PropTypes.object.isRequired,
 };
   
 
-export default withStyles(styles)(SimpleCard);
+export default withStyles(styles)(Dashboard);

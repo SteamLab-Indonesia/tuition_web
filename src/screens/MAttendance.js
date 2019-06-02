@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 });
 
-class SimpleTable extends Component  {
+class MAttendance extends Component  {
     constructor(props){
         super(props)
     }
@@ -82,9 +82,9 @@ class SimpleTable extends Component  {
     }
 }
 
-SimpleTable.propTypes = {
+MAttendance.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleTable);
+export default withStyles(styles)(MAttendance);
 
