@@ -2,8 +2,8 @@ import firebase from 'firebase';
 import { initFirebase } from './firebase';
 
 export const GENDER = {
-    MALE: 'Male',
-    FEMALE: 'Female'
+    MALE: 'male',
+    FEMALE: 'female'
 };
 
 export class User {

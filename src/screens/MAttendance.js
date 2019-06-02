@@ -41,7 +41,7 @@ class MAttendance extends Component  {
         console.log(this.state.checkedB)
         return (
             <div id="msurface" className="surface">
-            <Card>
+            <Card className={classes.card} style={{paddingTop: '10px'}}>
                 <CardContent>
                     <Table className={classes.table} style={{color:'gray'}}>
                         <TableRow><TableCell>Courses :</TableCell></TableRow>

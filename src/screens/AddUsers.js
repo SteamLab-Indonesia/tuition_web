@@ -16,6 +16,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import {User, addUser, GENDER} from '../libs/User';
+import { Link } from 'react-router-dom'
 import '../Projj.css';
 import '../users.css';
 
@@ -61,16 +62,10 @@ const gender = [
     label: 'Female',
   },
 ];
-
 class AddUsers extends React.Component {
   state = {
     age: '',
-    multiline: '',
-    currency: 'EUR',
-    amount: '',
     password: '',
-    weight: '',
-    weightRange: '',
     showPassword: false,
   };
 
@@ -247,10 +242,10 @@ class AddUsers extends React.Component {
             </Grid>
             <br/>
             <div> 
-              <Button variant="contained" color="secondary" className={classes.button} onClick={this.addMe}>
+              <Button variant="contained" color="secondary" className={classes.button} onClick={this.addMe} component={Link} to="/users">
               save
               </Button>
-              <Button variant="outlined" className={classes.button}>cancel</Button>
+              <Button variant="outlined" className={classes.button} component={ Link } to="/users">cancel</Button>
             </div>
           </form>
         </Paper>

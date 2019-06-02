@@ -279,7 +279,7 @@ class MUsers extends Component {
                     <TableCell align="center" >Phone Number</TableCell>
                     <TableCell align="center" >Address</TableCell>
                     <TableCell align="center" >School</TableCell>
-                    <TableCell align="center" style={{width:"100%"}} >Actions</TableCell>
+                    <TableCell align="center" style={{width:"18%"}} >Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -292,7 +292,7 @@ class MUsers extends Component {
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.phone}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.address}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.school}</CustomTableCell>
-                      <CustomTableCell align="left">
+                      <CustomTableCell align="center">
                         <div>
                         <Tooltip title='view'>
                           <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"viewuser/" + item.id}>
