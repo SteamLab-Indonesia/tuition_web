@@ -119,22 +119,33 @@ class TextFields extends React.Component {
 
   BtnClick = () => {
     if(this.state.subject == 'none'){
-      this.setState({open: true});
+      this.setState({open1: true});
     }else if(this.state.curriculum == 'none'){
-      this.setState({open: true});
+      this.setState({open1: true});
     }else if(this.state.level == 'none'){
-      this.setState({open: true});
+      this.setState({open1: true});
+    }else if(this.state.description == 'none'){
+      this.setState({open1: true});
     }else{
-      this.addCourses();
+      this.setState({open2: true});
+      // this.addCourses();
     }
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleClickOpen1 = () => {
+    this.setState({ open1: true });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
+  handleClose1 = () => {
+    this.setState({ open1: false });
+  };
+
+  handleClickOpen2 = () => {
+    this.setState({ open2: true });
+  };
+
+  handleClose2 = () => {
+    this.setState({ open2: false });
   };
 
   handleChange = name => event => {
@@ -155,8 +166,8 @@ class TextFields extends React.Component {
       <div className={classes.root} id="surface" class="surface">
         <div>
           <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
+            open={this.state.open1}
+            onClose={this.handleClose1}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -167,7 +178,7 @@ class TextFields extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary" autoFocus>
+              <Button onClick={this.handleClose1} color="primary" autoFocus>
                 Ok
               </Button>
             </DialogActions>
@@ -175,8 +186,8 @@ class TextFields extends React.Component {
         </div>
         <div>
           <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
+              open={this.state.open2}
+              onClose={this.handleClose2}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
@@ -190,7 +201,7 @@ class TextFields extends React.Component {
                 <Button onClick={this.handleSave} variant="contained" color="secondary" component={Link} to="/courses" autoFocus>
                   Save
                 </Button>
-                <Button onClick={this.handleClose} autoFocus>
+                <Button onClick={this.handleClose2} autoFocus>
                   cancel
                 </Button>
               </DialogActions>

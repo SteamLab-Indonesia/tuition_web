@@ -48,7 +48,7 @@ export function setCoursesDetails(id_num, subject, curriculum, level) {
     const db = firebase.firestore();
     let query = db.collection("program").doc(id_num);
     query.set({
-        subject,curriculum, level
+        subject, curriculum, level
     });
 
 }
