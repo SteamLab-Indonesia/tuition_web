@@ -198,7 +198,7 @@ class TextFields extends React.Component {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.handleSave} variant="contained" color="secondary" component={Link} to="/courses" autoFocus>
+                <Button onClick={this.addCourses} variant="contained" color="secondary" component={Link} to="/courses" autoFocus>
                   Save
                 </Button>
                 <Button onClick={this.handleClose2} autoFocus>
