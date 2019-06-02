@@ -11,6 +11,12 @@ import Button from '@material-ui/core/Button';
 import firebase from 'firebase';
 import { getCoursesDetails } from '../libs/Courses';
 import { setCoursesDetails } from '../libs/Courses';
+import { Link } from "react-router-dom";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
    root: {
@@ -123,8 +129,17 @@ class VCourses extends React.Component {
     level: 'none',
   }
 
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   handleSave = () => {
     setCoursesDetails(this.props.match.params.id, this.state.subject, this.state.curriculum, this.state.level)
+    // this.setState({open: false})
   }
 
   componentDidMount = () => {
@@ -149,95 +164,118 @@ class VCourses extends React.Component {
 
     return (
         <div className={classes.root} id="surface" class="surface">
-        <Paper elevation={1} id="inside">
-            <form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
-                <Typography variant="h5" component="h3" id="papert">
-                    View Courses
-                </Typography>
-                <TextField
-                id="standard-name"
-                select
-                label="Subject"
-                className={classes.textField}
-                value={this.state.subject}
-                onChange={this.handleChange('subject')}
-                margin="normal"
-                SelectProps={{
-                  MenuProps: {
-                    className: classes.menu,
-                  },
-                }}
-                helperText="Please select your subject"
-                margin="normal"
-                >
-                {subject.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-                </TextField>
-                <TextField
-                select
-                //id="standard-name"
-                label="Curriculum"
-                className={classes.textField}
-                value={this.state.curriculum}
-                onChange={this.handleChange('curriculum')}
-                margin="normal"
-                SelectProps={{
-                  MenuProps: {
-                    className: classes.menu,
-                  },
-                }}
-                helperText="Please select your curriculum"
-                margin="normal"
-                >
-                {curriculum.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-                </TextField>
-                <TextField
-                select
-                label="Level"
-                className={classes.textField}
-                value={this.state.level}
-                //placeholder="Please select a level"
-                onChange={this.handleChange('level')}
-                margin="normal"
-                SelectProps={{
-                  MenuProps: {
-                    className: classes.menu,
-                  },
-                }}
-                helperText="Please select your level"
-                margin="normal"
-                >
-                {level.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-                </TextField>
-                <TextField
-                id="standard-multiline-static"
-                label="Description"
-                multiline
-                rows="4"
-                placeholder="Please enter description here"
-                className={classes.textField}
-                margin="normal"
-                onChange={this.handleChange('description')}
-                />
-                <br />
-                <div>
-                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.handleSave}>save</Button>
-                  <Button variant="outlined" className={classes.button}>cancel</Button>
-                </div>
-                
-            </form>
-        </Paper>
+          <div>
+          <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">{"Save Changes?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Do you want to keep this changes?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleSave} variant="contained" color="secondary" component={Link} to="/courses" autoFocus>
+                  Save
+                </Button>
+                <Button onClick={this.handleClose} autoFocus>
+                  back
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+          <Paper elevation={1} id="inside">
+              <form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
+                  <Typography variant="h5" component="h3" id="papert">
+                      View Courses
+                  </Typography>
+                  <TextField
+                  id="standard-name"
+                  select
+                  label="Subject"
+                  className={classes.textField}
+                  value={this.state.subject}
+                  onChange={this.handleChange('subject')}
+                  margin="normal"
+                  SelectProps={{
+                    MenuProps: {
+                      className: classes.menu,
+                    },
+                  }}
+                  helperText="Please select your subject"
+                  margin="normal"
+                  >
+                  {subject.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                  </TextField>
+                  <TextField
+                  select
+                  //id="standard-name"
+                  label="Curriculum"
+                  className={classes.textField}
+                  value={this.state.curriculum}
+                  onChange={this.handleChange('curriculum')}
+                  margin="normal"
+                  SelectProps={{
+                    MenuProps: {
+                      className: classes.menu,
+                    },
+                  }}
+                  helperText="Please select your curriculum"
+                  margin="normal"
+                  >
+                  {curriculum.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                  </TextField>
+                  <TextField
+                  select
+                  label="Level"
+                  className={classes.textField}
+                  value={this.state.level}
+                  //placeholder="Please select a level"
+                  onChange={this.handleChange('level')}
+                  margin="normal"
+                  SelectProps={{
+                    MenuProps: {
+                      className: classes.menu,
+                    },
+                  }}
+                  helperText="Please select your level"
+                  margin="normal"
+                  >
+                  {level.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                  </TextField>
+                  <TextField
+                  id="standard-multiline-static"
+                  label="Description"
+                  multiline
+                  rows="4"
+                  placeholder="Please enter description here"
+                  className={classes.textField}
+                  margin="normal"
+                  onChange={this.handleChange('description')}
+                  />
+                  <br />
+                  <div>
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleClickOpen}>save</Button>
+                    <Button variant="outlined" className={classes.button} component={Link} to="/courses">cancel</Button>
+                  </div>
+                  {/* onClick={this.handleSave} */}
+              </form>
+          </Paper>
         </div>
     );
   }

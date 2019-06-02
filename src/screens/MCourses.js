@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import IconButton from '@material-ui/core/IconButton';
 import { getCourses } from '../libs/Courses';
@@ -195,6 +196,10 @@ class MCourses extends Component{
     }
   }
 
+  reloadPage = () => {
+    window.location.reload()
+  }
+
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -235,6 +240,7 @@ class MCourses extends Component{
   }
 
   componentDidMount() {
+    //window.location.reload()
     getCourses((cou_list) => {
       this.setState({
         courses: cou_list
@@ -285,7 +291,7 @@ class MCourses extends Component{
                           justify="flex-end"
                           item lg={5}   
                         >   
-                          <Paper className={classes.paper} style={{width: '65%'}}>                       
+                          <Paper className={classes.paper} style={{width: '65%', height:"1cm"}}>                       
                           <InputBase 
                             className={classes.input} 
                             placeholder="Search Course..." 
@@ -297,8 +303,8 @@ class MCourses extends Component{
                           </IconButton>
                           </Paper>
                         </Grid>
-                        <Grid item lg={2} style={{marginRight: 0}}>
-                          <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addcourses">add courses</Button>
+                        <Grid container item lg={2} justify="flex-end" style={{marginRight: 0}}>
+                          <Button style={{height: '1cm'}} variant="contained" color="secondary" className={classes.button} component={Link} to="/addcourses">add courses</Button>
                         </Grid>
                     </Grid>
                 </div>

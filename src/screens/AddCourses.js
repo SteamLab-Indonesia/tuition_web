@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -8,7 +9,13 @@ import '../Projj.css';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import firebase from 'firebase';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { Link } from 'react-router-dom';
+//make open1 open2
 
 const styles = theme => ({
    root: {
@@ -89,7 +96,7 @@ const level = [
   },
 ];
 
-class AddCourses extends React.Component {
+class TextFields extends React.Component {
 
   addCourses = () => {
     const db = firebase.firestore();
@@ -110,6 +117,26 @@ class AddCourses extends React.Component {
     });
   };
 
+  BtnClick = () => {
+    if(this.state.subject == 'none'){
+      this.setState({open: true});
+    }else if(this.state.curriculum == 'none'){
+      this.setState({open: true});
+    }else if(this.state.level == 'none'){
+      this.setState({open: true});
+    }else{
+      this.addCourses();
+    }
+  }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -125,7 +152,50 @@ class AddCourses extends React.Component {
     const { classes } = this.props;
 
     return (
-        <div className={classes.root} id="surface" class="surface">
+      <div className={classes.root} id="surface" class="surface">
+        <div>
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Uncompleted Data"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Please re-check uninputed data
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary" autoFocus>
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+        <div>
+          <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">{"Add Courses?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Do you want to save these data?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleSave} variant="contained" color="secondary" component={Link} to="/courses" autoFocus>
+                  Save
+                </Button>
+                <Button onClick={this.handleClose} autoFocus>
+                  cancel
+                </Button>
+              </DialogActions>
+            </Dialog>
+        </div>
         <Paper elevation={1} id="inside">
             <form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
                 <Typography variant="h5" component="h3" id="papert">
@@ -211,7 +281,7 @@ class AddCourses extends React.Component {
                 />
                 <br />
                 <div>
-                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.addCourses}>save</Button>
+                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.BtnClick}>save</Button>
                   <Button variant="outlined" className={classes.button}>cancel</Button>
                 </div>
                 
@@ -222,10 +292,10 @@ class AddCourses extends React.Component {
   }
 }
 
-AddCourses.propTypes = {
+TextFields.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
 
 
-export default withStyles(styles)(AddCourses);
+export default withStyles(styles)(TextFields);
