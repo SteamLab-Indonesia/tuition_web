@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import { initFirebase } from './firebase';
 
 export const GENDER = {
     MALE: 'male',
@@ -51,7 +50,6 @@ export class User {
 }
 
 export function getUser(callback) {
-    initFirebase();
     const db = firebase.firestore();
     db.collection("user").get()
     .then((snapshot) => {
@@ -72,7 +70,6 @@ export function getUser(callback) {
 
 export function addUser(user)
 {
-    initFirebase();
     const db = firebase.firestore();
     db.collection('user').add(user.toJson());     
     firebase.auth().createUserWithEmailAndPassword(user.email,user.password)
@@ -90,7 +87,6 @@ export function addUser(user)
 
 export function getUserDetail2(username, callback) {
     return new Promise((resolve, reject) => {
-        initFirebase();
         const db = firebase.firestore();
         let query = db.collection("user").where("email", '==', username)
         query.get().then((snapshot) => {
@@ -107,22 +103,29 @@ export function getUserDetail2(username, callback) {
 export function userLogin(user)
 {
     return new Promise((resolve, reject) => {
-        initFirebase();
-        firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
-            getUserDetail2(user.email).then((data) => {
-                resolve(data);
-            }).catch((err) => {
-                reject(err);
-            })
-        }).catch(function(error){
-            reject(error);
-        });             
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            console.log('SIGN IN WITH EMAIL:' + user.email);
+            firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
+                getUserDetail2(user.email).then((data) => {
+                    resolve(data);
+                }).catch((err) => {
+                    reject(err);
+                })
+            }).catch(function(error){
+                reject(error);
+            });
+        })
+        .catch((err) => {
+            console.log('Error in set Firebase Persistence:');
+            console.log(err);
+            reject(err);
+        });
     })    
 }
 
 export function getCurrentUser()
 {
-    initFirebase();
     let user = firebase.auth().currentUser;
     if (user)
     {
@@ -135,7 +138,6 @@ export function getCurrentUser()
 export function getUserDetails(id_num) {
     console.log(id_num);
     return new Promise((resolve, reject) => {
-        initFirebase();
         const db = firebase.firestore();
         let query = db.collection("user").doc(id_num);
         query.get().then((doc) => {
@@ -152,7 +154,6 @@ export function getUserDetails(id_num) {
 
 export function setUserDetails(id_num,name,username,password,birthday,gender,email,phone,address,school) {
     console.log(id_num);
-    initFirebase();
     const db = firebase.firestore();
     let query = db.collection("user").doc(id_num);
     query.set({

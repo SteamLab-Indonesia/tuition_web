@@ -160,6 +160,7 @@ class MUsers extends Component {
       page: 0,
       rowsPerPage:10,
       search : '',
+      open: false
     }
   }
 
@@ -212,7 +213,7 @@ class MUsers extends Component {
   render() {
     const { classes } = this.props;
     const { user, rowsPerPage, page, searchResult } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
     let userList = (searchResult.length > 0 ? searchResult : user);
 
     return (
@@ -285,7 +286,7 @@ class MUsers extends Component {
                 <TableBody>
                   {
                     userList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
-                    <TableRow>
+                    <TableRow key={item.data.email}>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.name}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.username}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.email}</CustomTableCell>

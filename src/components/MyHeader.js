@@ -120,9 +120,7 @@ class MyHeader extends Component {
         const { classes, theme } = this.props;
         const { open } = this.state;
         const user = getCurrentUser();
-        console.log("====> GET USER");
-        console.log(user);
-      return(
+        return(
           <div className={classes.root}>
               <CssBaseline />
                 <MuiThemeProvider theme={gtheme}>
@@ -143,23 +141,30 @@ class MyHeader extends Component {
                     >
                     <MenuIcon />
                     </IconButton>
-                    <Grid item xs={11}>
+                    <Grid item xs={10}>
                     <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
                     STEAM LAB 
                     </Typography>
                     </Grid>
-                    <Grid item xs={1}>
-                        {
-                          user ? (
-                            <Typography variant="h6" color="inherit" noWrap>
-                              {user.email}
-                            </Typography>
-                          ) : (
-                            <Button variant="h6" color="inherit" noWrap component={ Link } to='/login' id="Login">
-                              Login
-                            </Button>
-                          )
-                        }
+                    <Grid item xs={1} style={{width: '90%'}}>
+                      <Grid container
+                        direction="row"
+                        justify="flex-end"
+                      >
+                        <Grid item>
+                          {
+                            user ? (
+                              <Typography variant="h6" color="inherit" noWrap>
+                                {user.email}
+                              </Typography>
+                            ) : (
+                              <Button color="inherit" component={ Link } to='/login' id="Login">
+                                Login
+                              </Button>
+                            )
+                          }
+                        </Grid>
+                      </Grid>
                     </Grid>
                 </Toolbar>
                 </AppBar>
