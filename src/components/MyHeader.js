@@ -19,6 +19,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from '@material-ui/icons/Group';
+import ClassroomIcon from '@material-ui/icons/MeetingRoom'
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -196,7 +197,8 @@ class MyHeader extends Component {
                   </ListItem> */}
                   {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},
                   {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},
-                  {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'}].map((item, index) => (
+                  {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'},{text: ' Classroom', icon: <ClassroomIcon />,link: '/classroom'}]
+                  .map((item, index) => (
                       <ListItem button key={item.text} component={ Link } to={item.link}>
                           <ListItemIcon>{item.icon}</ListItemIcon>
                           <ListItemText>{item.text}</ListItemText>

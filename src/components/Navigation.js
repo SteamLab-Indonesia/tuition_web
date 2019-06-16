@@ -12,7 +12,9 @@ import VCourses from '../screens/VCourses';
 import Attendance from '../screens/MAttendance'
 import VUser from '../screens/VUser'
 import Payment from '../screens/MPayment'
-
+import Classroom from '../screens/MClassroom'
+import VClassroom from '../screens/VClassroom'
+import AddClassroom from '../screens/AddClassroom'
 export default class Navigation extends Component{
     render() {
         return (
@@ -28,8 +30,9 @@ export default class Navigation extends Component{
                 <Route path='/viewcourses/:id' component={VCourses}/>
                 <Route path='/attendance' component={Attendance}/>
                 <Route path='/viewuser/:id' component={VUser}/>
-                {/* <Route path='/payment' component={payment}/>
-                <Route path='/feedback' component={feedback}/> */}
+                <Route path='/classroom' component={Classroom}/>
+                <Route path='/viewclassroom/:id' component={VClassroom}/>
+                <Route path='/addclassroom' component={AddClassroom}/>
                 <Route path='/payment' component={Payment}/>
                 {/*<Route path='/feedback' component={feedback}/> */}
             </Switch>
