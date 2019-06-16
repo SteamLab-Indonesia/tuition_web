@@ -15,6 +15,9 @@ import Payment from '../screens/MPayment'
 import Classroom from '../screens/MClassroom'
 import VClassroom from '../screens/VClassroom'
 import AddClassroom from '../screens/AddClassroom'
+import VLesson from '../screens/VLesson';
+import AddLesson from '../screens/AddLesson';
+
 export default class Navigation extends Component{
     render() {
         return (
@@ -33,6 +36,10 @@ export default class Navigation extends Component{
                 <Route path='/classroom' component={Classroom}/>
                 <Route path='/viewclassroom/:id' component={VClassroom}/>
                 <Route path='/addclassroom' component={AddClassroom}/>
+                <Route path='/viewlesson/:id' component={VLesson}/>
+                <Route path='/addlesson/:id' component={AddLesson}/>
+                {/* <Route path='/payment' component={payment}/>
+                <Route path='/feedback' component={feedback}/> */}
                 <Route path='/payment' component={Payment}/>
                 {/*<Route path='/feedback' component={feedback}/> */}
             </Switch>

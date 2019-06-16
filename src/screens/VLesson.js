@@ -17,7 +17,6 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import IconButton from '@material-ui/core/IconButton';
-import { getCourses } from '../libs/Courses';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -34,6 +33,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { getLesson } from '../libs/Lesson';
 
 const actionsStyles = theme => ({
   root: {
@@ -183,16 +183,17 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
   TablePaginationActions,
 );
 
-class MCourses extends Component{
+class VLesson extends Component{
   constructor(props){
     super(props);
     this.state = {
-      courses: [],
+      lesson: [],
       searchResult:[],
       page: 0,
       rowsPerPage: 10,
       search: "",
       open: false,
+      id_num: null
     }
   }
 
@@ -212,95 +213,35 @@ class MCourses extends Component{
     this.setState({ open: false });
   };
 
-  BtnClick = () => {
-    //console.log('==================> BTN CLICK');
-    console.log(this.state.search);
-    if(this.state.search != ""){
-      let searchResult = this.state.courses.filter((item) => {
-        console.log(item.data.subject);
-        return item.data.subject.toLowerCase() == this.state.search.toLowerCase();
-      });
-      if (!searchResult || searchResult.length == 0)
-      {
-        this.setState({searchResult: this.state.courses, open: true, search: ''});        
-      }
-      else
-      {
-        this.setState({searchResult, search: ''});
-      }      
-    }
-    else
-    {
-      this.setState({searchResult: this.state.courses});
-    }
-  }
-
   componentDidMount() {
-    //window.location.reload()
-    getCourses((cou_list) => {
+    const id_num = this.props.match.params.id;
+    getLesson((les_list) => {
       this.setState({
-        courses: cou_list
+        lesson: les_list
       })
     });
+    console.log(id_num);
+    this.setState({ id_num });
   }
 
   render(){
     const { classes } = this.props;
-    const { courses, rowsPerPage, page, searchResult } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, courses.length - page * rowsPerPage);
-    let courseList = (searchResult.length > 0 ? searchResult : courses);
-    console.log(courses);
+    const { lesson,id_num , rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, lesson.length - page * rowsPerPage);
+    console.log(lesson);
 
     console.log('re-render');
   return (
     <div id="msurface" class="surface">
-      <div>
-        
-        <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"NOT FOUND!"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Try to search again..
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary" autoFocus>
-                Ok
-              </Button>
-            </DialogActions>
-          </Dialog>
-      </div>
         <Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
             <CardContent>
                 <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '30px'}}>
                     <Grid container spacing={24}>
-                        <Grid item lg={5}>
-                          <Typography variant="h5" component="h3" id="papert">Courses</Typography>
-                        </Grid>
-                        <Grid 
-                          container
-                          justify="flex-end"
-                          item lg={5}   
-                        >   
-                          <Paper className={classes.paper} style={{width: '65%', height:"1cm"}}>                       
-                          <InputBase 
-                            className={classes.input} 
-                            placeholder="Search Course..." 
-                            value={this.state.search}
-                            onChange={(e) => {this.setState({search: e.target.value})}}
-                          />
-                          <IconButton className={classes.iconButton} aria-label="Search" onClick={this.BtnClick}>
-                            <SearchIcon />
-                          </IconButton>
-                          </Paper>
+                        <Grid item lg={10}>
+                          <Typography variant="h5" component="h3" id="papert">Lesson</Typography>
                         </Grid>
                         <Grid container item lg={2} justify="flex-end" style={{marginRight: 0}}>
-                          <Button style={{height: '1cm'}} variant="contained" color="secondary" className={classes.button} component={Link} to="/addcourses">add courses</Button>
+                          <Button style={{height: '1cm'}} variant="contained" color="secondary" className={classes.button} component={Link} to={'/addlesson/'+id_num}>add lesson</Button>
                         </Grid>
                     </Grid>
                 </div>
@@ -309,15 +250,15 @@ class MCourses extends Component{
                     <TableHead>
                     <TableRow>
                         <TableCell style={{width: '5%'}}>No.</TableCell>
-                        <TableCell style={{width: '30%'}} align="left">Subject</TableCell>
-                        <TableCell style={{width: '20%'}} align="left">Curriculum</TableCell>
-                        <TableCell style={{width: '25%'}} align="center">Level</TableCell>
-                        <TableCell style={{width: '20%'}} align="center">Actions</TableCell>
+                        <TableCell style={{width: '25%'}} align="left">Lesson Name</TableCell>
+                        <TableCell style={{width: '25%'}} align="left">Schedule</TableCell>
+                        <TableCell style={{width: '30%'}} align="center">Teacher</TableCell>
+                        <TableCell style={{width: '15%'}} align="center">Actions</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
                     {
-                      courseList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
+                      lesson.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
                         <TableRow>
                           <TableCell>{page * 10 + index + 1}</TableCell>
                           <TableCell align="left">{item.data.subject}</TableCell>
@@ -333,11 +274,6 @@ class MCourses extends Component{
                         <Tooltip title='archive'>
                           <IconButton aria-label="Delete" className={classes.margin}>
                             <ArchiveIcon className={classes.icon} />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title='lesson'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={'viewlesson/'+item.id}>
-                            <BookIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>
                         </div>
@@ -356,7 +292,7 @@ class MCourses extends Component{
                         <TablePagination
                           rowsPerPageOptions={[10]}
                           colSpan={8}
-                          count={courses.length}
+                          count={lesson.length}
                           rowsPerPage={rowsPerPage}
                           page={page}
                           SelectProps={{
@@ -382,4 +318,4 @@ class MCourses extends Component{
 //   classes: PropTypes.object.isRequired,
 // };
 
-export default withStyles(styles)(MCourses);
+export default withStyles(styles)(VLesson);

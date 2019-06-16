@@ -54,12 +54,56 @@ const subject = [
     label: 'Select Subject',
   },
   {
-    value: 'Robotic',
-    label: 'Robotic',
+    value: 'Mathematics',
+    label: 'Mathematics',
   },
   {
-    value: 'tes',
-    label: 'tes',
+    value: 'Physics',
+    label: 'Physics',
+  },
+  {
+    value: 'Chemistry',
+    label: 'Chemistry',
+  },
+  {
+    value: 'Coding',
+    label: 'Coding',
+  },
+  {
+    value: 'Robotics',
+    label: 'Robotics',
+  },
+  {
+    value: 'English',
+    label: 'English',
+  },
+  {
+    value: 'Biology',
+    label: 'Biology',
+  },
+  {
+    value: 'Economics',
+    label: 'Economics',
+  },
+  {
+    value: 'Mandarin',
+    label: 'Mandarin',
+  },
+  {
+    value: 'Accounting',
+    label: 'Accounting',
+  },
+  {
+    value: 'Business Studies',
+    label: 'Business Studies',
+  },
+  {
+    value: 'Bahasa Indonesia',
+    label: 'Bahasa Indonesia',
+  },
+  {
+    value: 'Civics',
+    label: 'Civics',
   },
 ];
 
@@ -69,12 +113,20 @@ const curriculum = [
     label: 'Select Curriculum',
   },
   {
-    value: 'Creativity',
-    label: 'Creativity',
+    value: 'Lower Elementary',
+    label: 'Lower Elementary',
   },
   {
-    value: 'tes',
-    label: 'tes',
+    value: 'Upper Elementary',
+    label: 'Upper Elementary',
+  },
+  {
+    value: 'Junior High',
+    label: 'Junior High',
+  },
+  {
+    value: 'Senior High',
+    label: 'Senior High',
   },
 ];
 
