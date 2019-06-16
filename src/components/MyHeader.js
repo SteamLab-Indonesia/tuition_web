@@ -9,7 +9,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@material-ui/core/Divider'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -19,7 +21,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from '@material-ui/icons/Group';
-import ClassroomIcon from '@material-ui/icons/MeetingRoom'
+import ClassroomIcon from '@material-ui/icons/MeetingRoom';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -121,6 +123,12 @@ class MyHeader extends Component {
           this.props.updateDrawerState(false);
       };
 
+      clickAccount = (e) => {
+        this.setState({openMenu: true, anchor: e.currentTarget});
+      }
+      closeAccount = () => {
+        this.setState({openMenu: false, anchor: null});
+      }
       onLogout = () => {
         userLogout().then((status) => {
           this.setState({logout: true});
@@ -161,14 +169,14 @@ class MyHeader extends Component {
                       onClick={this.handleDrawerOpen}
                       className={classNames(classes.menuButton, open && classes.hide)}
                       >
-                      <MenuIcon />
+                        <MenuIcon />
                       </IconButton>
                       <Grid item xs={2}>
-                      <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
-                      STEAM LAB 
-                      </Typography>
+                        <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
+                        STEAM LAB 
+                        </Typography>
                       </Grid>
-                      <Grid item xs={9} style={{width: '90%'}}>
+                      <Grid item xs={10} style={{width: '90%'}}>
                         <Grid container
                           direction="row"
                           justify="flex-end"
@@ -176,22 +184,30 @@ class MyHeader extends Component {
                           <Grid item xs={3}>
                             {
                               user ? (
-                                <Typography variant="h6" color="inherit" noWrap>
-                                  {user.email}
-                                </Typography>
+                                <>
+                                  <Button 
+                                    aria-controls="simple-menu" aria-haspopup="true"
+                                    onClick={this.clickAccount}>
+                                    {user.email}
+                                  </Button>
+                                  <Menu
+                                    anchorEl={this.state.anchor}
+                                    keepMounted
+                                    open={this.state.openMenu}
+                                    onClose={this.closeAccount}
+                                  >
+                                    <MenuItem style={{width: '140px'}} onClick={this.onLogout}>Logout</MenuItem>
+                                  </Menu>
+                                </>
                               ) : (
                                 <Button color="inherit" component={ Link } to='/login' id="Login">
                                   Login
                                 </Button>
                               )
-                            }
-                         
+                            }                         
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid item xs={1}>
-                        <ExitToAppIcon />
-                      </Grid> 
                   </Toolbar>
                   </AppBar>
                 </MuiThemeProvider>
@@ -225,7 +241,7 @@ class MyHeader extends Component {
                     {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},
                     {text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},
                     {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'},
-                    {text: 'Classroom',icon: <MeetingRoomIcon />,link: '/classrooms'},
+                    {text: 'Classroom',icon: <ClassroomIcon />,link: '/classrooms'},
                     ].map((item, index) => (
                         <ListItem button key={item.text} component={ Link } to={item.link}>
                             <ListItemIcon>{item.icon}</ListItemIcon>
