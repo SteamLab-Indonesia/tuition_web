@@ -160,6 +160,7 @@ class MUsers extends Component {
       page: 0,
       rowsPerPage:10,
       search : '',
+      open: false
     }
   }
 
@@ -212,7 +213,7 @@ class MUsers extends Component {
   render() {
     const { classes } = this.props;
     const { user, rowsPerPage, page, searchResult } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
     let userList = (searchResult.length > 0 ? searchResult : user);
 
     return (
@@ -279,20 +280,20 @@ class MUsers extends Component {
                     <TableCell align="center" >Phone Number</TableCell>
                     <TableCell align="center" >Address</TableCell>
                     <TableCell align="center" >School</TableCell>
-                    <TableCell align="center" style={{width:"100%"}} >Actions</TableCell>
+                    <TableCell align="center" style={{width:"18%"}} >Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {
                     userList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
-                    <TableRow>
+                    <TableRow key={item.data.email}>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.name}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.username}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.email}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.phone}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.address}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.school}</CustomTableCell>
-                      <CustomTableCell align="left">
+                      <CustomTableCell align="center">
                         <div>
                         <Tooltip title='view'>
                           <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"viewuser/" + item.id}>

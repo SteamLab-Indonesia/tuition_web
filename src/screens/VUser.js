@@ -15,6 +15,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { Link } from 'react-router-dom'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import {User, addUser, GENDER, getUserDetails, setUserDetails} from '../libs/User';
 import '../Projj.css';
 import '../users.css';
@@ -105,7 +111,7 @@ class VUser extends React.Component {
       this.state.address,
       this.state.school,
       )
-  }
+  };
 
   handleClickShowPassword = () => {
     this.setState(state => ({ showPassword: !state.showPassword }));
@@ -117,10 +123,41 @@ class VUser extends React.Component {
       });
   };
 
+  handleClickOpen = () => {
+    this.setState ({open: true})
+  };
+
+  handleClickClose = () => {
+    this.setState ({open: false})
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root} id="surface" class="surface">
+        <div>
+          <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">{"Save Changes?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Do you want to keep this changes?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleSave} variant="contained" color="secondary" component={Link} to="/users" autoFocus>
+                  Save
+                </Button>
+                <Button onClick={this.handleClickClose} autoFocus>
+                  back
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
         <Paper elevation={1} id="inside">
           <form className={classes.container} noValidate autoComplete="on">
             <Grid container spacing={0} direction="column" justify="center" alignItems="center">
@@ -269,10 +306,10 @@ class VUser extends React.Component {
             </Grid>
             <br/>
             <div> 
-              <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleSave}>
+              <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleClickOpen} >
               save
               </Button>
-              <Button variant="outlined" className={classes.button}>cancel</Button>
+              <Button variant="outlined" className={classes.button} component={Link} to="/users">cancel</Button>
             </div>
           </form>
         </Paper>

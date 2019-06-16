@@ -53,12 +53,56 @@ const subject = [
     label: 'Select Subject',
   },
   {
-    value: 'Robotic',
-    label: 'Robotic',
+    value: 'Mathematics',
+    label: 'Mathematics',
   },
   {
-    value: 'tes',
-    label: 'tes',
+    value: 'Physics',
+    label: 'Physics',
+  },
+  {
+    value: 'Chemistry',
+    label: 'Chemistry',
+  },
+  {
+    value: 'Coding',
+    label: 'Coding',
+  },
+  {
+    value: 'Robotics',
+    label: 'Robotics',
+  },
+  {
+    value: 'English',
+    label: 'English',
+  },
+  {
+    value: 'Biology',
+    label: 'Biology',
+  },
+  {
+    value: 'Economics',
+    label: 'Economics',
+  },
+  {
+    value: 'Mandarin',
+    label: 'Mandarin',
+  },
+  {
+    value: 'Accounting',
+    label: 'Accounting',
+  },
+  {
+    value: 'Business Studies',
+    label: 'Business Studies',
+  },
+  {
+    value: 'Bahasa Indonesia',
+    label: 'Bahasa Indonesia',
+  },
+  {
+    value: 'Civics',
+    label: 'Civics',
   },
 ];
 
@@ -68,12 +112,20 @@ const curriculum = [
     label: 'Select Curriculum',
   },
   {
-    value: 'Creativity',
-    label: 'Creativity',
+    value: 'Lower Elementary',
+    label: 'Lower Elementary',
   },
   {
-    value: 'tes',
-    label: 'tes',
+    value: 'Upper Elementary',
+    label: 'Upper Elementary',
+  },
+  {
+    value: 'Junior High',
+    label: 'Junior High',
+  },
+  {
+    value: 'Senior High',
+    label: 'Senior High',
   },
 ];
 
@@ -119,22 +171,33 @@ class TextFields extends React.Component {
 
   BtnClick = () => {
     if(this.state.subject == 'none'){
-      this.setState({open: true});
+      this.setState({open1: true});
     }else if(this.state.curriculum == 'none'){
-      this.setState({open: true});
+      this.setState({open1: true});
     }else if(this.state.level == 'none'){
-      this.setState({open: true});
+      this.setState({open1: true});
+    }else if(this.state.description == ''){
+      this.setState({open2: true});
     }else{
-      this.addCourses();
+      this.setState({open2: true});
+      // this.addCourses();
     }
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleClickOpen1 = () => {
+    this.setState({ open1: true });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
+  handleClose1 = () => {
+    this.setState({ open1: false });
+  };
+
+  handleClickOpen2 = () => {
+    this.setState({ open2: true });
+  };
+
+  handleClose2 = () => {
+    this.setState({ open2: false });
   };
 
   handleChange = name => event => {
@@ -146,6 +209,7 @@ class TextFields extends React.Component {
     subject: 'none',
     curriculum: 'none',
     level: 'none',
+    description: '',
   }
 
   render() {
@@ -155,8 +219,8 @@ class TextFields extends React.Component {
       <div className={classes.root} id="surface" class="surface">
         <div>
           <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
+            open={this.state.open1}
+            onClose={this.handleClose1}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -167,7 +231,7 @@ class TextFields extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary" autoFocus>
+              <Button onClick={this.handleClose1} color="primary" autoFocus>
                 Ok
               </Button>
             </DialogActions>
@@ -175,8 +239,8 @@ class TextFields extends React.Component {
         </div>
         <div>
           <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
+              open={this.state.open2}
+              onClose={this.handleClose2}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
@@ -187,10 +251,10 @@ class TextFields extends React.Component {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.handleSave} variant="contained" color="secondary" component={Link} to="/courses" autoFocus>
+                <Button onClick={this.addCourses} variant="contained" color="secondary" component={Link} to="/courses" autoFocus>
                   Save
                 </Button>
-                <Button onClick={this.handleClose} autoFocus>
+                <Button onClick={this.handleClose2} autoFocus>
                   cancel
                 </Button>
               </DialogActions>
@@ -282,7 +346,7 @@ class TextFields extends React.Component {
                 <br />
                 <div>
                   <Button variant="contained" color="secondary" className={classes.button}  onClick={this.BtnClick}>save</Button>
-                  <Button variant="outlined" className={classes.button}>cancel</Button>
+                  <Button variant="outlined" className={classes.button} component={ Link } to="/courses">cancel</Button>
                 </div>
                 
             </form>

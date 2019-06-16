@@ -196,10 +196,6 @@ class MCourses extends Component{
     }
   }
 
-  reloadPage = () => {
-    window.location.reload()
-  }
-
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -323,7 +319,7 @@ class MCourses extends Component{
                     {
                       courseList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
                         <TableRow>
-                          <TableCell>{index+1}</TableCell>
+                          <TableCell>{page * 10 + index + 1}</TableCell>
                           <TableCell align="left">{item.data.subject}</TableCell>
                           <TableCell align="left">{item.data.curriculum}</TableCell>
                           <TableCell align="center">{item.data.level}</TableCell>
