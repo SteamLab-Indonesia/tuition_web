@@ -29,7 +29,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { getCurrentUser } from '../libs/User';
+import { getCurrentUser, userLogout } from '../libs/User';
+import { Redirect } from 'react-router-dom';
 
 
 const drawerWidth = 240;
@@ -103,6 +104,7 @@ class MyHeader extends Component {
 
     state = {
         open: false,
+        logout: false
       };
     
       handleDrawerOpen = () => {
@@ -116,111 +118,136 @@ class MyHeader extends Component {
         if (this.props.updateDrawerState)
           this.props.updateDrawerState(false);
       };
-    
+
+      onLogout = () => {
+        userLogout().then((status) => {
+          this.setState({logout: true});
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      }
+
       render() {
         const { classes, theme } = this.props;
-        const { open } = this.state;
+        const { open, logout } = this.state;
         const user = getCurrentUser();
-        return(
-          <div className={classes.root}>
-              <CssBaseline />
-                <MuiThemeProvider theme={gtheme}>
-                    <AppBar
-                        position="fixed"
-                        className={classNames(classes.appBar, {
-                            [classes.appBarShift]: open,
-                        })}
-                        color="primary"
-                    >
-                    
-                <Toolbar disableGutters={!open}>
-                    <IconButton
-                    color="inherit"
-                    aria-label="Open drawer"
-                    onClick={this.handleDrawerOpen}
-                    className={classNames(classes.menuButton, open && classes.hide)}
-                    >
-                    <MenuIcon />
-                    </IconButton>
-                    <Grid item xs={2}>
-                    <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
-                    STEAM LAB 
-                    </Typography>
-                    </Grid>
-                    <Grid item xs={9} style={{width: '90%'}}>
-                      <Grid container
-                        direction="row"
-                        justify="flex-end"
+        if (logout)
+        {
+          return (
+            <Redirect to="/login" />
+          );
+        }
+        else
+        {
+          return(
+            <div className={classes.root}>
+                <CssBaseline />
+                  <MuiThemeProvider theme={gtheme}>
+                      <AppBar
+                          position="fixed"
+                          className={classNames(classes.appBar, {
+                              [classes.appBarShift]: open,
+                          })}
+                          color="primary"
                       >
-                        <Grid item xs={3}>
-                          {
-                            user ? (
-                              <Typography variant="h6" color="inherit" noWrap>
-                                {user.email}
-                              </Typography>
-                            ) : (
-                              <Button color="inherit" component={ Link } to='/login' id="Login">
-                                Login
-                              </Button>
-                            )
-                          }
-                       
+                      
+                  <Toolbar disableGutters={!open}>
+                      <IconButton
+                      color="inherit"
+                      aria-label="Open drawer"
+                      onClick={this.handleDrawerOpen}
+                      className={classNames(classes.menuButton, open && classes.hide)}
+                      >
+                      <MenuIcon />
+                      </IconButton>
+                      <Grid item xs={2}>
+                      <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
+                      STEAM LAB 
+                      </Typography>
+                      </Grid>
+                      <Grid item xs={9} style={{width: '90%'}}>
+                        <Grid container
+                          direction="row"
+                          justify="flex-end"
+                        >
+                          <Grid item xs={3}>
+                            {
+                              user ? (
+                                <Typography variant="h6" color="inherit" noWrap>
+                                  {user.email}
+                                </Typography>
+                              ) : (
+                                <Button color="inherit" component={ Link } to='/login' id="Login">
+                                  Login
+                                </Button>
+                              )
+                            }
+                         
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                    <Grid item xs={1}>
-                          <ExitToAppIcon />
-                          </Grid> 
-                </Toolbar>
-                </AppBar>
-              </MuiThemeProvider>
-              <MuiThemeProvider theme={gtheme}>            
-                <Drawer
-                className={classes.drawer}
-                variant="persistent"
-                anchor="left"
-                open={open}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-                >
-                <div className={classes.drawerHeader}>
-                  <IconButton onClick={this.handleDrawerClose}>
-                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                  </IconButton>
-                </div>
-                <Divider />
-                <List>
-                  {/* <ListItem button key="Student">
-                      <ListItemIcon><PersonIcon /></ListItemIcon>
-                      <ListItemText primary="Student" />
-                  </ListItem>
-                  <ListItem button key="Teacher">
-                      <ListItemIcon><GroupIcon /></ListItemIcon>
-                      <ListItemText primary="Teacher" />
-                  </ListItem> */}
-                  {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},
-                  {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},
-                  {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'}].map((item, index) => (
-                      <ListItem button key={item.text} component={ Link } to={item.link}>
-                          <ListItemIcon>{item.icon}</ListItemIcon>
-                          <ListItemText>{item.text}</ListItemText>
-                      </ListItem>
-                  ))}
-                </List>
-                <Divider />
-                <List>
-                    {[{text: 'Settings',link: '/settings'},{text: 'Feedback',link: '/feedback'}].map((item, index) => (
-                    <ListItem button key={item.text} component={Link} to={item.link}>
-                        <ListItemIcon>{index % 2 === 0 ? <SettingsIcon /> : <FeedbackIcon />}</ListItemIcon>
-                        <ListItemText primary={item.text} />
+                      <Grid item xs={1}>
+                        <ExitToAppIcon />
+                      </Grid> 
+                  </Toolbar>
+                  </AppBar>
+                </MuiThemeProvider>
+                <MuiThemeProvider theme={gtheme}>            
+                  <Drawer
+                  className={classes.drawer}
+                  variant="persistent"
+                  anchor="left"
+                  open={open}
+                  classes={{
+                      paper: classes.drawerPaper,
+                  }}
+                  >
+                  <div className={classes.drawerHeader}>
+                    <IconButton onClick={this.handleDrawerClose}>
+                      {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                  </div>
+                  <Divider />
+                  <List>
+                    {/* <ListItem button key="Student">
+                        <ListItemIcon><PersonIcon /></ListItemIcon>
+                        <ListItemText primary="Student" />
                     </ListItem>
+                    <ListItem button key="Teacher">
+                        <ListItemIcon><GroupIcon /></ListItemIcon>
+                        <ListItemText primary="Teacher" />
+                    </ListItem> */}
+                    {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},
+                    {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},
+                    {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'}].map((item, index) => (
+                        <ListItem button key={item.text} component={ Link } to={item.link}>
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText>{item.text}</ListItemText>
+                        </ListItem>
                     ))}
-                </List>
-                </Drawer>
-              </MuiThemeProvider>
-          </div>    
-        );
+                  </List>
+                  <Divider />
+                  <List>
+                      {[{text: 'Settings',link: '/settings'},{text: 'Feedback',link: '/feedback'}].map((item, index) => (
+                      <ListItem button key={item.text} component={Link} to={item.link}>
+                          <ListItemIcon>{index % 2 === 0 ? <SettingsIcon /> : <FeedbackIcon />}</ListItemIcon>
+                          <ListItemText primary={item.text} />
+                      </ListItem>
+                      ))}
+                  </List>
+                  <Divider />
+                  <List>
+                      <ListItem button onClick={this.onLogout}>
+                          <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+                          <ListItemText primary="Logout" />
+                      </ListItem>
+                  </List>                  
+                  </Drawer>
+                </MuiThemeProvider>
+            </div>    
+          );          
+        }
     }
 }
   
