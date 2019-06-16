@@ -12,6 +12,8 @@ import VCourses from '../screens/VCourses';
 import Attendance from '../screens/MAttendance'
 import VUser from '../screens/VUser'
 import Payment from '../screens/MPayment'
+import VLesson from '../screens/VLesson';
+import AddLesson from '../screens/AddLesson';
 
 export default class Navigation extends Component{
     render() {
@@ -28,6 +30,8 @@ export default class Navigation extends Component{
                 <Route path='/viewcourses/:id' component={VCourses}/>
                 <Route path='/attendance' component={Attendance}/>
                 <Route path='/viewuser/:id' component={VUser}/>
+                <Route path='/viewlesson/:id' component={VLesson}/>
+                <Route path='/addlesson/:id' component={AddLesson}/>
                 {/* <Route path='/payment' component={payment}/>
                 <Route path='/feedback' component={feedback}/> */}
                 <Route path='/payment' component={Payment}/>
