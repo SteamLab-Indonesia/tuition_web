@@ -5,9 +5,6 @@ import Navigation from './components/Navigation';
 import firebase from './libs/firebase';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
-import { Background } from "./img/abstract-art-background-370799.jpg";
-import Paper from '@material-ui/core/Paper';
-
 
 class App extends Component {
 
