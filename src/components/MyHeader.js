@@ -24,6 +24,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
@@ -141,17 +142,17 @@ class MyHeader extends Component {
                     >
                     <MenuIcon />
                     </IconButton>
-                    <Grid item xs={10}>
+                    <Grid item xs={2}>
                     <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
                     STEAM LAB 
                     </Typography>
                     </Grid>
-                    <Grid item xs={1} style={{width: '90%'}}>
+                    <Grid item xs={9} style={{width: '90%'}}>
                       <Grid container
                         direction="row"
                         justify="flex-end"
                       >
-                        <Grid item>
+                        <Grid item xs={3}>
                           {
                             user ? (
                               <Typography variant="h6" color="inherit" noWrap>
@@ -163,9 +164,13 @@ class MyHeader extends Component {
                               </Button>
                             )
                           }
+                       
                         </Grid>
                       </Grid>
                     </Grid>
+                    <Grid item xs={1}>
+                          <ExitToAppIcon />
+                          </Grid> 
                 </Toolbar>
                 </AppBar>
               </MuiThemeProvider>
