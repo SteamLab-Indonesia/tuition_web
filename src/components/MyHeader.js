@@ -26,6 +26,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
@@ -219,9 +220,13 @@ class MyHeader extends Component {
                         <ListItemIcon><GroupIcon /></ListItemIcon>
                         <ListItemText primary="Teacher" />
                     </ListItem> */}
-                    {[{text: 'Users',icon: <PersonIcon />,link: '/users'},{text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},
-                    {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},{text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},
-                    {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'}].map((item, index) => (
+                    {[{text: 'Users',icon: <PersonIcon />,link: '/users'},
+                    {text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},
+                    {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},
+                    {text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},
+                    {text: 'Payment',icon: <AttachMoneyIcon />,link: '/payment'},
+                    {text: 'Classroom',icon: <MeetingRoomIcon />,link: '/classrooms'},
+                    ].map((item, index) => (
                         <ListItem button key={item.text} component={ Link } to={item.link}>
                             <ListItemIcon>{item.icon}</ListItemIcon>
                             <ListItemText>{item.text}</ListItemText>
