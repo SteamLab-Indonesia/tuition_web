@@ -124,6 +124,19 @@ export function userLogin(user)
     })    
 }
 
+export function userLogout()
+{
+    return new Promise((resolve, reject) => {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            resolve('success');
+        }).catch(function(error) {
+            // An error happened.
+            reject(error);
+        });
+    });
+}
+
 export function getCurrentUser()
 {
     let user = firebase.auth().currentUser;
