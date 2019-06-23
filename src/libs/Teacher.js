@@ -19,7 +19,10 @@ export class Teacher extends User{
             this.phone = teacher.phone;
             this.address = teacher.address;
             this.subject = teacher.subject;
-            this.gender = teacher.gender;    
+            this.gender = teacher.gender;
+            this.organizations = teacher.organizations;
+            this.branches = teacher.branches;
+            this.modules = teacher.modules;
         }
     }
 
@@ -34,7 +37,10 @@ export class Teacher extends User{
             address: this.address,
             subject: this.subject,
             gender: this.gender,
-            permission: this.permission
+            permission: this.permission,
+            modules: this.modules,
+            organizations: this.organizations,
+            branches: this.branches
         }
     }
 }

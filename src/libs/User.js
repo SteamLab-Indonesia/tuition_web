@@ -20,6 +20,8 @@ export class User {
     archive = false;
     permission = PermissionLevel.GUEST;
     modules = [];
+    organizations = [];
+    branches = [];
 
     constructor(user)
     {
@@ -52,7 +54,9 @@ export class User {
             gender: this.gender,
             archive: this.archive,
             permission: this.permission,
-            modules: this.modules
+            modules: this.modules,
+            organizations: this.organizations,
+            branches: this.branches
         }
 
     }

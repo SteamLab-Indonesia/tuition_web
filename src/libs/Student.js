@@ -17,7 +17,9 @@ export class Student extends User {
             this.password = student.password;
             this.phone = student.phone;
             this.address = student.address;
-            this.gender = student.gender;    
+            this.gender = student.gender;
+            this.organizations = student.organizations;
+            this.branches = student.branches;
         }
     }
 
@@ -31,7 +33,9 @@ export class Student extends User {
             phone: this.phone,
             address: this.address,
             gender: this.gender,
-            permission: this.permission
+            permission: this.permission,
+            organizations: this.organizations,
+            branches: this.branches
         }
     }
 }
