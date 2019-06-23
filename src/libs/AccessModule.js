@@ -1,19 +1,12 @@
-export default class AccessModule{
-    getModules=(callback)=>{
-        const db = firebase.firestore();
-        db.settings({
-      timestampsInSnapshots: true
-    });
-        db.collection("accessmodules").get()
-        .then((snapshot) => {
-        snapshot.forEach((doc) => {
-        console.log(doc.id, '=>', doc.data());
-        callback(snapshot)
-    });
-  })
-        .catch((err) => {
-        console.log('Error getting documents', err);
-  });
-    
-    }
-}
+
+const AccessModule = {
+  USER_ACCESS: 100,
+  ENDUSER_ACCESS: 110,
+  NOTIFICATION_ACCESS: 120,
+  ATTENDANCE_ACCESS: 130,
+  LESSON_ACCESS: 140,
+  STAFF_ACCESS: 150,
+  FINANCE_ACCESS: 160,
+  ORGANIZATION_ACCESS: 170
+};
+export default AccessModule;

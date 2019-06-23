@@ -19,6 +19,7 @@ export class User {
     gender = GENDER.MALE;
     archive = false;
     permission = PermissionLevel.GUEST;
+    modules = [];
 
     constructor(user)
     {
@@ -35,6 +36,7 @@ export class User {
             this.gender = user.gender;    
             this.archive = user.archive;
             this.permission = user.permission;
+            this.modules = user.modules;
         }
     }
 
@@ -49,7 +51,8 @@ export class User {
             school: this.school,
             gender: this.gender,
             archive: this.archive,
-            permission: this.permission
+            permission: this.permission,
+            modules: this.modules
         }
 
     }
