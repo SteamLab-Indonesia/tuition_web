@@ -70,7 +70,6 @@ const gender = [
 
 class VUser extends React.Component {
   state = {
-    age: '',
     password: '',
     showPassword: false,
   };
@@ -93,6 +92,7 @@ class VUser extends React.Component {
           phone: userData.phone,
           address: userData.address,
           school: userData.school,
+          archive : userData.archive,
         })
       }
     })
@@ -110,6 +110,7 @@ class VUser extends React.Component {
       this.state.phone,
       this.state.address,
       this.state.school,
+      this.state.archive
       )
   };
 

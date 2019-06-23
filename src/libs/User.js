@@ -16,6 +16,7 @@ export class User {
     address = '';
     school = '';
     gender = GENDER.MALE;
+    archive = false
 
     constructor(user)
     {
@@ -30,6 +31,7 @@ export class User {
             this.address = user.address;
             this.school = user.school;
             this.gender = user.gender;    
+            this.archive = user.archive
         }
     }
 
@@ -43,7 +45,8 @@ export class User {
             phone: this.phone,
             address: this.address,
             school: this.school,
-            gender: this.gender
+            gender: this.gender,
+            archive: this.archive
         }
 
     }
@@ -165,13 +168,20 @@ export function getUserDetails(id_num) {
     })
 }
 
-export function setUserDetails(id_num,name,username,password,birthday,gender,email,phone,address,school) {
+export function setUserDetails(id_num,name,username,password,birthday,gender,email,phone,address,school,archive) {
     console.log(id_num);
     const db = firebase.firestore();
     let query = db.collection("user").doc(id_num);
     query.set({
-        name,username,password,birthday,gender,email,phone,address,school
+        name,username,password,birthday,gender,email,phone,address,school,archive
     });
-
 }
 
+export function setUserArchive(id_num,archive){
+    const db = firebase.firestore();
+    console.log('ARCHIVE DATA = ' + id_num);
+    let query = db.collection("user").doc(id_num);
+    query.update({
+        archive
+    })
+}

@@ -81,6 +81,7 @@ class AddUsers extends React.Component {
       address: this.state.address,
       school: this.state.school,
       gender : this.state.gender,
+      archive : false
     });
     addUser(new_user);
 
@@ -94,6 +95,7 @@ class AddUsers extends React.Component {
       address: '',
       school: '',
       gender: '',
+      archive: false
     });
   }
 

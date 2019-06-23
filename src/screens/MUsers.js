@@ -32,6 +32,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import BookIcon from '@material-ui/icons/Book';
 import { Tooltip } from '@material-ui/core';
+import { setUserArchive } from '../libs/User'
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -158,9 +159,10 @@ class MUsers extends Component {
       user: [],
       searchResult: [],
       page: 0,
-      rowsPerPage:10,
+      rowsPerPage:5,
       search : '',
-      open: false
+      open: false,
+      archive: false
     }
   }
 
@@ -172,6 +174,15 @@ class MUsers extends Component {
       })
     });
   }
+
+  
+  handleArchive = (item) => {
+    console.log(item);
+    setUserArchive(
+      item.id,
+      !item.data.archive
+    )
+  };
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -213,9 +224,9 @@ class MUsers extends Component {
   render() {
     const { classes } = this.props;
     const { user, rowsPerPage, page, searchResult } = this.state;
-    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
     let userList = (searchResult.length > 0 ? searchResult : user);
-
+    console.log(userList)
     return (
       <div>
       <div>
@@ -239,7 +250,7 @@ class MUsers extends Component {
         </Dialog>
       </div>
       <div id="msurface" className="surface">
-        <Card className={classes.card} style={{paddingTop: '10px'}}>
+        <Card className={classes.card} style={{paddingTop: '10px',paddingBottom: 50}}>
           <CardContent>
   
             <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
@@ -300,11 +311,11 @@ class MUsers extends Component {
                             <VisibilityIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip title='archive'>
-                          <IconButton aria-label="Delete" className={classes.margin}>
-                            <ArchiveIcon className={classes.icon} />
-                          </IconButton>
-                        </Tooltip>
+                          <Tooltip title='archive'>
+                            <IconButton aria-label="Delete" className={classes.margin} onClick={()=>this.handleArchive(item)}>
+                              <ArchiveIcon className={classes.icon} />
+                            </IconButton>
+                          </Tooltip>
                         <Tooltip title='lesson'>
                           <IconButton aria-label="Delete" className={classes.margin}>
                             <BookIcon className={classes.icon} />
@@ -315,6 +326,11 @@ class MUsers extends Component {
                     </TableRow>
                   ))
                   }
+                  {emptyRows > 0 && (
+                      <TableRow style={{ height: 48 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                  )}
                 </TableBody>
 
                 <TableFooter>
