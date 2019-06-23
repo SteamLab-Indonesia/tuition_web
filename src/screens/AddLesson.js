@@ -18,7 +18,9 @@ import { Link } from 'react-router-dom';
 import { addLesson } from '../libs/Lesson';
 import { getCoursesDetails } from '../libs/Courses';
 import { getTeacher } from '../libs/Teacher';
-//make open1 open2
+import { getClass } from '../libs/Classroom';
+import { getCourses } from '../libs/Courses';
+import Schedule from '../components/Schedule';
 
 const styles = theme => ({
    root: {
@@ -49,65 +51,6 @@ const styles = theme => ({
     display: 'none',
   },
 });
-
-const subject = [
-  {
-    value: 'none',
-    label: 'Select Subject',
-  },
-  {
-    value: 'Mathematics',
-    label: 'Mathematics',
-  },
-  {
-    value: 'Physics',
-    label: 'Physics',
-  },
-  {
-    value: 'Chemistry',
-    label: 'Chemistry',
-  },
-  {
-    value: 'Coding',
-    label: 'Coding',
-  },
-  {
-    value: 'Robotics',
-    label: 'Robotics',
-  },
-  {
-    value: 'English',
-    label: 'English',
-  },
-  {
-    value: 'Biology',
-    label: 'Biology',
-  },
-  {
-    value: 'Economics',
-    label: 'Economics',
-  },
-  {
-    value: 'Mandarin',
-    label: 'Mandarin',
-  },
-  {
-    value: 'Accounting',
-    label: 'Accounting',
-  },
-  {
-    value: 'Business Studies',
-    label: 'Business Studies',
-  },
-  {
-    value: 'Bahasa Indonesia',
-    label: 'Bahasa Indonesia',
-  },
-  {
-    value: 'Civics',
-    label: 'Civics',
-  },
-];
 
 const curriculum = [
   {
@@ -162,9 +105,13 @@ class TextFields extends React.Component {
     super(props);
     this.state = {
       teacher: [],
+      selectedTeacher: "",
       lesson: '',
       subject: 'none',
-      class: '',
+      classroom: [],
+      selectedClassroom: "",
+      courses: [],
+      selectedCourses: "",
     }
   }
 
@@ -180,16 +127,33 @@ class TextFields extends React.Component {
           level: courseData.level,
         })
       }
-    })
+    });
+    getCourses((cou_list) => {
+      this.setState({
+        courses: cou_list
+      })
+    });
     getTeacher((teacher_list) => {
       this.setState({
         teacher: teacher_list
       })
     });
+    getClass((class_list) => {
+      this.setState({
+        classroom: class_list
+      })
+    });
+    this.setState({
+      selectedCourses: id_num
+    })
   }
 
   render() {
     const { classes } = this.props;
+    const { teacher, classroom, courses, selectedCourses } = this.state;
+    console.log(teacher)
+    console.log(classroom);
+    console.log(selectedCourses);
 
     return (
       <div className={classes.root} id="surface" class="surface">
@@ -209,22 +173,22 @@ class TextFields extends React.Component {
                 <TextField
                   id="standard-name"
                   select
-                  label="Subject"
+                  label="Courses"
                   className={classes.textField}
-                  value={this.state.subject}
-                  onChange={this.handleChange('subject')}
+                  value={this.state.selectedCourses}
+                  onChange={this.handleChange('selectedCourses')}
                   margin="normal"
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu,
                     },
                   }}
-                  helperText="Please select your subject"
+                  helperText="Select Course"
                   margin="normal"
                   >
-                  {subject.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  {courses.map(option => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.data.subject + "_" + option.data.curriculum + "_" + option.data.level}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -233,14 +197,14 @@ class TextFields extends React.Component {
                 //id="standard-name"
                 label="Classroom"
                 className={classes.textField}
-                value={this.state.class}
-                //placeholder="Please select a level"
-                onChange={this.handleChange('class')}
+                value={this.state.selectedClassroom}
+                helperText="Select Classroom"
+                onChange={this.handleChange('selectedClassroom')}
                 margin="normal"
                 >
-                {level.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {classroom.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.data.name}
                   </MenuItem>
                 ))}
                 </TextField>
@@ -249,17 +213,18 @@ class TextFields extends React.Component {
                 //id="standard-name"
                 label="Teacher"
                 className={classes.textField}
-                value={this.state.class}
-                //placeholder="Please select a level"
-                onChange={this.handleChange('teacher')}
+                value={this.state.selectedTeacher}
+                helperText="Select Teacher"
+                onChange={this.handleChange('selectedTeacher')}
                 margin="normal"
                 >
-                {level.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {teacher.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.data.name}
                   </MenuItem>
                 ))}
                 </TextField>
+                <Schedule/>
                 <br />
                 <div>
                   <Button variant="contained" color="secondary" className={classes.button}  onClick={ addLesson }>save</Button>
