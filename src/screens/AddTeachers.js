@@ -15,7 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {Teacher, addTeacher, GENDER} from '../libs/Teacher';
+import {Teacher, addTeacher} from '../libs/Teacher';
+import {GENDER} from '../libs/User';
 import '../Projj.css';
 import '../users.css';
 

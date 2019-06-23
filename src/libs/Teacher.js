@@ -1,24 +1,14 @@
 import firebase from 'firebase';
+import {User, GENDER} from './User';
 
-export const GENDER = {
-    MALE: 'Male',
-    FEMALE: 'Female'
-};
-
-export class Teacher {
-
-    name = '';
-    email = '';
-    username = '';
-    birthday = '';
-    password = '';
-    phone = '';
-    address = '';
-    subject = '';
-    gender = GENDER.MALE;
+export class Teacher extends User{
 
     constructor(teacher)
     {
+        super();
+        this.subject = '';
+        this.gender = GENDER.MALE;
+    
         if (teacher)
         {
             this.name = teacher.name;
