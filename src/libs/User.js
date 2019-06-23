@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import PermissionLevel from './PermissionLevel';
 
 export const GENDER = {
     MALE: 'male',
@@ -16,7 +17,8 @@ export class User {
     address = '';
     school = '';
     gender = GENDER.MALE;
-    archive = false
+    archive = false;
+    permission = PermissionLevel.GUEST;
 
     constructor(user)
     {
@@ -31,7 +33,8 @@ export class User {
             this.address = user.address;
             this.school = user.school;
             this.gender = user.gender;    
-            this.archive = user.archive
+            this.archive = user.archive;
+            this.permission = user.permission;
         }
     }
 
@@ -41,12 +44,12 @@ export class User {
             email: this.email,
             username: this.username,
             birthday: this.birthday,
-            password: this.password,
             phone: this.phone,
             address: this.address,
             school: this.school,
             gender: this.gender,
-            archive: this.archive
+            archive: this.archive,
+            permission: this.permission
         }
 
     }
@@ -73,22 +76,24 @@ export function getUser(callback) {
 
 export function addUser(user)
 {
+    return new Promise((resolve, reject) => {
     const db = firebase.firestore();
-    db.collection('user').add(user.toJson());     
+        let userRef = db.collection('user').add(user.toJson());
     firebase.auth().createUserWithEmailAndPassword(user.email,user.password)
     .then((success) => {
-        success.updateProfile({
-            displayName: user.name
-        });
+            // success.updateProfile({
+            //     displayName: user.name
+            // });
+            resolve(userRef);
     })
     .catch(function(error){
-        var errorCode = error.code;
-        var errorMessage=error.Message
+            reject(error);
     }); 
+    })
 }
 
 
-export function getUserDetail2(username, callback) {
+export function getUserByEmail(username, callback) {
     return new Promise((resolve, reject) => {
         const db = firebase.firestore();
         let query = db.collection("user").where("email", '==', username)
@@ -103,14 +108,28 @@ export function getUserDetail2(username, callback) {
     })
 }
 
+export function getUserListByPermission(permission) {
+    return new Promise((resolve, reject) => {
+        const db = firebase.firestore();
+        let query = db.collection("user").where("permission", '==', permission);
+        query.get().then((snapshot) => {
+            if (snapshot.empty)
+                resolve(null);
+            resolve(snapshot.docs);
+        })
+        .catch((error) => {
+            reject(error);
+        })
+    })
+}
+
 export function userLogin(user)
 {
     return new Promise((resolve, reject) => {
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(() => {
-            console.log('SIGN IN WITH EMAIL:' + user.email);
             firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
-                getUserDetail2(user.email).then((data) => {
+                getUserByEmail(user.email).then((data) => {
                     resolve(data);
                 }).catch((err) => {
                     reject(err);
@@ -120,8 +139,6 @@ export function userLogin(user)
             });
         })
         .catch((err) => {
-            console.log('Error in set Firebase Persistence:');
-            console.log(err);
             reject(err);
         });
     })    
@@ -152,7 +169,6 @@ export function getCurrentUser()
 }
 
 export function getUserDetails(id_num) {
-    console.log(id_num);
     return new Promise((resolve, reject) => {
         const db = firebase.firestore();
         let query = db.collection("user").doc(id_num);
@@ -168,12 +184,12 @@ export function getUserDetails(id_num) {
     })
 }
 
-export function setUserDetails(id_num,name,username,password,birthday,gender,email,phone,address,school,archive) {
+export function setUserDetails(id_num,name,username,password,birthday,gender,email,phone,address,school) {
     console.log(id_num);
     const db = firebase.firestore();
     let query = db.collection("user").doc(id_num);
     query.set({
-        name,username,password,birthday,gender,email,phone,address,school,archive
+        name,username,password,birthday,gender,email,phone,address,school
     });
 }
 

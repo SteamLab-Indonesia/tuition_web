@@ -1,5 +1,5 @@
-import firebase from 'firebase';
-import {User, GENDER} from './User';
+import {User, getUserListByPermission, addUser} from './User';
+import PermissionLevel from './PermissionLevel';
 
 export class Teacher extends User{
 
@@ -7,7 +7,7 @@ export class Teacher extends User{
     {
         super();
         this.subject = '';
-        this.gender = GENDER.MALE;
+        this.permission = PermissionLevel.TEACHER;
     
         if (teacher)
         {
@@ -33,47 +33,17 @@ export class Teacher extends User{
             phone: this.phone,
             address: this.address,
             subject: this.subject,
-            gender: this.gender
+            gender: this.gender,
+            permission: this.permission
         }
-
     }
 }
 
-export function getTeacher(callback) {
-    const db = firebase.firestore();
-    db.collection("teacher").get()
-    .then((snapshot) => {
-        let teacher_list = []
-        snapshot.forEach((doc) => {
-            console.log(doc.id, '=>', doc.data());
-            teacher_list.push({
-                id: doc.id,
-                data: doc.data()
-            });
-        });
-        callback(teacher_list);
-    })
-    .catch((err) => {
-        console.log('Error getting documents', err);
-    });
+export function getTeacher() {
+    return getUserListByPermission(PermissionLevel.TEACHER);
 };
 
 export function addTeacher(teacher)
 {
-    const db = firebase.firestore();
-    db.collection('teacher').add(teacher.toJson());     
-    firebase.auth().createUserWithEmailAndPassword(teacher.email,teacher.password).catch(function(error){
-        var errorCode = error.code;
-        var errorMessage=error.Message
-    }); 
+    return addUser(teacher);
 }
-
-export function teacherLogin(teacher)
-{
-    firebase.auth().signInWithEmailAndPassword(teacher.email,teacher.password).catch(function(error){
-        var errorCode = error.code;
-        var errorMessage=error.Message
-        console.log(error)
-    }); 
-}
-
