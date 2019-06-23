@@ -2,14 +2,10 @@ import firebase from 'firebase';
 
 export function getLesson(callback){
     const db = firebase.firestore()
-    db.settings({
-        timestampsInSnapshots : true
-    });
     db.collection("lesson").get()
     .then((snapshot) => {
         let les_list = []
         snapshot.forEach((doc) => {
-            // console.log(doc.id, '=>', doc.data());
             les_list.push({
                 id: doc.id,
                 data: doc.data()
@@ -22,21 +18,18 @@ export function getLesson(callback){
     });
 };
 
-export function addLesson() {
+export function addLesson(name, program, schedule, teacher) {
+  return new Promise((resolve, reject) => {
     const db = firebase.firestore();
-      db.settings({
-      timestampsInSnapshots: true
-    });
-    const userRef = db.collection("lesson").add({
-      course: this.state.course,
-      lesson: this.state.lesson,
-      schedule: this.state.schedule,
-      teacher: this.state.teacher
-    });
-    this.setState({
-      course: "",
-      lesson: "",
-      schedule: "",
-      teacher: ""
-    });
-  };
+    db.collection("lesson").add({
+      program,
+      name,
+      schedule,
+      teacher
+    }).then((res) => {
+      resolve("ok");
+    }).catch((err) => {
+      reject(err);
+    })
+  })
+};
