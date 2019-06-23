@@ -336,7 +336,7 @@ class MCourses extends Component{
                           </IconButton>
                         </Tooltip>
                         <Tooltip title='lesson'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={'viewlesson/'+item.id}>
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={'lesson/'+item.id}>
                             <BookIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>
