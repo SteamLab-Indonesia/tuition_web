@@ -2,9 +2,6 @@ import firebase from 'firebase';
 
 export function getClass(callback){
     const db = firebase.firestore()
-    db.settings({
-        timestampsInSnapshots : true
-    });
     db.collection("classes").get()
     .then((snapshot) => {
         let class_list = []
@@ -52,10 +49,7 @@ export function setClassDetails(id_num, name, capacity) {
 
 export function addClassroom () {
     const db = firebase.firestore();
-      db.settings({
-      timestampsInSnapshots: true
-    });
-    const userRef = db.collection("classes").add({
+    db.collection("classes").add({
       name: this.state.name,
       capacity: this.state.capacity,
     });
