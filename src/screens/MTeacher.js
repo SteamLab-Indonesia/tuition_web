@@ -10,7 +10,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -157,11 +156,13 @@ class MTeacher extends Component {
   }
 
   componentDidMount() {
-    getTeacher((teacher_list) => {
-      // console.log(user_list);
+    getTeacher().then((teacher_list) => {
       this.setState({
         teacher: teacher_list
       })
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
@@ -185,7 +186,7 @@ class MTeacher extends Component {
   render() {
     const { classes } = this.props;
     const { teacher, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, teacher.length - page * rowsPerPage);
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, teacher.length - page * rowsPerPage);
 
     return (
       <div id="msurface" className="surface">
@@ -237,7 +238,7 @@ class MTeacher extends Component {
                 <TableBody>
                   {
                     this.state.teacher.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
-                    <TableRow>
+                    <TableRow key={item.id}>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.name}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.username}</CustomTableCell>
                       <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.email}</CustomTableCell>

@@ -122,7 +122,15 @@ export function getUserListByPermission(permission) {
         query.get().then((snapshot) => {
             if (snapshot.empty)
                 resolve(null);
-            resolve(snapshot.docs);
+            let teacher_list = [];
+            for(let i=0; i < snapshot.docs.length; ++i)
+            {
+                teacher_list.push({
+                    id: snapshot.docs[i].id,
+                    data: snapshot.docs[i].data()
+                })
+            }
+            resolve(teacher_list);
         })
         .catch((error) => {
             reject(error);
