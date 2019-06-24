@@ -129,7 +129,9 @@ export function getUserListByPermission(permission) {
                 return db.collection("user").where("permission", '==', item).get();
             })
             Promise.all(queries).then((snapArray) => {
-                snapArray.map((snapshot) => {
+                for(let j=0; j < snapArray.length; ++j)
+                {
+                    let snapshot = snapArray[j];
                     if (!snapshot.empty)
                     {
                         for(let i=0; i < snapshot.docs.length; ++i)
@@ -139,8 +141,8 @@ export function getUserListByPermission(permission) {
                                 data: snapshot.docs[i].data()
                             })
                         } 
-                    }
-                });
+                    }                    
+                }
                 resolve(user_list);
             })
         }
