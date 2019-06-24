@@ -21,7 +21,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {User, addUser, GENDER, getUserDetails, setUserDetails} from '../libs/User';
+import {GENDER, getUserDetails, setUserDetails} from '../libs/User';
 import '../Projj.css';
 import '../users.css';
 
