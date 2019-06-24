@@ -21,6 +21,9 @@ import { getTeacher } from '../libs/Teacher';
 import { getClass } from '../libs/Classroom';
 import { getCourses } from '../libs/Courses';
 import Schedule from '../components/Schedule';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
    root: {
@@ -50,49 +53,10 @@ const styles = theme => ({
   input: {
     display: 'none',
   },
+  iconButton: {
+    padding: 7,
+  },
 });
-
-const curriculum = [
-  {
-    value: 'none',
-    label: 'Select Curriculum',
-  },
-  {
-    value: 'Lower Elementary',
-    label: 'Lower Elementary',
-  },
-  {
-    value: 'Upper Elementary',
-    label: 'Upper Elementary',
-  },
-  {
-    value: 'Junior High',
-    label: 'Junior High',
-  },
-  {
-    value: 'Senior High',
-    label: 'Senior High',
-  },
-];
-
-const level = [
-  {
-    value: 'none',
-    label: 'Select Level',
-  },
-  {
-    value: '1',
-    label: '1',
-  },
-  {
-    value: '2',
-    label: '2',
-  },
-  {
-    value: '3',
-    label: '3',
-  },
-];
 
 class TextFields extends React.Component {
 
@@ -224,7 +188,20 @@ class TextFields extends React.Component {
                   </MenuItem>
                 ))}
                 </TextField>
+                <br />
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                  <Typography style={{ fontSize: '20px' }}>Create Schedule </Typography>
+                  <IconButton className={classes.iconButton} aria-label="Remove">
+                    <RemoveIcon style={{ fontSize: '20px' }} /> 
+                  </IconButton>
+                  <IconButton className={classes.iconButton} aria-label="Add">
+                    <AddIcon style={{ fontSize: '20px' }} /> 
+                  </IconButton>
+                </div>
+                
                 <Schedule/>
+
+                
                 <br />
                 <div>
                   <Button variant="contained" color="secondary" className={classes.button}  onClick={ addLesson }>save</Button>

@@ -13,11 +13,12 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import TextField from '@material-ui/core/TextField'
 
 const useStyles = {
-    card: {
-      minWidth: 275,
-    },
+    // card: {
+    //   minWidth: 275,
+    // },
     bullet: {
       display: 'inline-block',
       margin: '0 2px',
@@ -46,16 +47,16 @@ class Schedule extends React.Component{
 
         return (
             <div>
-                <Card className={classes.card}>
+                <Card className={classes.card} style={{width: "50%"}}>
                     <CardActions>
                         <div className={classes.root}>
-                            <FormControl component="fieldset" className={classes.formControl}>
+                            <FormControl component="fieldset">
                                 <RadioGroup
-                                aria-label="Gender"
-                                name="gender1"
-                                className={classes.group}
-                                // value={value}
-                                // onChange={handleChange}
+                                    aria-label="Gender"
+                                    name="gender1"
+                                    style={{flexDirection: "row"}}
+                                    // value={value}
+                                    // onChange={handleChange}
                                 >
                                 <FormControlLabel value="Monday" control={<Radio />} label="Monday" />
                                 <FormControlLabel value="Tuesday" control={<Radio />} label="Tuesday" />
@@ -65,6 +66,34 @@ class Schedule extends React.Component{
                                 <FormControlLabel value="Saturday" control={<Radio />} label="Saturday" />
                                 </RadioGroup>
                             </FormControl>
+                            <form style={{display: 'flex', flexWrap: 'wrap'}} noValidate>
+                                <TextField
+                                    id="time"
+                                    style={{ width: "40%", marginRight: '1cm' }}
+                                    label="from"
+                                    type="time"
+                                    defaultValue="00:00"
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                    inputProps={{
+                                    step: 300, // 5 min
+                                    }}
+                                />
+                                <TextField
+                                    id="time"
+                                    style={{ width: "40%" }}
+                                    label="to"
+                                    type="time"
+                                    defaultValue="00:00"
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                    inputProps={{
+                                    step: 300, // 5 min
+                                    }}
+                                />
+                            </form>
                         </div>
                     </CardActions>
                 </Card>
