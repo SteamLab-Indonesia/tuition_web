@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import IconButton from '@material-ui/core/IconButton';
 import { getCourses } from '../libs/Courses';
@@ -215,12 +214,12 @@ class MCourses extends Component{
   BtnClick = () => {
     //console.log('==================> BTN CLICK');
     console.log(this.state.search);
-    if(this.state.search != ""){
+    if(this.state.search !== ""){
       let searchResult = this.state.courses.filter((item) => {
         console.log(item.data.subject);
-        return item.data.subject.toLowerCase() == this.state.search.toLowerCase();
+        return item.data.subject.toLowerCase() === this.state.search.toLowerCase();
       });
-      if (!searchResult || searchResult.length == 0)
+      if (!searchResult || searchResult.length === 0)
       {
         this.setState({searchResult: this.state.courses, open: true, search: ''});        
       }
@@ -253,7 +252,7 @@ class MCourses extends Component{
 
     console.log('re-render');
   return (
-    <div id="msurface" class="surface">
+    <div id="msurface" className="surface">
       <div>
         
         <Dialog
@@ -318,7 +317,7 @@ class MCourses extends Component{
                     <TableBody>
                     {
                       courseList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
-                        <TableRow>
+                        <TableRow key={item.id}>
                           <TableCell>{page * 10 + index + 1}</TableCell>
                           <TableCell align="left">{item.data.subject}</TableCell>
                           <TableCell align="left">{item.data.curriculum}</TableCell>

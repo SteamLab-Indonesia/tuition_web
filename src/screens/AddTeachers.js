@@ -67,12 +67,12 @@ class AddTeachers extends React.Component {
   state = {
     age: '',
     multiline: '',
-    currency: 'EUR',
     amount: '',
     password: '',
     weight: '',
     weightRange: '',
     showPassword: false,
+    username: ''
   };
 
   addMe = () => {

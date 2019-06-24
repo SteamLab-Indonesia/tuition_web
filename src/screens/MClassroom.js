@@ -33,7 +33,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getClassDetails } from '../libs/Classroom';
 
 const actionsStyles = theme => ({
   root: {
@@ -209,12 +208,12 @@ class MClassroom extends Component{
   BtnClick = () => {
     //console.log('==================> BTN CLICK');
     console.log(this.state.search);
-    if(this.state.search != ""){
+    if(this.state.search !== ""){
       let searchResult = this.state.classroom.filter((item) => {
         console.log(item.data.subject);
-        return item.data.subject.toLowerCase() == this.state.search.toLowerCase();
+        return item.data.subject.toLowerCase() === this.state.search.toLowerCase();
       });
-      if (!searchResult || searchResult.length == 0)
+      if (!searchResult || searchResult.length === 0)
       {
         this.setState({searchResult: this.state.classroom, open: true, search: ''});        
       }

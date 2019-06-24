@@ -64,9 +64,6 @@ const styles = theme => ({
     overflowX: 'auto',
     flexGrow: 1,    
   },
-  table: {
-    minWidth: 700,
-  },
   card: {
     minWidth: 275,
     height: window.innerHeight
@@ -259,7 +256,7 @@ class MUsers extends Component {
         console.log(item.data.name);
         return item.data.name.toLowerCase() === this.state.search.toLowerCase();
       });
-      if (!searchResult || searchResult.length == 0){
+      if (!searchResult || searchResult.length === 0){
         this.setState({searchResult: this.state.user, open: true, search:''});        
       }
       else{
@@ -326,7 +323,6 @@ class MUsers extends Component {
 
                 <Grid item xs={2}>
                   <Button 
-                    select
                     variant="contained" 
                     color="primary" 
                     className={classes.button}  

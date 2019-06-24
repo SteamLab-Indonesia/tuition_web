@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -8,12 +7,6 @@ import Paper from '@material-ui/core/Paper';
 import '../Projj.css';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import firebase from 'firebase';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { Link } from 'react-router-dom';
 import { addLesson } from '../libs/Lesson';
 import { getCoursesDetails } from '../libs/Courses';
@@ -148,7 +141,6 @@ class TextFields extends React.Component {
                     },
                   }}
                   helperText="Select Course"
-                  margin="normal"
                   >
                   {courses.map(option => (
                     <MenuItem key={option.id} value={option.id}>

@@ -23,9 +23,6 @@ const styles = theme => ({
 });
 
 class MAttendance extends Component  {
-    constructor(props){
-        super(props)
-    }
 
     state = {
         checkedA: true,

@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../Projj.css';
-import classNames from 'classnames';
 import Card from '@material-ui/core/Card';
 //import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';

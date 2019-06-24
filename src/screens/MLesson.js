@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -23,16 +22,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import BookIcon from '@material-ui/icons/Book';
 import { Tooltip } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { getLesson } from '../libs/Lesson';
 
 const actionsStyles = theme => ({

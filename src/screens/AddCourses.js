@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -155,7 +154,7 @@ class TextFields extends React.Component {
       db.settings({
       timestampsInSnapshots: true
     });
-    const userRef = db.collection("program").add({
+    db.collection("program").add({
       subject: this.state.subject,
       curriculum: this.state.curriculum,
       level: parseInt(this.state.level),
@@ -170,13 +169,13 @@ class TextFields extends React.Component {
   };
 
   BtnClick = () => {
-    if(this.state.subject == 'none'){
+    if(this.state.subject === 'none'){
       this.setState({open1: true});
-    }else if(this.state.curriculum == 'none'){
+    }else if(this.state.curriculum === 'none'){
       this.setState({open1: true});
-    }else if(this.state.level == 'none'){
+    }else if(this.state.level === 'none'){
       this.setState({open1: true});
-    }else if(this.state.description == ''){
+    }else if(this.state.description === ''){
       this.setState({open2: true});
     }else{
       this.setState({open2: true});
@@ -266,27 +265,19 @@ class TextFields extends React.Component {
                     New Courses
                 </Typography>
                 <TextField
-                id="standard-name"
-                select
-                label="Subject"
-                className={classes.textField}
-                value={this.state.subject}
-                onChange={this.handleChange('subject')}
-                margin="normal"
-                SelectProps={{
-                  MenuProps: {
-                    className: classes.menu,
-                  },
-                }}
-                helperText="Please select your subject"
-                margin="normal"
-                SelectProps={{
-                  MenuProps: {
-                    className: classes.menu,
-                  },
-                }}
-                helperText="Please select your curriculum"
-                margin="normal"
+                  id="standard-name"
+                  select
+                  label="Subject"
+                  className={classes.textField}
+                  value={this.state.subject}
+                  onChange={this.handleChange('subject')}
+                  margin="normal"
+                  SelectProps={{
+                    MenuProps: {
+                      className: classes.menu,
+                    },
+                  }}
+                  helperText="Please select your subject"
                 >
                 {subject.map(option => (
                   <MenuItem key={option.value} value={option.value}>
@@ -308,7 +299,6 @@ class TextFields extends React.Component {
                   },
                 }}
                 helperText="Please select your curriculum"
-                margin="normal"
                 >
                 {curriculum.map(option => (
                   <MenuItem key={option.value} value={option.value}>

@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
@@ -82,9 +81,7 @@ const styles = theme => ({
 });
 
 class SimpleTable extends Component  {
-    constructor(props){
-        super(props)
-    }
+
       state = {
         month: '',
         checkedB: true,

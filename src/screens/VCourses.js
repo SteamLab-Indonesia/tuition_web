@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -156,7 +155,7 @@ class VCourses extends React.Component {
       db.settings({
       timestampsInSnapshots: true
     });
-    const userRef = db.collection("program").add({
+    db.collection("program").add({
       subject: this.state.subject,
       curriculum: this.state.curriculum,
       level: parseInt(this.state.level),
@@ -258,7 +257,6 @@ class VCourses extends React.Component {
                     },
                   }}
                   helperText="Please select your subject"
-                  margin="normal"
                   >
                   {subject.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -280,7 +278,6 @@ class VCourses extends React.Component {
                     },
                   }}
                   helperText="Please select your curriculum"
-                  margin="normal"
                   >
                   {curriculum.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -302,7 +299,6 @@ class VCourses extends React.Component {
                     },
                   }}
                   helperText="Please select your level"
-                  margin="normal"
                   >
                   {level.map(option => (
                     <MenuItem key={option.value} value={option.value}>

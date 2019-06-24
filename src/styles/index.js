@@ -1,6 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { blue, pink } from '@material-ui/core/colors';
-import { Background } from "../img/abstract-art-background-370799.jpg";
 
 let imgUrl = '../img/abstract-art-background-370799.jpg';
 

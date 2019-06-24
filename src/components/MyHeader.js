@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../Projj.css';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -28,7 +27,6 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';

@@ -53,9 +53,6 @@ const styles = theme => ({
     overflowX: 'auto',
     flexGrow: 1,    
   },
-  table: {
-    minWidth: 700,
-  },
   card: {
     minWidth: 275,
     height: window.innerHeight
@@ -178,7 +175,7 @@ class MTeacher extends Component {
     console.log(this.state.search);
     let searchResult = this.state.teacher.filter((item) => {
       console.log(item.data.name);
-      return item.data.name.toLowerCase() == this.state.search.toLowerCase();
+      return item.data.name.toLowerCase() === this.state.search.toLowerCase();
     })
     this.setState({searchResult});
   }
