@@ -118,23 +118,52 @@ export function getUserByEmail(username, callback) {
 export function getUserListByPermission(permission) {
     return new Promise((resolve, reject) => {
         const db = firebase.firestore();
-        let query = db.collection("user").where("permission", '==', permission);
-        query.get().then((snapshot) => {
-            if (snapshot.empty)
-                resolve(null);
-            let teacher_list = [];
-            for(let i=0; i < snapshot.docs.length; ++i)
-            {
-                teacher_list.push({
-                    id: snapshot.docs[i].id,
-                    data: snapshot.docs[i].data()
-                })
-            }
-            resolve(teacher_list);
-        })
-        .catch((error) => {
-            reject(error);
-        })
+        // Multiple Permission Level queries
+        if (Array.isArray(permission))
+        {
+            let user_list = [];
+            let queries = permission.map((item) => {
+                return db.collection("user").where("permission", '==', item).get();
+            })
+            Promise.all(queries).then((snapArray) => {
+                snapArray.map((snapshot) => {
+                    if (!snapshot.empty)
+                    {
+                        for(let i=0; i < snapshot.docs.length; ++i)
+                        {
+                            user_list.push({
+                                id: snapshot.docs[i].id,
+                                data: snapshot.docs[i].data()
+                            })
+                        } 
+                    }
+                });
+                resolve(user_list);
+            })
+        }
+        // Single Permission
+        else
+        {
+            db.collection("user").where("permission", '==', permission).get()
+            .then((snapshot) => {
+                if (snapshot.empty)
+                    resolve(null);
+                let user_list = [];
+                for(let i=0; i < snapshot.docs.length; ++i)
+                {
+                    user_list.push({
+                        id: snapshot.docs[i].id,
+                        data: snapshot.docs[i].data()
+                    })
+                }
+                resolve(user_list);
+            })
+            .catch((error) => {
+                reject(error);
+            })            
+        }
+        
+
     })
 }
 
