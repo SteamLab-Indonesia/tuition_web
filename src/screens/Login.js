@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import firebase from 'firebase';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
@@ -19,7 +17,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import '../Projj.css';
 import '../users.css';
 import { userLogin, User } from '../libs/User';
-
+import Spinner from '../components/Spinner';
 
 const styles = theme => ({
   icon: {
@@ -58,6 +56,7 @@ class Login extends React.Component {
   state = {
     email: '',
     password: '',
+    loading: false
   };
 
   login = () => {
@@ -68,19 +67,25 @@ class Login extends React.Component {
     });
 
     userLogin(new_user).then((user) => {
+      this.setState({loading: false});
       if (user)
       {
         this.props.history.push('/');
-        // window.location='/';
-      }  
+      }
+      else
+      {
+        alert('User Not Found');
+      }
     })
     .catch((error) => {
-      console.log(error);
+      this.setState({loading: false});
+      alert(error.message);
     })
 
     this.setState({      
       email: '',    
       password: '',
+      loading: true
     });
   }
 
@@ -97,13 +102,14 @@ class Login extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root} id="surface" class="surface">
+      <div className={["surface",classes.root]} id="surface">
       <Grid container justify="center">
+        <Spinner open={this.state.loading} />
         <Paper elevation={1} className={classes.root} >
           
             <Grid item style={{width: "100%"}} container spacing={0} direction="column" alignItems="center">
                 <AccountCircleIcon className={classes.icon}/>
-                <div class='papert'>STEAMLAB</div>    
+                <div className='papert'>STEAMLAB</div>    
               </Grid>
 
               <Grid item style={{width: "100%"}}>
@@ -138,19 +144,17 @@ class Login extends React.Component {
                       } />
                   </FormControl>
                 </Grid>
-           
-           
             <br/>
             <div> 
               <Button variant="contained" color="secondary" className={classes.button} onClick={this.login}>
-              Login
+                Login
               </Button>
             </div>
-          
         </Paper>
         </Grid>
       </div>
-    )
+    );
+  
   }
 }
 
