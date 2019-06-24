@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import PermissionLevel from './PermissionLevel';
+import { setData } from './SessionData';
 
 export const GENDER = {
     MALE: 'male',
@@ -20,7 +21,7 @@ export class User {
     archive = false;
     permission = PermissionLevel.GUEST;
     modules = [];
-    organizations = [];
+    organization = null;
     branches = [];
 
     constructor(user)
@@ -39,6 +40,7 @@ export class User {
             this.archive = user.archive;
             this.permission = user.permission;
             this.modules = user.modules;
+            this.organization = user.organization;
         }
     }
 
@@ -55,10 +57,9 @@ export class User {
             archive: this.archive,
             permission: this.permission,
             modules: this.modules,
-            organizations: this.organizations,
+            organization: this.organization,
             branches: this.branches
         }
-
     }
 }
 
@@ -84,18 +85,18 @@ export function getUser(callback) {
 export function addUser(user)
 {
     return new Promise((resolve, reject) => {
-    const db = firebase.firestore();
-        let userRef = db.collection('user').add(user.toJson());
-    firebase.auth().createUserWithEmailAndPassword(user.email,user.password)
-    .then((success) => {
-            // success.updateProfile({
-            //     displayName: user.name
-            // });
-            resolve(userRef);
-    })
-    .catch(function(error){
-            reject(error);
-    }); 
+        const db = firebase.firestore();
+            let userRef = db.collection('user').add(user.toJson());
+        firebase.auth().createUserWithEmailAndPassword(user.email,user.password)
+        .then((success) => {
+                // success.updateProfile({
+                //     displayName: user.name
+                // });
+                resolve(userRef);
+        })
+        .catch(function(error){
+                reject(error);
+        }); 
     })
 }
 
@@ -107,7 +108,9 @@ export function getUserByEmail(username, callback) {
         query.get().then((snapshot) => {
             if (snapshot.empty)
                 resolve(null);
-            resolve(snapshot.docs[0].data());
+            resolve({ id: snapshot.docs[0].id,
+                data: snapshot.docs[0].data()
+            });
         })
         .catch((error) => {
             reject(error);
@@ -162,8 +165,6 @@ export function getUserListByPermission(permission) {
                 reject(error);
             })            
         }
-        
-
     })
 }
 
@@ -173,8 +174,21 @@ export function userLogin(user)
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(() => {
             firebase.auth().signInWithEmailAndPassword(user.email,user.password).then(() =>{
-                getUserByEmail(user.email).then((data) => {
-                    resolve(data);
+                getUserByEmail(user.email).then((res) => {
+                    if (res && res.data && res.data.organization)
+                    {
+                        res.data.organization.get().then((orgResp) => {
+                            setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, res.data);
+                            resolve(res);        
+                        }).catch((err) => {
+                            reject(err);
+                        })
+                    }
+                    else
+                    {
+                        setData(null, null, null, res.id, res.data);
+                        resolve(res);    
+                    }
                 }).catch((err) => {
                     reject(err);
                 })
