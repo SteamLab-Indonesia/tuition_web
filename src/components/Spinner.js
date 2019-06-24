@@ -12,7 +12,7 @@ const styles = {
         width: 60,
         height: 60,
         borderRadius: 10,
-        position: 'relative',
+        position: 'absolute',
         float: 'left',
         zIndex: 1,
         left: '50%',
@@ -31,9 +31,16 @@ export default function Spinner(props) {
             onClose();
     }
 
-    return (
-        <Paper style={styles.dialogBox} open={open} onClose={handleClose}>
-            <CircularProgress style={styles.circularBox} />
-        </Paper>
-    );
+    if (open)
+    {
+        return (
+            <Paper style={styles.dialogBox} onClose={handleClose}>
+                <CircularProgress style={styles.circularBox} />
+            </Paper>
+        );
+    }
+    else
+    {
+        return null;
+    }
 }
