@@ -33,6 +33,8 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import BookIcon from '@material-ui/icons/Book';
 import { Tooltip } from '@material-ui/core';
 import { setUserArchive } from '../libs/User'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -81,6 +83,49 @@ const styles = theme => ({
     padding: 7,
   },
 });
+
+const permission = [
+  {
+    value: 'guest',
+    label: 'Guest',
+  },
+  {
+    value: 'students',
+    label: 'Students',
+  },
+  {
+    value: 'parents',
+    label: 'Parents',
+  },
+  {
+    value: 'teacher',
+    label: 'Teacher',
+  },
+  {
+    value: 'operator',
+    label: 'Operator',
+  },
+  {
+    value: 'coordinator',
+    label: 'Coordinator',
+  },
+  {
+    value: 'finance',
+    label: 'Finance',
+  },
+  {
+    value: 'branch_admin',
+    label: 'Branch Admin',
+  },
+  {
+    value: 'organization_admin',
+    label: 'Organization admin',
+  },
+  {
+    value: 'super_admin',
+    label: 'Super admin',
+  },
+];
 class TablePaginationActions extends React.Component {
   handleFirstPageButtonClick = event => {
     this.props.onChangePage(event, 0);
@@ -162,8 +207,9 @@ class MUsers extends Component {
       rowsPerPage:5,
       search : '',
       open: false,
-      archive: false
-    }
+      archive: false,
+      openMenu: false
+    };
   }
 
   componentDidMount() {
@@ -174,7 +220,6 @@ class MUsers extends Component {
       })
     });
   }
-
   
   handleArchive = (item) => {
     console.log(item);
@@ -200,12 +245,19 @@ class MUsers extends Component {
     this.setState({ open: false });
   };
 
+  clickUser = (e) => {
+    this.setState({openMenu: true, anchor: e.currentTarget});
+  }
+  closeUser = () => {
+    this.setState({openMenu: false, anchor: null});
+  }
+
   BtnClick = () => {
     console.log(this.state.search);
     if(this.state.search !== ""){
         let searchResult = this.state.user.filter((item) => {
         console.log(item.data.name);
-        return item.data.name.toLowerCase() == this.state.search.toLowerCase();
+        return item.data.name.toLowerCase() === this.state.search.toLowerCase();
       });
       if (!searchResult || searchResult.length == 0){
         this.setState({searchResult: this.state.user, open: true, search:''});        
@@ -229,7 +281,7 @@ class MUsers extends Component {
     console.log(userList)
     return (
       <div>
-      <div>
+        <div>
          <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -252,10 +304,9 @@ class MUsers extends Component {
       <div id="msurface" className="surface">
         <Card className={classes.card} style={{paddingTop: '10px',paddingBottom: 50}}>
           <CardContent>
-  
             <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
               <Grid container spacing={24}>
-                <Grid item xs={7}>
+                <Grid item xs={5}>
                   <Typography variant="h5" component="h3">Users</Typography>
                 </Grid>
 
@@ -274,6 +325,29 @@ class MUsers extends Component {
                 </Grid>
 
                 <Grid item xs={2}>
+                  <Button 
+                    select
+                    variant="contained" 
+                    color="primary" 
+                    className={classes.button}  
+                    onClick={this.clickUser}
+                  >
+                    User's level
+                  </Button>
+                  <Menu
+                    anchorEl={this.state.anchor}
+                    keepMounted
+                    open={this.state.openMenu}
+                  >
+                    {permission.map(option => (
+                      <MenuItem key={option.value} value={option.value} onClick={this.closeUser}>
+                        {option.label} 
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Grid>
+            
+                <Grid item xs={2}>
                   <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
                     add student
                   </Button>
@@ -289,8 +363,6 @@ class MUsers extends Component {
                     <TableCell align="center" >Username</TableCell>
                     <TableCell align="center" >Email</TableCell>                    
                     <TableCell align="center" >Phone Number</TableCell>
-                    <TableCell align="center" >Address</TableCell>
-                    <TableCell align="center" >School</TableCell>
                     <TableCell align="center" style={{width:"18%"}} >Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -298,12 +370,10 @@ class MUsers extends Component {
                   {
                     userList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                     <TableRow key={item.data.email}>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.name}</CustomTableCell>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.username}</CustomTableCell>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.email}</CustomTableCell>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.phone}</CustomTableCell>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.address}</CustomTableCell>
-                      <CustomTableCell align="center" style={{fontSize:'12px'}}>{item.data.school}</CustomTableCell>
+                      <CustomTableCell align="center" >{item.data.name}</CustomTableCell>
+                      <CustomTableCell align="center" >{item.data.username}</CustomTableCell>
+                      <CustomTableCell align="center" >{item.data.email}</CustomTableCell>
+                      <CustomTableCell align="center" >{item.data.phone}</CustomTableCell>
                       <CustomTableCell align="center">
                         <div>
                         <Tooltip title='view'>
@@ -350,13 +420,11 @@ class MUsers extends Component {
                     />
                   </TableRow>
                 </TableFooter>
-  
               </Table>
             </Paper>
-  
           </CardContent>
         </Card>
-      </div>
+        </div>
       </div>
     );
   }
