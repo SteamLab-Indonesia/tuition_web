@@ -9,7 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 class App extends Component {
 
   state = {
-    loggedUser: null
+    loggedUser: null,
+    showHeader: true
   }
 
   componentDidMount = () => {
@@ -17,12 +18,20 @@ class App extends Component {
       this.setState({loggedUser: user});
     });    
   }
+
+  hideHeader = (hidden) => {
+    if (hidden)
+      this.setState({showHeader: false});
+    else
+      this.setState({showHeader: true});
+  }
+
   render() {
     return (
       <div className="App" id='base'>
-        <MyHeader />
+        <MyHeader show={this.state.showHeader} />
           <main>
-            <Navigation />
+            <Navigation hideHeader={this.hideHeader}/>
           </main>
         </div>
     );

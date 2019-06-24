@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, withRouter} from 'react-router-dom';
 import Dashboard from '../screens/Dashboard';
 import MCourses from '../screens/MCourses';
 import AddCourses from '../screens/AddCourses';
@@ -17,11 +17,43 @@ import VClassroom from '../screens/VClassroom'
 import AddClassroom from '../screens/AddClassroom'
 import MLesson from '../screens/MLesson';
 import AddLesson from '../screens/AddLesson';
+import { createBrowserHistory } from "history";
 
-export default class Navigation extends Component{
+const history = createBrowserHistory();
+
+class Navigation extends Component{
+
+    hideHeader = (hidden) => {
+        if (this.props.hideHeader)
+            this.props.hideHeader(hidden);
+    }
+
+    checkHeader = () => {
+        switch(this.props.location.pathname)
+        {
+            case '/login':
+                this.hideHeader(true);
+                break;
+            default:
+                this.hideHeader(false);
+                break;
+        }
+    }
+    componentDidUpdate = (prevProps) => {
+        if (prevProps.location.pathname !== this.props.location.pathname)
+        {
+            this.checkHeader();
+        }
+    }
+
+    componentDidMount = () => {
+        this.checkHeader();
+    }
+
     render() {
+
         return (
-            <Switch>
+            <Switch history={history}>
                 <Route exact path='/' component={Dashboard}/>
                 <Route path='/users' component={MUsers}/>
                 <Route path='/teacher' component={MTeacher}/>
@@ -46,3 +78,4 @@ export default class Navigation extends Component{
         );
     }
 }
+export default withRouter(props => <Navigation {...props}/>);
