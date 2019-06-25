@@ -2,7 +2,7 @@ import {User, getUserListByPermission, addUser} from './User';
 import PermissionLevel from './PermissionLevel';
 import firebase from './firebase';
 
-export class Teacher extends User{
+export default class Teacher extends User{
 
     constructor(teacher)
     {
@@ -50,13 +50,13 @@ export class Teacher extends User{
             branches: this.branches
         }
     }
+
+    save = () => {
+        addUser(this);
+    }
 }
 
 export function getTeacher() {
     return getUserListByPermission(PermissionLevel.TEACHER);
 };
 
-export function addTeacher(teacher)
-{
-    return addUser(teacher);
-}

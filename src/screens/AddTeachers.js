@@ -15,8 +15,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {Teacher, addTeacher} from '../libs/Teacher';
+import Teacher from '../libs/Teacher';
 import {GENDER} from '../libs/User';
+import SessionData from '../libs/SessionData';
 import '../Projj.css';
 import '../users.css';
 
@@ -87,8 +88,9 @@ class AddTeachers extends React.Component {
       address: this.state.address,
       subject: this.state.subject,
       gender : this.state.gender,
+      organization: SessionData.organizationId
     });
-    addTeacher(new_teacher);
+    new_teacher.save();
 
     this.setState({
       name: '',
