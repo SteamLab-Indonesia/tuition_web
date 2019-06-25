@@ -16,7 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import '../Projj.css';
 import '../users.css';
-import { userLogin, User } from '../libs/User';
+import { userLogin, User, updateLoginSession, getCurrentUser } from '../libs/User';
 import Spinner from '../components/Spinner';
 
 const styles = theme => ({
@@ -98,9 +98,20 @@ class Login extends React.Component {
       [name]: event.target.value,
       });
   };
+  checkUser = () => {
+    let user = getCurrentUser();
+    if (user && user.email)
+    {
+      updateLoginSession(user.email).then((user) => {
+        if (user)
+          this.props.history.push('/dashboard');
+      })
+    }
+  }
 
   render() {
     const { classes } = this.props;
+    this.checkUser();
     return (
       <div className={["surface",classes.root]} id="surface">
       <Grid container justify="center" >

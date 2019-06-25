@@ -33,11 +33,17 @@ class Navigation extends Component{
         switch(this.props.location.pathname)
         {
             case '/login':
+            case '/':
                 this.hideHeader(true);
                 break;
             default:
                 this.hideHeader(false);
                 break;
+        }
+        if (this.props.location.pathname !== '/')
+        {
+            if (this.props.user == null)
+                this.props.history.push('/');
         }
     }
     componentDidUpdate = (prevProps) => {
@@ -48,7 +54,7 @@ class Navigation extends Component{
     }
 
     componentDidMount = () => {
-        this.checkHeader();
+        setTimeout(this.checkHeader, 1500);        
     }
 
     render() {

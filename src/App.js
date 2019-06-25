@@ -9,13 +9,13 @@ import { withStyles } from '@material-ui/core/styles';
 class App extends Component {
 
   state = {
-    loggedUser: null,
+    user: null,
     showHeader: true
   }
 
   componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({loggedUser: user});
+        this.setState({user});
     });    
   }
 
@@ -29,9 +29,9 @@ class App extends Component {
   render() {
     return (
       <div className="App" id='base'>
-        <MyHeader show={this.state.showHeader} />
+        <MyHeader user={this.state.user} show={this.state.showHeader} />
           <main>
-            <Navigation hideHeader={this.hideHeader}/>
+            <Navigation user={this.state.user} hideHeader={this.hideHeader}/>
           </main>
         </div>
     );

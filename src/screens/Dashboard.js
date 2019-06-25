@@ -36,7 +36,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <PersonIcon className={classes.icon} />
-                                    <p id="name">users</p>
+                                    <p id="name">Student</p>
                                 </CardContent>
                             </Card>        
                         </Grid>
@@ -46,7 +46,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <GroupIcon className={classes.icon} />
-                                    <p id="name">teacher</p>
+                                    <p id="name">Teacher</p>
                                 </CardContent>
                             </Card>        
                         </Grid>
@@ -56,7 +56,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <BookIcon className={classes.icon} />
-                                    <p id="name">courses</p>
+                                    <p id="name">Courses</p>
                                 </CardContent>
                             </Card>        
                         </Grid>
@@ -66,7 +66,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <ClassroomIcon className={classes.icon} />
-                                    <p id="name">classroom</p>
+                                    <p id="name">Classroom</p>
                                 </CardContent>
                             </Card>        
                         </Grid>
@@ -76,7 +76,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <BarChartIcon className={classes.icon} />
-                                    <p id="name">attendance</p>
+                                    <p id="name">Student Attendance</p>
                                 </CardContent>
                             </Card>        
                         </Grid>
@@ -86,7 +86,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <StaffIcon className={classes.icon} />
-                                    <p id="name">staff attendance</p>
+                                    <p id="name">Staff Attendance</p>
                                 </CardContent>
                             </Card>        
                         </Grid>
@@ -96,7 +96,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <AttachMoneyIcon className={classes.icon} />
-                                    <p id="name">payment</p>
+                                    <p id="name">Payment</p>
                                 </CardContent>
                             </Card>        
                         </Grid>
@@ -106,7 +106,7 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <FeedbackIcon className={classes.icon} />
-                                    <p id="name">feedback</p>
+                                    <p id="name">Feedback</p>
                                 </CardContent>
                             </Card>        
                         </Grid>

@@ -217,6 +217,30 @@ export function userLogout()
     });
 }
 
+export function updateLoginSession(email)
+{
+    return new Promise((resolve, reject) => {
+        getUserByEmail(email).then((res) => {
+            if (res && res.data && res.data.organization)
+            {
+                res.data.organization.get().then((orgResp) => {
+                    setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, res.data);
+                    resolve(res);        
+                }).catch((err) => {
+                    reject(err);
+                })
+            }
+            else
+            {
+                setData(null, null, null, res.id, res.data);
+                resolve(res);    
+            }
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
 export function getCurrentUser()
 {
     let user = firebase.auth().currentUser;
