@@ -1,5 +1,6 @@
 import {User, getUserListByPermission, addUser} from './User';
 import PermissionLevel from './PermissionLevel';
+import firebase from './firebase';
 
 export class Teacher extends User{
 
@@ -20,9 +21,15 @@ export class Teacher extends User{
             this.address = teacher.address;
             this.subject = teacher.subject;
             this.gender = teacher.gender;
-            this.organizations = teacher.organizations;
-            this.branches = teacher.branches;
-            this.modules = teacher.modules;
+            if (teacher.organization)
+            {
+                const db = firebase.firestore();
+                this.organization = db.collection('user').doc(teacher.organization);
+            }
+            if (teacher.branches)
+                this.branches = teacher.branches;
+            if (teacher.modules)
+                this.modules = teacher.modules;
         }
     }
 
@@ -39,7 +46,7 @@ export class Teacher extends User{
             gender: this.gender,
             permission: this.permission,
             modules: this.modules,
-            organizations: this.organizations,
+            organization: this.organization,
             branches: this.branches
         }
     }

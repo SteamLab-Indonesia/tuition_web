@@ -1,7 +1,8 @@
 import {User, addUser, getUserListByPermission} from './User';
 import PermissionLevel from './PermissionLevel';
+import firebase from './firebase';
 
-export class Student extends User {
+export default class Student extends User {
 
     constructor(student)
     {
@@ -18,8 +19,13 @@ export class Student extends User {
             this.phone = student.phone;
             this.address = student.address;
             this.gender = student.gender;
-            this.organizations = student.organizations;
-            this.branches = student.branches;
+            if (student.organization)
+            {
+                const db = firebase.firestore();
+                this.organization = db.collection('user').doc(student.organization);
+            }
+            if (student.branches)
+                this.branches = student.branches;
         }
     }
 
@@ -34,9 +40,13 @@ export class Student extends User {
             address: this.address,
             gender: this.gender,
             permission: this.permission,
-            organizations: this.organizations,
+            organization: this.organization,
             branches: this.branches
         }
+    }
+
+    save = () => {
+        addUser(this);
     }
 }
 
@@ -44,9 +54,5 @@ export function getStudent() {
     return getUserListByPermission(PermissionLevel.STUDENTS);
 }
 
-export function add(student)
-{
-    return addUser(student);
-}
 
 

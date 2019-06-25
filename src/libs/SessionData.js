@@ -6,6 +6,7 @@ class SessionData {
     organizationId = null;
     organizationName = 'STEAMLAB';
     branch = [];
+    activeBranch = '';
 
     constructor(data)
     {
@@ -41,6 +42,17 @@ export function setData(organizationId, organizationName, branch, userId, userDa
     _sessionData = new SessionData({
         organizationId, organizationName, userId, userData, branch
     });
+}
+
+export function setOrganization(organizationId, organizationName)
+{
+    _sessionData.organizationId = organizationId;
+    _sessionData.organizationName = organizationName;
+}
+
+export function setActiveBranch(branch)
+{
+    _sessionData.activeBranch = branch;
 }
 
 export {_sessionData as default};

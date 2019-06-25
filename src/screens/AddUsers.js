@@ -15,7 +15,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {User, addUser, GENDER} from '../libs/User';
+import {GENDER} from '../libs/User';
+import Student from '../libs/Student';
+import SessionData from '../libs/SessionData';
 import { Link } from 'react-router-dom'
 import '../Projj.css';
 import '../users.css';
@@ -71,7 +73,7 @@ class AddUsers extends React.Component {
 
   addMe = () => {
 
-    let new_user = new User({
+    let new_user = new Student({
       name: this.state.name,
       email: this.state.email,
       username: this.state.username,
@@ -81,9 +83,10 @@ class AddUsers extends React.Component {
       address: this.state.address,
       school: this.state.school,
       gender : this.state.gender,
-      archive : false
+      archive : false,
+      organization: SessionData.organizationId
     });
-    addUser(new_user);
+    new_user.save();
 
     this.setState({
       name: '',
