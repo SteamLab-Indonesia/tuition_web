@@ -103,47 +103,47 @@ class Login extends React.Component {
     const { classes } = this.props;
     return (
       <div className={["surface",classes.root]} id="surface">
-      <Grid container justify="center">
-        <Spinner open={this.state.loading} />
-        <Paper elevation={1} className={classes.root} >
+      <Grid container justify="center" >
+      <div style={{alignItems:"flex-end",justify:"flex-end"}}> <Spinner open={this.state.loading}/></div> 
+        <Paper elevation={1} className={classes.root} style={{paddingBottom:"50px"}} >
           
             <Grid item style={{width: "100%"}} container spacing={0} direction="column" alignItems="center">
                 <AccountCircleIcon className={classes.icon}/>
                 <div className='papert'>STEAMLAB</div>    
+            </Grid>
+
+            <Grid item style={{width: "100%"}}>
+                <TextField 
+                label="Email" 
+                className={classes.textField} 
+                value={this.state.email}
+                style={{width: '98%'}} 
+                margin="normal"
+                onChange={this.handleChange('email')}
+                />
               </Grid>
 
-              <Grid item style={{width: "100%"}}>
-                  <TextField 
-                  label="Email" 
-                  className={classes.textField} 
-                  value={this.state.email}
-                  style={{width: '98%'}} 
-                  margin="normal"
-                  onChange={this.handleChange('email')}
-                  />
-                </Grid>
-
-                <Grid>
-                  <FormControl style={{width:'100%'}} className={classNames(classes.margin, classes.textField)}>
-                    <InputLabel htmlFor="adornment-password">Password</InputLabel>
-                    <Input
-                      id="adornment-password"
-                      type={this.state.showPassword ? 'text' : 'password'}
-                      value={this.state.password}
-                      style={{width: '96%'}}
-                      onChange={this.handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="Toggle password visibility"
-                            onClick={this.handleClickShowPassword}
-                          >
-                          {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      } />
-                  </FormControl>
-                </Grid>
+              <Grid>
+                <FormControl style={{width:'100%'}} className={classNames(classes.margin, classes.textField)}>
+                  <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                  <Input
+                    id="adornment-password"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    value={this.state.password}
+                    style={{width: '96%'}}
+                    onChange={this.handleChange('password')}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                        >
+                        {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    } />
+                </FormControl>
+              </Grid>
             <br/>
             <div> 
               <Button variant="contained" color="secondary" className={classes.button} onClick={this.login}>

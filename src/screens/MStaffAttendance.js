@@ -43,6 +43,12 @@ const styles = theme => ({
     },
   });
 
+  let i=1,x=[0]
+  for(i=1;i<8;i++){
+    x[i-1]=i
+  }
+  console.log(x)
+
 class MAttendance extends Component  {
 
     state = {
@@ -54,6 +60,7 @@ class MAttendance extends Component  {
         this.setState({ [name]: event.target.checked });
       };
 
+      
     render(){
         const { classes } = this.props;
         console.log(this.state.checkedB)
@@ -64,51 +71,30 @@ class MAttendance extends Component  {
                     <Grid container spacing={24}>
                         <Grid item xs={12}>
                             <Typography variant="h5" component="h3" style={{paddingLeft:10}}>
-                                Attendance
+                                Staff Attendance
                             </Typography>
                             <br/>
-                            <Typography style={{paddingLeft:30,color:"grey",fontSize:20}}>
-                                Courses :
-                                    <TextField 
-                                        placeholder=" Select the course"
-                                        style={{paddingLeft:10,paddingBottom:10}}
-                                    >
-                                            
-                                    </TextField>
-                                <br/>
-                                Teacher :
-                                    <TextField 
-                                        placeholder=" Enter your name"
-                                        style={{paddingLeft:10,paddingBottom:10}}
-                                    >
-                                            
-                                    </TextField>
-                                <br/>
-                                Lesson :
-                                    <TextField 
-                                        placeholder=" Select the lesson"
-                                        style={{paddingLeft:10,paddingBottom:10}}
-                                    >
-                                            
-                                    </TextField>
-                                <br/>
-                                Date :
-                                    <TextField 
-                                        placeholder=" Select the date"
-                                        style={{paddingLeft:10,paddingBottom:40}}
-                                    >
-                                            
-                                    </TextField>
-                                <br/>
-                            </Typography>
-                            <Paper className={classes.root} style={{width:"96%",marginLeft:18}}>
+
+                            <Paper className={classes.root} style={{width:"96%",marginLeft:19}}>
                                 <Table className={classes.table}>
                                     <TableBody>
                                         <TableRow>
                                             <TableCell align="center" style={{width:"10%"}}>No.</TableCell>
                                             <TableCell align="center" >Name</TableCell>
-                                            <TableCell align="center" >Status</TableCell>                    
-                                            <TableCell align="center" >Note</TableCell>
+                                            {x.map((item)=>
+                                                <TableCell>{item}-July</TableCell>)}
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell align="center" style={{width:"10%"}}></TableCell>
+                                            <TableCell align="center" ></TableCell>
+                                            <TableCell>
+                                                <Switch
+                                                    checked={this.state.checkedB}
+                                                    onChange={this.handleChange('checkedB')}
+                                                    value={this.state.checkedB}
+                                                    color="primary"
+                                                /> 
+                                            </TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table> 

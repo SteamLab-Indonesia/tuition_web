@@ -10,7 +10,9 @@ import { withStyles } from '@material-ui/core/styles';
 import PersonIcon from '@material-ui/icons/Person';
 import GroupIcon from '@material-ui/icons/Group';
 import BookIcon from '@material-ui/icons/Assignment';
+import ClassroomIcon from '@material-ui/icons/MeetingRoom';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import StaffIcon from '@material-ui/icons/InsertChart';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import FeedbackIcon from '@material-ui/icons/Feedback';
 import { Button } from '@material-ui/core';
@@ -59,12 +61,32 @@ function Dashboard(props) {
                             </Card>        
                         </Grid>
                     </Button>
+                    <Button component={Link} to="/classroom" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <ClassroomIcon className={classes.icon} />
+                                    <p id="name">classroom</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
                     <Button component={Link} to="/attendance" lg={4} xs={12}>
                         <Grid item  className="dis-content">
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <BarChartIcon className={classes.icon} />
                                     <p id="name">attendance</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                    <Button component={Link} to="/staffattendance" lg={4} xs={12}>
+                        <Grid item  className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <StaffIcon className={classes.icon} />
+                                    <p id="name">staff attendance</p>
                                 </CardContent>
                             </Card>        
                         </Grid>

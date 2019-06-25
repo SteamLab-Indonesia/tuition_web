@@ -173,7 +173,7 @@ class MyHeader extends Component {
                           <MenuIcon />
                         </IconButton>
                         <Grid item xs={2}>
-                          <Typography variant="h6" color="inherit" noWrap component={ Link } to='/' id="title">
+                          <Typography variant="h6" color="inherit" noWrap component={ Link } to='/dashboard' id="title">
                           STEAM LAB 
                           </Typography>
                         </Grid>
