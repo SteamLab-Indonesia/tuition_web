@@ -24,6 +24,14 @@ class SessionData {
         if (data.branch)
             this.branch = data.branch;
     }
+
+    isPermissionLevel = (permission_level) => {
+        if (this.userData)
+        {
+            return (this.userData.permission === permission_level)
+        }
+        return false;
+    }
 }
 
 let _sessionData = new SessionData({});

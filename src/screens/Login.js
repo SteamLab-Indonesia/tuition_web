@@ -70,7 +70,7 @@ class Login extends React.Component {
       this.setState({loading: false});
       if (user)
       {
-        this.props.history.push('/');
+        this.props.history.push('/dashboard');
       }
       else
       {

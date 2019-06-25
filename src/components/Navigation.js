@@ -54,7 +54,8 @@ class Navigation extends Component{
 
         return (
             <Switch history={history}>
-                <Route exact path='/' component={Dashboard}/>
+                <Route exact path='/' component={Login}/>
+                <Route path='/dashboard' component={Dashboard}/>
                 <Route path='/users' component={MUsers}/>
                 <Route path='/teacher' component={MTeacher}/>
                 <Route path='/courses' component={MCourses}/>
