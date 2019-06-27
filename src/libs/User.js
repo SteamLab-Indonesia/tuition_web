@@ -232,7 +232,8 @@ export function updateLoginSession(email)
             }
             else
             {
-                setData(null, null, null, res.id, res.data);
+                if (res)
+                    setData(null, null, null, res.id, res.data);
                 resolve(res);    
             }
         }).catch((err) => {
