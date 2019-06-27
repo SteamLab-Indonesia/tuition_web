@@ -6,8 +6,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableFooter from '@material-ui/core/TableFooter';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import IconButton from '@material-ui/core/IconButton';
@@ -28,6 +26,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import BookIcon from '@material-ui/icons/Book';
@@ -219,7 +219,6 @@ class MUsers extends Component {
   }
   
   handleArchive = (item) => {
-    console.log(item);
     setUserArchive(
       item.id,
       !item.data.archive
@@ -250,10 +249,8 @@ class MUsers extends Component {
   }
 
   BtnClick = () => {
-    console.log(this.state.search);
     if(this.state.search !== ""){
         let searchResult = this.state.user.filter((item) => {
-        console.log(item.data.name);
         return item.data.name.toLowerCase() === this.state.search.toLowerCase();
       });
       if (!searchResult || searchResult.length === 0){
@@ -275,7 +272,7 @@ class MUsers extends Component {
     const { user, rowsPerPage, page, searchResult } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
     let userList = (searchResult.length > 0 ? searchResult : user);
-    console.log(userList)
+    
     return (
       <div>
         <div>
@@ -297,7 +294,7 @@ class MUsers extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+        </div>
       <div id="msurface" className="surface">
         <Card className={classes.card} style={{paddingTop: '10px',paddingBottom: 50}}>
           <CardContent>
@@ -315,7 +312,12 @@ class MUsers extends Component {
                       placeholder="Search User..."
                       onChange={(e) => {this.setState({search: e.target.value})}}
                     />
-                    <IconButton className={classes.iconButton} aria-label="Search" onClick={this.BtnClick}>
+                    <IconButton 
+                      className={classes.iconButton} 
+                      aria-label="Search" 
+                      onClick={this.BtnClick} 
+                      style={{marginLeft:12}}
+                    >
                       <SearchIcon />
                     </IconButton>
                   </Paper>

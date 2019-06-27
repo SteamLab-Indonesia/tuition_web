@@ -286,3 +286,7 @@ export function setUserArchive(id_num,archive){
         archive
     })
 }
+
+export function getStaff() {
+    return getUserListByPermission([PermissionLevel.TEACHER])
+}
