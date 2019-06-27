@@ -51,7 +51,7 @@ const styles = theme => ({
   },
 });
 
-class TextFields extends React.Component {
+class AddLesson extends React.Component {
 
   handleChange = name => event => {
     this.setState({
@@ -207,10 +207,10 @@ class TextFields extends React.Component {
   }
 }
 
-TextFields.propTypes = {
+AddLesson.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
 
 
-export default withStyles(styles)(TextFields);
+export default withStyles(styles)(AddLesson);
