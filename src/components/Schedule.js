@@ -119,7 +119,7 @@ class Schedule extends React.Component{
     render() {
         const classes = useStyles;
         return (
-            <div>
+            <div style={{marginTop: '10px'}}>
                 <Card className={classes.card} style={{width: "100%"}}>
                     <CardActions>
                         <div style={styles.container}>
@@ -130,7 +130,7 @@ class Schedule extends React.Component{
                                         item.text === this.state.selected)
                                     {
                                         return (
-                                            <Button variant="contained" color="primary" style={styles.buttonContainer}>
+                                            <Button key={item.text} variant="contained" color="primary" style={styles.buttonContainer}>
                                                 <span id={item.text} >{item.text}</span>
                                             </Button>
                                         );
@@ -138,7 +138,7 @@ class Schedule extends React.Component{
                                     else
                                     {
                                         return (
-                                            <Button variant="outlined" color="primary" style={styles.buttonContainer} onClick={()=>this.onDayClick(item)}>
+                                            <Button key={item.text} variant="outlined" color="primary" style={styles.buttonContainer} onClick={()=>this.onDayClick(item)}>
                                                 <span id={item.text} >{item.text}</span>
                                             </Button>                                                
                                         )
@@ -146,36 +146,34 @@ class Schedule extends React.Component{
                                 })
                             }
                             </div>
-                            <form style={{display: 'flex', flexWrap: 'wrap'}} noValidate>
-                                <TextField
-                                    id="time"
-                                    style={{ width: "40%", marginRight: '1cm' }}
-                                    label="from"
-                                    type="time"
-                                    defaultValue={this.props.start ? this.props.start : DEFAULT_START}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    inputProps={{
-                                        step: 300, // 5 min
-                                    }}
-                                    onChange={this.handleStartChange}
-                                />
-                                <TextField
-                                    id="time"
-                                    style={{ width: "40%" }}
-                                    label="to"
-                                    type="time"
-                                    defaultValue={this.props.end ? this.props.end : DEFAULT_END}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    inputProps={{
-                                        step: 300, // 5 min
-                                    }}
-                                    onChange={this.handleEndChange}
-                                />
-                            </form>
+                            <TextField
+                                id="time"
+                                style={{ width: "40%", marginRight: '1cm' }}
+                                label="from"
+                                type="time"
+                                defaultValue={this.props.start ? this.props.start : DEFAULT_START}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputProps={{
+                                    step: 300, // 5 min
+                                }}
+                                onChange={this.handleStartChange}
+                            />
+                            <TextField
+                                id="time"
+                                style={{ width: "40%" }}
+                                label="to"
+                                type="time"
+                                defaultValue={this.props.end ? this.props.end : DEFAULT_END}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputProps={{
+                                    step: 300, // 5 min
+                                }}
+                                onChange={this.handleEndChange}
+                            />
                         </div>
                     </CardActions>
                 </Card>

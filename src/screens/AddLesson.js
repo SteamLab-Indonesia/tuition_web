@@ -69,6 +69,7 @@ class AddLesson extends React.Component {
       selectedClassroom: "",
       courses: [],
       selectedCourses: "",
+      scheduleList: []
     }
   }
 
@@ -105,15 +106,21 @@ class AddLesson extends React.Component {
     })
   }
 
+  onAddSchedule = () => {
+    let {scheduleList} = this.state;
+    let now = new Date();
+    scheduleList.push({
+      start: now.getHours(),
+      end: now.getHours()+1
+    });
+    this.setState({scheduleList});
+  }
+
   render() {
     const { classes } = this.props;
-    const { teacher, classroom, courses, selectedCourses } = this.state;
-    console.log(teacher)
-    console.log(classroom);
-    console.log(selectedCourses);
-
+    const { teacher, classroom, courses } = this.state;
     return (
-      <div className={classes.root} id="surface" class="surface">
+      <div className={classes.root} id="surface">
         <Paper elevation={1} id="inside">
             <form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
                 <Typography variant="h5" component="h3" id="papert">
@@ -182,18 +189,18 @@ class AddLesson extends React.Component {
                 </TextField>
                 <br />
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Typography style={{ fontSize: '20px' }}>Create Schedule </Typography>
-                  <IconButton className={classes.iconButton} aria-label="Remove">
-                    <RemoveIcon style={{ fontSize: '20px' }} /> 
-                  </IconButton>
-                  <IconButton className={classes.iconButton} aria-label="Add">
-                    <AddIcon style={{ fontSize: '20px' }} /> 
+                  <Typography style={{ fontSize: '20px' }}>Schedule </Typography>
+                  <IconButton className={classes.iconButton} aria-label="Add" onClick={this.onAddSchedule}>
+                    <AddIcon style={{ fontSize: '20px' }} />
                   </IconButton>
                 </div>
-                
-                <Schedule/>
-
-                
+                {
+                  this.state.scheduleList.map((item, index) => {
+                    return (
+                      <Schedule key={index} selected={item.selected} start={item.selected} end={item.end}/>
+                    )
+                  })
+                }
                 <br />
                 <div>
                   <Button variant="contained" color="secondary" className={classes.button}  onClick={ addLesson }>save</Button>
