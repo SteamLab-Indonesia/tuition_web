@@ -16,7 +16,7 @@ import { getCourses } from '../libs/Courses';
 import Schedule from '../components/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
 
 const styles = theme => ({
    root: {
@@ -48,6 +48,7 @@ const styles = theme => ({
   },
   iconButton: {
     padding: 7,
+    marginLeft: '10px'
   },
 });
 
@@ -110,8 +111,8 @@ class AddLesson extends React.Component {
     let {scheduleList} = this.state;
     let now = new Date();
     scheduleList.push({
-      start: now.getHours(),
-      end: now.getHours()+1
+      start: now.getHours() + ':00',
+      end: now.getHours()+1 + ':00'
     });
     this.setState({scheduleList});
   }
@@ -190,14 +191,14 @@ class AddLesson extends React.Component {
                 <br />
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <Typography style={{ fontSize: '20px' }}>Schedule </Typography>
-                  <IconButton className={classes.iconButton} aria-label="Add" onClick={this.onAddSchedule}>
-                    <AddIcon style={{ fontSize: '20px' }} />
-                  </IconButton>
+                  <Fab size="small" color="primary" className={classes.iconButton} aria-label="Add" onClick={this.onAddSchedule}>
+                    <AddIcon />
+                  </Fab>
                 </div>
                 {
                   this.state.scheduleList.map((item, index) => {
                     return (
-                      <Schedule key={index} selected={item.selected} start={item.selected} end={item.end}/>
+                      <Schedule key={index} selected={item.selected} start={item.start} end={item.end}/>
                     )
                   })
                 }
