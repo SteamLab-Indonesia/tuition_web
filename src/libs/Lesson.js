@@ -18,18 +18,22 @@ export function getLesson(callback){
     });
 };
 
-export function addLesson(name, program, schedule, teacher) {
-  return new Promise((resolve, reject) => {
-    const db = firebase.firestore();
-    db.collection("lesson").add({
-      program,
-      name,
-      schedule,
-      teacher
-    }).then((res) => {
-      resolve("ok");
-    }).catch((err) => {
-      reject(err);
-    })
-  })
-};
+export function addLesson(lesson_name, program_id, teacher_id, classroom_id, scheduleList)
+{
+	return new Promise((resolve, reject) => {
+		const db = firebase.firestore();
+		db.collection("lesson").add({
+			program: db.collection("program").doc(program_id),
+			name: lesson_name,
+			classroom: db.collection("classroom").doc(classroom_id),
+			teacher: db.collection("user").doc(teacher_id),
+			schedule: scheduleList
+		})
+		.then((docRef) => {
+			resolve(docRef);
+		})
+		.catch((err) => {
+			reject(err);
+		})
+	}) 
+}

@@ -70,7 +70,7 @@ class Schedule extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            selected: DEFAULT_DAY,
+            day: DEFAULT_DAY,
             start: DEFAULT_START,
             end: DEFAULT_END
         }
@@ -79,11 +79,11 @@ class Schedule extends React.Component{
     componentDidMount = () => {
         let start = DEFAULT_START;
         let end = DEFAULT_END;
-        let selected = DEFAULT_DAY;
+        let day = DEFAULT_DAY;
 
-        if (this.props.selected)
+        if (this.props.day)
         {
-            selected = this.props.selected.toUpperCase();
+            day = this.props.day.toUpperCase();
         }
         if (this.props.start)
         {
@@ -93,24 +93,33 @@ class Schedule extends React.Component{
         {
             end = this.props.end;
         }
-        this.setState({selected, start, end});
+        this.setState({day, start, end});
     }
 
+    update = (day, start, end) => {
+        if (this.props.onUpdate)
+        {
+            this.props.onUpdate(this.props.id, day, start, end);
+        }
+    }
     onDayClick = (item) => {
-        this.setState({selected: item.text});
+        this.update(item.text, this.state.start, this.state.end);
+        this.setState({day: item.text});        
     }
 
     handleStartChange = (e) => {
-        this.setState({start: + e.target.value});
+        this.update(this.state.day, e.target.value, this.state.end);
+        this.setState({start: e.target.value});
     }
 
     handleEndChange = (e) => {
+        this.update(this.state.day, this.state.start, e.target.value);
         this.setState({end: e.target.value});
     }
 
     toJson = () => {
         return {
-            day: this.state.selected,
+            day: this.state.day,
             start: this.state.start,
             end: this.state.end
         }
@@ -126,8 +135,8 @@ class Schedule extends React.Component{
                             <div style={styles.dayContainer}>
                             {
                                 days.map((item) => {
-                                    if (this.state.selected &&
-                                        item.text === this.state.selected)
+                                    if (this.state.day &&
+                                        item.text === this.state.day)
                                     {
                                         return (
                                             <Button key={item.text} variant="contained" color="primary" style={styles.buttonContainer}>

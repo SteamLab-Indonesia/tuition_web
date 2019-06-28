@@ -54,68 +54,97 @@ const styles = theme => ({
 
 class AddLesson extends React.Component {
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
-  constructor(props){
-    super(props);
-    this.state = {
-      teacher: [],
-      selectedTeacher: "",
-      lesson: '',
-      subject: 'none',
-      classroom: [],
-      selectedClassroom: "",
-      courses: [],
-      selectedCourses: "",
-      scheduleList: []
-    }
-  }
+	handleChange = name => event => {
+		this.setState({
+			[name]: event.target.value,
+		});
+	};
+	constructor(props){
+		super(props);
+		this.state = {
+			teacher: [],
+			selectedTeacher: "",
+			lesson: '',
+			subject: 'none',
+			classroom: [],
+			selectedClassroom: "",
+			courses: [],
+			selectedCourses: "",
+			scheduleList: []
+		}
+	}
 
   componentDidMount = () => {
-    const id_num = this.props.match.params.id;
-    getCoursesDetails(id_num).then((courseData) => {
-      // data from firebase docs[0].data
-      if (courseData)
-      {
-        this.setState({
-          subject: courseData.subject,
-          curriculum: courseData.curriculum,
-          level: courseData.level,
-        })
-      }
-    });
-    getCourses((cou_list) => {
-      this.setState({
-        courses: cou_list
-      })
-    });
-    getTeacher((teacher_list) => {
-      this.setState({
-        teacher: teacher_list
-      })
-    });
-    getClass((class_list) => {
-      this.setState({
-        classroom: class_list
-      })
-    });
-    this.setState({
-      selectedCourses: id_num
-    })
+	const id_num = this.props.match.params.id;
+	getCoursesDetails(id_num).then((courseData) => {
+		// data from firebase docs[0].data
+		if (courseData)
+		{
+			this.setState({
+				subject: courseData.subject,
+				curriculum: courseData.curriculum,
+				level: courseData.level,
+			})
+		}
+	});
+	getCourses((cou_list) => {
+			this.setState({
+			courses: cou_list
+			})
+	});
+	getTeacher().then((teacher_list) => {
+		this.setState({
+			teacher: teacher_list
+		})
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+	getClass((class_list) => {
+		this.setState({
+			classroom: class_list
+		})
+	});
+	this.setState({
+		selectedCourses: id_num
+	})
   }
 
-  onAddSchedule = () => {
-    let {scheduleList} = this.state;
-    let now = new Date();
-    scheduleList.push({
-      start: now.getHours() + ':00',
-      end: now.getHours()+1 + ':00'
-    });
-    this.setState({scheduleList});
-  }
+	onAddSchedule = () => {
+		let {scheduleList} = this.state;
+		let now = new Date();
+		scheduleList.push({
+			start: now.getHours() + ':00',
+			end: now.getHours()+1 + ':00'
+		});
+		this.setState({scheduleList});
+	}
+
+	onUpdateSchedule = (index, day, start, end) => {
+		if (index >= 0 && index < this.state.scheduleList.length)
+		{
+			let scheduleList = this.state.scheduleList;
+			scheduleList[index].day = day;
+			scheduleList[index].start = start;
+			scheduleList[index].end = end;
+			this.setState({scheduleList});
+		}
+	}
+
+	saveLesson = () => {
+		let {lesson, 
+			selectedClassroom, 
+			selectedCourses, 
+			selectedTeacher, 
+			scheduleList} = this.state;
+		addLesson(lesson, selectedCourses, selectedTeacher, selectedClassroom, scheduleList)
+		.then((doc) => {
+			console.log(doc);
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+	}
 
   render() {
     const { classes } = this.props;
@@ -198,13 +227,13 @@ class AddLesson extends React.Component {
                 {
                   this.state.scheduleList.map((item, index) => {
                     return (
-                      <Schedule key={index} selected={item.selected} start={item.start} end={item.end}/>
+                      <Schedule key={index} id={index} day={item.day} start={item.start} end={item.end} onUpdate={this.onUpdateSchedule} />
                     )
                   })
                 }
                 <br />
                 <div>
-                  <Button variant="contained" color="secondary" className={classes.button}  onClick={ addLesson }>save</Button>
+                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.saveLesson}>save</Button>
                   <Button variant="outlined" className={classes.button} component={ Link } to="/courses">cancel</Button>
                 </div>
                 
@@ -218,7 +247,5 @@ class AddLesson extends React.Component {
 AddLesson.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-
 
 export default withStyles(styles)(AddLesson);
