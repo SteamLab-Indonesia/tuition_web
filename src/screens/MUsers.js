@@ -20,7 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
-import { getUser } from '../libs/User';
+import { getUserListByPermission } from '../libs/User';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -33,8 +33,9 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 import BookIcon from '@material-ui/icons/Book';
 import { Tooltip } from '@material-ui/core';
 import { setUserArchive } from '../libs/User'
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import {Menu, MenuItem} from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import PermissionLevel from '../libs/PermissionLevel';
 
 const CustomTableCell = withStyles(theme => ({
     head: {
@@ -83,44 +84,44 @@ const styles = theme => ({
 
 const permission = [
   {
-    value: 'guest',
+    value: PermissionLevel.GUEST,
     label: 'Guest',
   },
   {
-    value: 'students',
+    value: PermissionLevel.STUDENTS,
     label: 'Students',
   },
   {
-    value: 'parents',
+    value: PermissionLevel.PARENTS,
     label: 'Parents',
   },
   {
-    value: 'teacher',
+    value: PermissionLevel.TEACHER,
     label: 'Teacher',
   },
   {
-    value: 'operator',
+    value: PermissionLevel.OPERATOR,
     label: 'Operator',
   },
   {
-    value: 'coordinator',
+    value: PermissionLevel.COORDINATOR,
     label: 'Coordinator',
   },
   {
-    value: 'finance',
+    value: PermissionLevel.FINANCE,
     label: 'Finance',
   },
   {
-    value: 'branch_admin',
+    value: PermissionLevel.BRANCH_ADMIN,
     label: 'Branch Admin',
   },
   {
-    value: 'organization_admin',
-    label: 'Organization admin',
+    value: PermissionLevel.ORGANIZATION_ADMIN,
+    label: 'Organization Admin',
   },
   {
-    value: 'super_admin',
-    label: 'Super admin',
+    value: PermissionLevel.SUPER_ADMIN,
+    label: 'Super Admin',
   },
 ];
 class TablePaginationActions extends React.Component {
@@ -194,6 +195,35 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
   TablePaginationActions,
 );
 
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})(props => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+const StyledMenuItem = withStyles(theme => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
 class MUsers extends Component {
   constructor(props) {
     super(props);
@@ -205,15 +235,17 @@ class MUsers extends Component {
       search : '',
       open: false,
       archive: false,
-      openMenu: false
+      openMenu: false,
+      userLevelList: [100],
+      anchor: null
     };
   }
 
   componentDidMount() {
-    getUser((user_list) => {
+    getUserListByPermission(this.state.userLevelList).then((user) => {
       // console.log(user_list);
       this.setState({
-        user: user_list
+        user
       })
     });
   }
@@ -246,6 +278,9 @@ class MUsers extends Component {
   }
   closeUser = () => {
     this.setState({openMenu: false, anchor: null});
+    getUserListByPermission(this.state.userLevelList).then((user) => {
+      this.setState({user});
+    })
   }
 
   BtnClick = () => {
@@ -265,6 +300,21 @@ class MUsers extends Component {
     {
       this.setState({searchResult: this.state.user});
     }
+  }
+
+  updateList = (userLevel) => {
+    let {userLevelList} = this.state;
+    if (userLevelList.includes(userLevel))
+    {
+      // Remove for array if already checked
+      // Using array.filter
+      userLevelList = userLevelList.filter(item => item !== userLevel);
+    }
+    else
+    {
+      userLevelList.push(userLevel);      
+    }
+    this.setState({userLevelList});
   }
 
   render() {
@@ -328,21 +378,31 @@ class MUsers extends Component {
                     variant="contained" 
                     color="primary" 
                     className={classes.button}  
-                    onClick={this.clickUser}
+                    onClick={this.clickUser}                    
                   >
                     User's level
                   </Button>
-                  <Menu
+                  <StyledMenu
                     anchorEl={this.state.anchor}
                     keepMounted
                     open={this.state.openMenu}
+                    onClose={this.closeUser}
                   >
                     {permission.map(option => (
-                      <MenuItem key={option.value} value={option.value} onClick={this.closeUser}>
-                        {option.label} 
-                      </MenuItem>
+                      <StyledMenuItem>
+                          <Checkbox
+                            checked={this.state.userLevelList.includes(option.value)}
+                            onChange={()=>this.updateList(option.value)}
+                            key={option.value}
+                            color="primary"
+                            inputProps={{
+                              'aria-label': option.label,
+                            }}
+                          />
+                          {option.label}
+                      </StyledMenuItem>
                     ))}
-                  </Menu>
+                  </StyledMenu>
                 </Grid>
             
                 <Grid item xs={2}>
