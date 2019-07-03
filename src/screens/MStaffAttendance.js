@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from "@material-ui/core/MenuItem"
-import { getStaff } from "../libs/User";
+import { getUserListByPermission } from "../libs/User";
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -29,6 +29,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import PermissionLevel from '../libs/PermissionLevel'
+import Checkbox from '@material-ui/core/Checkbox'
+
 
 const styles = theme => ({
     root: {
@@ -72,31 +75,31 @@ for(i=1;i<7;i++){
 
 const permission = [
     {
-      value: 'teacher',
+      value: PermissionLevel.TEACHER,
       label: 'Teacher',
     },
     {
-      value: 'operator',
+      value: PermissionLevel.OPERATOR,
       label: 'Operator',
     },
     {
-      value: 'coordinator',
+      value: PermissionLevel.COORDINATOR,
       label: 'Coordinator',
     },
     {
-      value: 'finance',
+      value: PermissionLevel.FINANCE,
       label: 'Finance',
     },
     {
-      value: 'branch_admin',
+      value: PermissionLevel.BRANCH_ADMIN,
       label: 'Branch Admin',
     },
     {
-      value: 'organization_admin',
+      value: PermissionLevel.ORGANIZATION_ADMIN,
       label: 'Organization admin',
     },
     {
-      value: 'super_admin',
+      value: PermissionLevel.SUPER_ADMIN,
       label: 'Super admin',
     },
   ];
@@ -171,6 +174,36 @@ TablePaginationActions.propTypes = {
 const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
   TablePaginationActions,
 );
+
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})(props => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+const StyledMenuItem = withStyles(theme => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
 class MAttendance extends Component  {
   constructor(props){
     super(props)
@@ -181,7 +214,9 @@ class MAttendance extends Component  {
       rowsPerPage:5,
       search : '',
       open: false,
-      openMenu: false
+      openMenu: false,
+      staffLevelList: [200,250,300,320,350,400,450,500],
+      anchor: null
     }
   }
 
@@ -190,16 +225,12 @@ class MAttendance extends Component  {
       checkedB: true,
     };
 
-  componentDidMount(){ 
-    getStaff().then((staff_list) => {
-      this.setState({
-        staff: staff_list
+  componentDidMount() { 
+    getUserListByPermission(this.state.staffLevelList).then((staff) => {
+      this.setState ({
+        staff
       })
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+    })}
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
@@ -245,6 +276,29 @@ class MAttendance extends Component  {
     {
       this.setState({searchResult: this.state.staff});
     }
+  }
+
+  clickUser = (e) => {
+    this.setState({openMenu: true, anchor: e.currentTarget});
+  }
+  closeUser = () => {
+    this.setState({openMenu: false, anchor: null});
+    getUserListByPermission(this.state.staffLevelList).then((staff) => {
+      this.setState({staff});
+    })
+  }
+
+  updateList = (staffLevel) => {
+    let {staffLevelList} = this.state
+    if(this.state.staffLevelList.includes(staffLevel))
+      {
+        staffLevelList = staffLevelList.filter(item => item!==staffLevel)
+      }
+    else
+      {
+        staffLevelList.push(staffLevel)
+      }
+    this.setState ({staffLevelList})
   }
 
   render(){
@@ -317,17 +371,27 @@ class MAttendance extends Component  {
                       >
                         Staff's level
                       </Button>
-                      <Menu
+                      <StyledMenu
                         anchorEl={this.state.anchor}
                         keepMounted
                         open={this.state.openMenu}
+                        onClose={this.closeUser}
                       >
                         {permission.map(option => (
-                          <MenuItem key={option.value} value={option.value} onClick={this.closeStaff}>
-                            {option.label} 
-                          </MenuItem>
+                          <StyledMenuItem>
+                              <Checkbox
+                                checked={this.state.staffLevelList.includes(option.value)}
+                                onChange={()=>this.updateList(option.value)}
+                                key={option.value}
+                                color="primary"
+                                inputProps={{
+                                  'aria-label': option.label,
+                                }}
+                              />
+                              {option.label}
+                          </StyledMenuItem>
                         ))}
-                      </Menu>
+                      </StyledMenu>
                     </Grid>
                     <Grid item xs={12}>
                       <Paper className={classes.root} style={{width:"96%",marginLeft:19}}>
