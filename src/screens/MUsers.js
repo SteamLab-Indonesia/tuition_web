@@ -242,7 +242,7 @@ class MUsers extends Component {
   }
 
   componentDidMount() {
-    getUserListByPermission(this.state.userLevelList).then((user) => {
+    getUserListByPermission(this.state.userLevelList).then((user)  => {
       // console.log(user_list);
       this.setState({
         user
@@ -317,7 +317,16 @@ class MUsers extends Component {
     this.setState({userLevelList});
   }
 
-  render() {
+	getRole = (level) => {
+		let role = permission.filter((item) => item.value === level);
+		if (role && role.length > 0)
+		{
+			return role[0].label;
+		}
+		return 'Unknown';
+	}
+
+	render() {
     const { classes } = this.props;
     const { user, rowsPerPage, page, searchResult } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
@@ -380,7 +389,7 @@ class MUsers extends Component {
                     className={classes.button}  
                     onClick={this.clickUser}                    
                   >
-                    User's level
+                    Role Filter
                   </Button>
                   <StyledMenu
                     anchorEl={this.state.anchor}
@@ -407,7 +416,7 @@ class MUsers extends Component {
             
                 <Grid item xs={2}>
                   <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
-                    add student
+                    + Student
                   </Button>
                 </Grid>
               </Grid>
@@ -417,9 +426,9 @@ class MUsers extends Component {
               <Table className={classes.table} >
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center" >Student</TableCell>
-                    <TableCell align="center" >Username</TableCell>
-                    <TableCell align="center" >Email</TableCell>                    
+                    <TableCell align="center" >Name</TableCell>
+                    <TableCell align="center" >Email</TableCell>
+                    <TableCell align="center" >Role</TableCell>                    
                     <TableCell align="center" >Phone Number</TableCell>
                     <TableCell align="center" style={{width:"18%"}} >Actions</TableCell>
                   </TableRow>
@@ -429,8 +438,8 @@ class MUsers extends Component {
                     userList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                     <TableRow key={item.data.email}>
                       <CustomTableCell align="center" >{item.data.name}</CustomTableCell>
-                      <CustomTableCell align="center" >{item.data.username}</CustomTableCell>
                       <CustomTableCell align="center" >{item.data.email}</CustomTableCell>
+                      <CustomTableCell align="center" >{this.getRole(item.data.permission)}</CustomTableCell>
                       <CustomTableCell align="center" >{item.data.phone}</CustomTableCell>
                       <CustomTableCell align="center">
                         <div>
