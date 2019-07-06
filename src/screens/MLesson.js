@@ -24,7 +24,7 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { Tooltip } from '@material-ui/core';
-import { getLesson } from '../libs/Lesson';
+import { getLessons } from '../libs/Lesson';
 
 const actionsStyles = theme => ({
   root: {
@@ -206,12 +206,9 @@ class VLesson extends Component{
 
   componentDidMount() {
     const id_num = this.props.match.params.id;
-    getLesson((les_list) => {
-      this.setState({
-        lesson: les_list
-      })
-    });
-    console.log(id_num);
+    getLessons(id_num).then((lesson) => {
+      this.setState({lesson});
+    })
     this.setState({ id_num });
   }
 
@@ -242,9 +239,10 @@ class VLesson extends Component{
                     <TableRow>
                         <TableCell style={{width: '5%'}}>No.</TableCell>
                         <TableCell style={{width: '25%'}} align="left">Lesson Name</TableCell>
+                        <TableCell style={{width: '25%'}} align="left">Level</TableCell>
                         <TableCell style={{width: '25%'}} align="left">Schedule</TableCell>
-                        <TableCell style={{width: '30%'}} align="center">Teacher</TableCell>
-                        <TableCell style={{width: '15%'}} align="center">Actions</TableCell>
+                        <TableCell style={{width: '10%'}} align="center">Teacher</TableCell>
+                        <TableCell style={{width: '10%'}} align="center">Actions</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
@@ -252,9 +250,16 @@ class VLesson extends Component{
                       lesson.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
                         <TableRow>
                           <TableCell>{page * 10 + index + 1}</TableCell>
-                          <TableCell align="left">{item.data.subject}</TableCell>
-                          <TableCell align="left">{item.data.curriculum}</TableCell>
-                          <TableCell align="center">{item.data.level}</TableCell>
+                          <TableCell align="left">{item.data.name}</TableCell>
+                          <TableCell align="left">{item.data.program.curriculum} - {item.data.program.level}</TableCell>
+                          <TableCell align="left">
+                            {item.data.schedule.map((item) => {
+                              return (
+                                <div>{item.day} {item.start} - {item.end}</div>
+                              )
+                            })}
+                          </TableCell>
+                          <TableCell align="center">{item.data.teacher.name}</TableCell>
                           <TableCell align="left">
                         <div>
                         <Tooltip title='view'>
