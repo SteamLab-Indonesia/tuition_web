@@ -12,6 +12,7 @@ import CardContent from '@material-ui/core/CardContent'
 import MenuItem from '@material-ui/core/MenuItem';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
+import { getUserListByPermission } from '../libs/User';
 
 
 const month = [
@@ -81,8 +82,24 @@ const styles = theme => ({
 });
 
 class SimpleTable extends Component  {
-
-      state = {
+   constructor(props) {
+    super(props);
+    this.state = {
+      user: [],
+      searchResult: [],
+      page: 0,
+      rowsPerPage:5,
+      search : '',
+      open: false,
+      archive: false,
+      openMenu: false,
+      userLevelList: [100],
+      anchor: null,
+      checkedB: true,
+    };
+  }
+    state = {
+        user:[],
         month: '',
         checkedB: true,
       }
@@ -91,15 +108,27 @@ class SimpleTable extends Component  {
           [name]: event.target.value,
           });
       };
+
+      componentDidMount() {
+        getUserListByPermission(this.state.userLevelList).then((user)  => {
+          // console.log(user_list);
+          this.setState({
+            user
+          })
+        });
+      }
+
     render(){
+      const { user, rowsPerPage, page, searchResult } = this.state;
+      const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
         const { classes } = this.props;
         return (
             <div id="msurface" className="surface">
             <Card>
+             
                 <CardContent>
                     <Table className={classes.table} style={{color:'gray'}}>
                         <TableRow><TableCell>Lesson :</TableCell></TableRow>
-                        <TableRow><TableCell>Teacher :</TableCell></TableRow>
                         <TableRow><TableCell>Month :  
                         <TextField
                         style={{width: '17%'}}
@@ -117,7 +146,7 @@ class SimpleTable extends Component  {
                         <Table className={classes.table}>
                             <TableHead>
                             <TableRow>
-                                <TableCell align='left'>No</TableCell>
+                                <TableCell align='left' width="7%">No</TableCell>
                                 <TableCell align="left">Student</TableCell>
                                 <TableCell align="left">Status</TableCell>
                                 <TableCell align="left">Note</TableCell>
@@ -125,18 +154,19 @@ class SimpleTable extends Component  {
                             
                             </TableHead>
                             <TableBody>
-                                <TableRow>
-                                    <TableCell></TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell>
-                                        <Switch
-                                        style={{paddingLeft:'-20px'}}
-                                        onChange={this.handleChange('checkedB')}
-                                        value={this.state.checkedB}
-                                        color="primary"
-                                        />                                                      
-                                    </TableCell>
-                                </TableRow>
+                            {user.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => (
+                            <TableRow key={item.data.email}>
+                              <TableCell align="left" >{ page * 10 + index +1}</TableCell>
+                              <TableCell align="left" >{item.data.name}</TableCell> 
+                              <TableCell>
+                                  <Switch
+                                  style={{paddingLeft:'-20px'}}
+                                  onChange={this.handleChange('checkedB')}
+                                  value={this.state.checkedB}
+                                  color="primary"
+                                  />                                                      
+                              </TableCell>
+                              </TableRow>))}
                             </TableBody>
                         </Table>
                     </Paper>
