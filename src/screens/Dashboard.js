@@ -36,6 +36,16 @@ function Dashboard(props) {
                             <Card className={classes.card}>
                                 <CardContent align='center'>
                                     <PersonIcon className={classes.icon} />
+                                    <p id="name">Users</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
+                    <Button component={Link} to="/student" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <PersonIcon className={classes.icon} />
                                     <p id="name">Student</p>
                                 </CardContent>
                             </Card>        

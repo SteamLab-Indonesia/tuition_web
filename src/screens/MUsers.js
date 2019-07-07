@@ -214,6 +214,7 @@ const StyledMenu = withStyles({
     {...props}
   />
 ));
+
 const StyledMenuItem = withStyles(theme => ({
   root: {
     '&:focus': {
@@ -242,7 +243,13 @@ class MUsers extends Component {
   }
 
   componentDidMount() {
-    getUserListByPermission(this.state.userLevelList).then((user)  => {
+    let permissionList = this.state.userLevelList;
+    if (this.props.permission)
+    {
+      permissionList = [this.props.permission];
+      this.setState({userLevelList: permissionList});
+    }
+    getUserListByPermission(permissionList).then((user)  => {
       // console.log(user_list);
       this.setState({
         user
@@ -324,14 +331,14 @@ class MUsers extends Component {
 			return role[0].label;
 		}
 		return 'Unknown';
-	}
+  }
 
 	render() {
     const { classes } = this.props;
     const { user, rowsPerPage, page, searchResult } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
     let userList = (searchResult.length > 0 ? searchResult : user);
-    
+    let title = ( this.props.title ? this.props.title : "Users");
     return (
       <div>
         <div>
@@ -360,7 +367,7 @@ class MUsers extends Component {
             <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
               <Grid container spacing={24}>
                 <Grid item xs={5}>
-                  <Typography variant="h5" component="h3">Users</Typography>
+                  <Typography variant="h5" component="h3">{title}</Typography>
                 </Grid>
 
                 <Grid item xs={3}>
@@ -368,7 +375,7 @@ class MUsers extends Component {
                     <InputBase 
                       className={classes.input} 
                       value={this.state.search}
-                      placeholder="Search User..."
+                      placeholder={"Search " + title + " ..."}
                       onChange={(e) => {this.setState({search: e.target.value})}}
                     />
                     <IconButton 
@@ -382,15 +389,19 @@ class MUsers extends Component {
                   </Paper>
                 </Grid>
 
-                <Grid item xs={2}>
-                  <Button 
-                    variant="contained" 
-                    color="primary" 
-                    className={classes.button}  
-                    onClick={this.clickUser}                    
-                  >
-                    Role Filter
-                  </Button>
+                {
+                  this.props.permission ? null : (
+                    <Grid item xs={2}>
+                      <Button 
+                        variant="contained" 
+                        color="primary" 
+                        className={classes.button}  
+                        onClick={this.clickUser}                 
+                      >
+                        Role Filter
+                      </Button>
+                    </Grid>
+                  )}
                   <StyledMenu
                     anchorEl={this.state.anchor}
                     keepMounted
@@ -412,11 +423,10 @@ class MUsers extends Component {
                       </StyledMenuItem>
                     ))}
                   </StyledMenu>
-                </Grid>
             
                 <Grid item xs={2}>
                   <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
-                    + Student
+                    {"+ " + title }
                   </Button>
                 </Grid>
               </Grid>
