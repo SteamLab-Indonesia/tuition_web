@@ -3,6 +3,7 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import Dashboard from '../screens/Dashboard';
 import MCourses from '../screens/MCourses';
 import AddCourses from '../screens/AddCourses';
+import MStudent from '../screens/MStudent'
 import MTeacher from '../screens/MTeacher';
 import MUsers from '../screens/MUsers';
 import AddUsers from '../screens/AddUsers';
@@ -64,6 +65,7 @@ class Navigation extends Component{
                 <Route exact path='/' component={Login}/>
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route path='/users' component={MUsers}/>
+                <Route path='/student' component={MStudent}/>
                 <Route path='/teacher' component={MTeacher}/>
                 <Route path='/courses' component={MCourses}/>
                 <Route path='/addcourses' component={AddCourses}/>

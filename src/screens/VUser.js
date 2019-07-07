@@ -85,7 +85,6 @@ class VUser extends React.Component {
         this.setState({
           name: userData.name,
           username: userData.username,
-          password: userData.password,
           birthday: userData.birthday,
           gender : userData.gender,
           email: userData.email,
@@ -103,7 +102,6 @@ class VUser extends React.Component {
       this.props.match.params.id, 
       this.state.name, 
       this.state.username, 
-      this.state.password,
       this.state.birthday,
       this.state.gender,
       this.state.email,
@@ -192,28 +190,6 @@ class VUser extends React.Component {
                   margin="normal"
                   onChange={this.handleChange('username')}
                   />
-                </Grid>
-
-                <Grid>
-                  <FormControl style={{width:'100%'}} className={classNames(classes.margin, classes.textField)}>
-                    <InputLabel htmlFor="adornment-password">Password</InputLabel>
-                    <Input
-                      id="adornment-password"
-                      type={this.state.showPassword ? 'text' : 'password'}
-                      value={this.state.password}
-                      style={{width: '96%'}}
-                      onChange={this.handleChange('password')}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="Toggle password visibility"
-                            onClick={this.handleClickShowPassword}
-                          >
-                          {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      } />
-                  </FormControl>
                 </Grid>
 
                 <Grid direction="column" justify="flex-start" alignItems="flex-start">
