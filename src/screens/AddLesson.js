@@ -120,15 +120,22 @@ class AddLesson extends React.Component {
 		this.setState({scheduleList});
 	}
 
+  onRemoveSchedule = (del) => {
+		let {scheduleList} = this.state;
+		scheduleList.splice(del,1);
+		this.setState({scheduleList});
+	}
+
 	onUpdateSchedule = (index, day, start, end) => {
 		if (index >= 0 && index < this.state.scheduleList.length)
 		{
 			let scheduleList = this.state.scheduleList;
 			scheduleList[index].day = day;
 			scheduleList[index].start = start;
-			scheduleList[index].end = end;
+      scheduleList[index].end = end;
 			this.setState({scheduleList});
-		}
+    }
+    
 	}
 
 	saveLesson = () => {
@@ -227,7 +234,7 @@ class AddLesson extends React.Component {
                 {
                   this.state.scheduleList.map((item, index) => {
                     return (
-                      <Schedule key={index} id={index} day={item.day} start={item.start} end={item.end} onUpdate={this.onUpdateSchedule} />
+                      <Schedule key={index} id={index} day={item.day} start={item.start} end={item.end} onUpdate={this.onUpdateSchedule} onRemove={this.onRemoveSchedule}/>
                     )
                   })
                 }
