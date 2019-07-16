@@ -246,7 +246,10 @@ class MUsers extends Component {
     let permissionList = this.state.userLevelList;
     if (this.props.permission)
     {
-      permissionList = [this.props.permission];
+      if (Array.isArray(this.props.permission))
+        permissionList = this.props.permission;
+      else
+        permissionList = [this.props.permission];
       this.setState({userLevelList: permissionList});
     }
     getUserListByPermission(permissionList).then((user)  => {

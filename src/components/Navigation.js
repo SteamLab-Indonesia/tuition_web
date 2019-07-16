@@ -6,6 +6,7 @@ import AddCourses from '../screens/AddCourses';
 import MStudent from '../screens/MStudent'
 import MTeacher from '../screens/MTeacher';
 import MUsers from '../screens/MUsers';
+import MStaff from '../screens/MStaff';
 import AddUsers from '../screens/AddUsers';
 import AddTeachers from '../screens/AddTeachers';
 import Login from '../screens/Login';
@@ -67,6 +68,7 @@ class Navigation extends Component{
                 <Route path='/users' component={MUsers}/>
                 <Route path='/student' component={MStudent}/>
                 <Route path='/teacher' component={MTeacher}/>
+                <Route path='/staff' component={MStaff}/>
                 <Route path='/courses' component={MCourses}/>
                 <Route path='/addcourses' component={AddCourses}/>
                 <Route path='/addusers' component={AddUsers}/>
