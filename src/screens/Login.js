@@ -26,10 +26,9 @@ const styles = theme => ({
   },
    root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    width: "40%",  
-    
+    // paddingTop: theme.spacing.unit * 2,
+    // paddingBottom: theme.spacing.unit * 2,
+    // width: "40%",    
   },
   container: {
     display: 'flex',
@@ -113,7 +112,7 @@ class Login extends React.Component {
     const { classes } = this.props;
     this.checkUser();
     return (
-      <div className={["surface",classes.root]} id="surface">
+      <div className="surface" id="surface">
       <Grid container justify="center" >
       <div style={{alignItems:"flex-end",justify:"flex-end"}}> <Spinner open={this.state.loading}/></div> 
         <Paper elevation={1} className={classes.root} style={{paddingBottom:"50px"}} >
