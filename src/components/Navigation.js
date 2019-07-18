@@ -46,7 +46,7 @@ class Navigation extends Component{
         if (this.props.location.pathname !== '/')
         {
             if (this.props.user == null)
-                this.props.history.push('/');
+                this.props.history.push('/login');
         }
     }
     componentDidUpdate = (prevProps) => {
