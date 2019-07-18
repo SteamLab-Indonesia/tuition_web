@@ -21,6 +21,7 @@ import MLesson from '../screens/MLesson';
 import AddLesson from '../screens/AddLesson';
 import MStaffAttendance from '../screens/MStaffAttendance';
 import { createBrowserHistory } from "history";
+import SplashScreen from '../screens/SplashScreen';
 
 const history = createBrowserHistory();
 
@@ -56,14 +57,17 @@ class Navigation extends Component{
     }
 
     componentDidMount = () => {
-        setTimeout(this.checkHeader, 1500);        
+        if (this.props.location.pathname === '/')
+            this.checkHeader();
+        else
+            setTimeout(this.checkHeader, 1500);        
     }
 
     render() {
 
         return (
             <Switch history={history}>
-                <Route exact path='/' component={Login}/>
+                <Route exact path='/' component={SplashScreen}/>
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route path='/users' component={MUsers}/>
                 <Route path='/student' component={MStudent}/>
