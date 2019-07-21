@@ -18,6 +18,7 @@ import VClassroom from '../screens/VClassroom'
 import AddClassroom from '../screens/AddClassroom'
 import MLesson from '../screens/MLesson';
 import AddLesson from '../screens/AddLesson';
+import VLesson from '../screens/VLesson';
 import MStaffAttendance from '../screens/MStaffAttendance';
 import { createBrowserHistory } from "history";
 
@@ -80,6 +81,7 @@ class Navigation extends Component{
                 <Route path='/addclassroom' component={AddClassroom}/>
                 <Route path='/lesson/:id' component={MLesson}/>
                 <Route path='/addlesson/:id' component={AddLesson}/>
+                <Route path='/viewlesson/:id' component={VLesson}/>
                 <Route path='/payment' component={Payment}/>
                 <Route path='/staffattendance' component={MStaffAttendance}/>
                 {/*<Route path='/feedback' component={feedback}/> */}

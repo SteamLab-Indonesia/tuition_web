@@ -263,7 +263,7 @@ class VLesson extends Component{
                           <TableCell align="left">
                         <div>
                         <Tooltip title='view'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"viewcourses/"+item.id}>
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"/viewlesson/"+item.id}>
                             <VisibilityIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>

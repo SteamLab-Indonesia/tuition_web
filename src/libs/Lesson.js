@@ -83,3 +83,90 @@ export function addLesson(lesson_name, program_id, teacher_id, classroom_id, sch
 		})
 	}) 
 }
+
+export function getLessonDetails(lessonId) {
+    return new Promise((resolve, reject) => {
+		if (lessonId)
+		{
+			const db = firebase.firestore();
+			db.collection("lesson").doc(lessonId).get()
+			.then((snapshot) => {
+				console.log(snapshot);
+				// let list_query = [];
+					let lesson_details = [];
+					let lesson = snapshot.data();
+					let ret_lesson = {};
+					if (lesson)
+					{
+						ret_lesson.id = snapshot.id;
+						ret_lesson.data = {};
+						ret_lesson.data.name = lesson.name;	
+						ret_lesson.data.schedule = lesson.schedule;									
+						if (lesson.program)
+							lesson_details.push(lesson.program.get());
+						if (lesson.teacher)
+							lesson_details.push(lesson.teacher.get());
+						if (lesson.classroom)
+							lesson_details.push(lesson.classroom.get());
+						Promise.all(lesson_details).then((details) => {
+							console.log(details);
+							for(let i=0; i < details.length; ++i)
+							{
+								if (details[i].ref.path.substr(0, 8) === 'program/')
+								{
+									ret_lesson.data.program = {};
+									ret_lesson.data.program.id = details[i].ref.path.substr(8);
+									ret_lesson.data.program.data = details[i].data();
+								}									
+								if (details[i].ref.path.substr(0, 5) === 'user/')
+								{
+									ret_lesson.data.teacher = {};
+									ret_lesson.data.teacher.id = details[i].ref.path.substr(5);
+									ret_lesson.data.teacher.data = details[i].data();
+								}
+								if (details[i].ref.path.substr(0, 8) === 'classes/')
+								{
+									ret_lesson.data.classroom = {};
+									ret_lesson.data.classroom.id = details[i].ref.path.substr(8);
+									ret_lesson.data.classroom.data = details[i].data();
+								}
+							}	
+							resolve(ret_lesson);				
+						})
+					}					
+			})
+			.catch((err) => {
+				console.log('Error getting documents', err);
+			});
+		}
+		else
+		{
+			reject('Incorrect lessonId:' + lessonId);
+		}
+	});
+}
+
+export function setLessonDetails(id_num, lesson_name, program_id, teacher_id, classroom_id, scheduleList) {
+    console.log(id_num);
+	const db = firebase.firestore();
+	return new Promise((resolve, reject) => {
+		let query = db.collection("lesson").doc(id_num);
+		query.set({
+			program: db.collection("program").doc(program_id),
+			name: lesson_name,
+			classroom: db.collection("classroom").doc(classroom_id),
+			teacher: db.collection("user").doc(teacher_id),
+			schedule: scheduleList
+		})
+		.then((result) => {
+			console.log(result);
+			resolve(result);
+		})
+		.catch((err) => {
+			console.log(err);
+			reject(err);
+		})
+	
+	})
+
+}
