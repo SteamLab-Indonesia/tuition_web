@@ -464,7 +464,7 @@ class MUsers extends Component {
                             </IconButton>
                           </Tooltip>
                         <Tooltip title='lesson'>
-                          <IconButton aria-label="Delete" className={classes.margin}>
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"studentschedule/" }>
                             <BookIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>
