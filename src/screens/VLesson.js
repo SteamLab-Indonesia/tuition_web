@@ -8,15 +8,15 @@ import '../Projj.css';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import { addLesson } from '../libs/Lesson';
-import { getCoursesDetails } from '../libs/Courses';
+import { setLessonDetails } from '../libs/Lesson';
 import { getTeacher } from '../libs/Teacher';
 import { getClass } from '../libs/Classroom';
 import { getCourses } from '../libs/Courses';
 import Schedule from '../components/Schedule';
 import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
 import Fab from '@material-ui/core/Fab';
+import { getLessonDetails } from "../libs/Lesson";
+import { getLessons } from "../libs/Lesson";
 
 const styles = theme => ({
    root: {
@@ -62,10 +62,11 @@ class AddLesson extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
+      lessonData: [],
 			teacher: [],
 			selectedTeacher: "",
 			lesson: '',
-			subject: 'none',
+			subject: '',
 			classroom: [],
 			selectedClassroom: "",
 			courses: [],
@@ -75,18 +76,19 @@ class AddLesson extends React.Component {
 	}
 
   componentDidMount = () => {
-	const id_num = this.props.match.params.id;
-	getCoursesDetails(id_num).then((courseData) => {
-		// data from firebase docs[0].data
-		if (courseData)
-		{
-			this.setState({
-				subject: courseData.subject,
-				curriculum: courseData.curriculum,
-				level: courseData.level,
-			})
-		}
-	});
+  const id_num = this.props.match.params.id;
+  console.log('idnum=' + id_num)
+	getLessonDetails(id_num).then((lessonData) => {
+		console.log(lessonData);
+    this.setState({
+      lessonData,
+      lesson: lessonData.data.name,
+      scheduleList: lessonData.data.schedule ? lessonData.data.schedule : [],
+      selectedCourses: lessonData.data.program ? lessonData.data.program.id : '',
+      selectedTeacher: lessonData.data.teacher ? lessonData.data.teacher.id : '',
+      selectedClassroom: lessonData.data.classroom ? lessonData.data.classroom.id : ''
+    })
+  });
 	getCourses((cou_list) => {
 			this.setState({
 			courses: cou_list
@@ -132,19 +134,21 @@ class AddLesson extends React.Component {
 			let scheduleList = this.state.scheduleList;
 			scheduleList[index].day = day;
 			scheduleList[index].start = start;
-      scheduleList[index].end = end;
+      		scheduleList[index].end = end;
 			this.setState({scheduleList});
     }
     
 	}
 
 	saveLesson = () => {
+		const id_num = this.props.match.params.id;
 		let {lesson, 
-			selectedClassroom, 
-			selectedCourses, 
-			selectedTeacher, 
-			scheduleList} = this.state;
-		addLesson(lesson, selectedCourses, selectedTeacher, selectedClassroom, scheduleList)
+				selectedClassroom, 
+				selectedCourses, 
+				selectedTeacher, 
+				scheduleList} = this.state;
+
+		setLessonDetails(id_num, lesson, selectedCourses, selectedTeacher, selectedClassroom, scheduleList)
 		.then((doc) => {
 			console.log(doc);
 		})
@@ -156,12 +160,13 @@ class AddLesson extends React.Component {
   render() {
     const { classes } = this.props;
     const { teacher, classroom, courses } = this.state;
+    console.log(this.state.lessonData);
     return (
       <div className={classes.root} id="surface">
         <Paper elevation={1} id="inside">
             <form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
                 <Typography variant="h5" component="h3" id="papert">
-                    New Lesson
+                    View Lesson
                 </Typography>
                 <TextField
                   id="standard-name"

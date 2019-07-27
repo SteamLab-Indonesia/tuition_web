@@ -6,6 +6,7 @@ import AddCourses from '../screens/AddCourses';
 import MStudent from '../screens/MStudent'
 import MTeacher from '../screens/MTeacher';
 import MUsers from '../screens/MUsers';
+import MStaff from '../screens/MStaff';
 import AddUsers from '../screens/AddUsers';
 import AddTeachers from '../screens/AddTeachers';
 import Login from '../screens/Login';
@@ -18,9 +19,11 @@ import VClassroom from '../screens/VClassroom'
 import AddClassroom from '../screens/AddClassroom'
 import MLesson from '../screens/MLesson';
 import AddLesson from '../screens/AddLesson';
+import VLesson from '../screens/VLesson';
 import MStaffAttendance from '../screens/MStaffAttendance';
 import StudentSchedule from '../screens/StudentSchedule'
 import { createBrowserHistory } from "history";
+import SplashScreen from '../screens/SplashScreen';
 
 const history = createBrowserHistory();
 
@@ -45,7 +48,7 @@ class Navigation extends Component{
         if (this.props.location.pathname !== '/')
         {
             if (this.props.user == null)
-                this.props.history.push('/');
+                this.props.history.push('/login');
         }
     }
     componentDidUpdate = (prevProps) => {
@@ -56,18 +59,22 @@ class Navigation extends Component{
     }
 
     componentDidMount = () => {
-        setTimeout(this.checkHeader, 1500);        
+        if (this.props.location.pathname === '/')
+            this.checkHeader();
+        else
+            setTimeout(this.checkHeader, 1500);        
     }
 
     render() {
 
         return (
             <Switch history={history}>
-                <Route exact path='/' component={Login}/>
+                <Route exact path='/' component={SplashScreen}/>
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route path='/users' component={MUsers}/>
                 <Route path='/student' component={MStudent}/>
                 <Route path='/teacher' component={MTeacher}/>
+                <Route path='/staff' component={MStaff}/>
                 <Route path='/courses' component={MCourses}/>
                 <Route path='/addcourses' component={AddCourses}/>
                 <Route path='/addusers' component={AddUsers}/>
@@ -81,6 +88,7 @@ class Navigation extends Component{
                 <Route path='/addclassroom' component={AddClassroom}/>
                 <Route path='/lesson/:id' component={MLesson}/>
                 <Route path='/addlesson/:id' component={AddLesson}/>
+                <Route path='/viewlesson/:id' component={VLesson}/>
                 <Route path='/payment' component={Payment}/>
                 <Route path='/staffattendance' component={MStaffAttendance}/>
                 <Route path='/studentschedule'component={StudentSchedule}/>
