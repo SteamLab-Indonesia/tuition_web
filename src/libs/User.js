@@ -224,7 +224,11 @@ export function updateLoginSession(email)
             if (res && res.data && res.data.organization)
             {
                 res.data.organization.get().then((orgResp) => {
-                    setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, res.data);
+                    if (orgResp.data())
+                    {
+                        setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, res.data);
+                    }
+                   
                     resolve(res);        
                 }).catch((err) => {
                     reject(err);
