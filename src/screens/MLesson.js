@@ -81,7 +81,7 @@ const styles = theme => ({
 		padding: 7,
 	},
 	table: {
-		minWidth: 700,
+		// minWidth: 700,
 	},
 	card: {
 		minWidth: 275,
@@ -247,7 +247,7 @@ class VLesson extends Component{
 
 		console.log('re-render');
 		return (
-			<div id="msurface" class="surface">
+			<div id="msurface" className="surface">
 				<Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
 					<CardContent>
 						<div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '30px'}}>
@@ -290,7 +290,7 @@ class VLesson extends Component{
 										</IconButton>									
 									</Paper>
 								</Grid>
-								<Grid item lg={2} justify="flex-end" style={{marginRight: 0}}>
+								<Grid item lg={2} style={{marginRight: 0}}>
 									<Button style={{height: '1cm'}} variant="contained" color="secondary" className={classes.button} component={Link} to={'/addlesson/'+id_num}>+ lesson</Button>
 								</Grid>
 							</Grid>
@@ -299,25 +299,25 @@ class VLesson extends Component{
 						<Table className={classes.table}>
 							<TableHead>
 							<TableRow>
-								<TableCell style={{width: '5%'}}>No.</TableCell>
+								<TableCell style={{width: '2%'}}>No.</TableCell>
 								<TableCell style={{width: '25%'}} align="left">Lesson Name</TableCell>
 								<TableCell style={{width: '25%'}} align="left">Level</TableCell>
 								<TableCell style={{width: '25%'}} align="left">Schedule</TableCell>
-								<TableCell style={{width: '10%'}} align="center">Teacher</TableCell>
-								<TableCell style={{width: '10%'}} align="center">Actions</TableCell>
+								<TableCell style={{width: '8%'}} align="center">Teacher</TableCell>
+								<TableCell style={{width: '15%'}} align="center">Actions</TableCell>
 							</TableRow>
 							</TableHead>
 							<TableBody>
 							{
 								lesson.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
-								<TableRow>
+								<TableRow key={'row' + index}>
 									<TableCell>{page * 10 + index + 1}</TableCell>
 									<TableCell align="left">{item.data.name}</TableCell>
 									<TableCell align="left">{item.data.program.curriculum} - {item.data.program.level}</TableCell>
 									<TableCell align="left">
-									{item.data.schedule.map((item) => {
+									{item.data.schedule.map((item, dindex) => {
 										return (
-										<div>{item.day} {item.start} - {item.end}</div>
+										<div key={'r'+index+'_'+dindex}>{item.day} {item.start} - {item.end}</div>
 										)
 									})}
 									</TableCell>
