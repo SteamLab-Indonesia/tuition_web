@@ -15,7 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import { getUserListByPermission } from '../libs/User';
 
 
-const month = [
+const months = [
     {
       value: 'January',
       label: 'January',
@@ -89,7 +89,7 @@ class SimpleTable extends Component  {
       user: [],
       searchResult: [],
       page: 0,
-      rowsPerPage:5,
+      rowsPerPage:12,
       search : '',
       open: false,
       archive: false,
@@ -159,18 +159,25 @@ class SimpleTable extends Component  {
                             </TableHead>
                             <TableBody>
                             
-                            <TableRow>
-                              <TableCell align="left" ></TableCell>
-                              <TableCell align="left" ></TableCell> 
+                            {months.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
+                              <TableRow>
+                              <TableCell>{page * 10 + index + 1}</TableCell>
+
+                              <TableCell align="left" >   
+                               {months[index].value}                        
+                              </TableCell>
+                              
                               <TableCell>
                                   <Switch
                                   style={{paddingLeft:'-20px'}}
                                   onChange={this.handleChange('checkedB')}
                                   value={this.state.checkedB}
                                   color="primary"
-                                  />                                                      
+                                  />                                             
                               </TableCell>
                               </TableRow>
+                            ))}
+                              
                             </TableBody>
                         </Table>
                     </Paper>
