@@ -197,7 +197,8 @@ class VLesson extends Component{
 			search: "",
 			open: false,
 			id_num: null,
-			day: ['MON']
+			daySelect: [],
+			schdule: []
 		}
 	}
 
@@ -226,23 +227,38 @@ class VLesson extends Component{
 	}
 
 	onDayClick = (item) => {
-		let {day} = this.state;
-		if (day.includes(item.text))
+		let {daySelect, lesson, searchResult, schedule} = this.state;
+		if (daySelect.includes(item.text))
 		{
-			day = day.filter((obj) => {return obj !== item.text});
+			daySelect = daySelect.filter((obj) => {return obj !== item.text});
 		}
 		else
 		{
-			day.push(item.text);
+			daySelect.push(item.text);
 		}
-		this.setState({day});        
+        if(daySelect.length > 0){
+			searchResult = lesson.filter((c) => {
+				console.log(c);
+				schedule = c.data.schedule.filter((obj) => {
+					console.log(obj.day);
+					return daySelect.includes(obj.day);
+				})
+				return schedule.length > 0;
+			})
+		}else{
+			searchResult = lesson;
+		}
+		this.setState({daySelect, searchResult})
+		console.log('===> SEARCH RESULT');
+		console.log(searchResult);
 	}
 
 	render(){
 
 		const { classes } = this.props;
-		const { lesson,id_num , rowsPerPage, page } = this.state;
+		const { lesson, id_num , rowsPerPage, page, searchResult } = this.state;
 		const emptyRows = rowsPerPage - Math.min(rowsPerPage, lesson.length - page * rowsPerPage);
+		let lessonList = (searchResult.length == 0 ? lesson : searchResult)
 		console.log(lesson);
 
 		console.log('re-render');
@@ -259,7 +275,7 @@ class VLesson extends Component{
 									<div style={styles.dayContainer}>
 										{
 											days.map((item) => {
-												if (this.state.day.includes(item.text))
+												if (this.state.daySelect.includes(item.text))
 												{
 													return (
 														<Button key={item.text} variant="contained" color="primary" onClick={()=>this.onDayClick(item)}>
@@ -309,7 +325,7 @@ class VLesson extends Component{
 							</TableHead>
 							<TableBody>
 							{
-								lesson.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
+								lessonList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
 								<TableRow key={'row' + index}>
 									<TableCell>{page * 10 + index + 1}</TableCell>
 									<TableCell align="left">{item.data.name}</TableCell>
