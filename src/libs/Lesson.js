@@ -43,7 +43,7 @@ export function getLessons(programId) {
 								lesson_list[i].data.program = result[i][j].data();
 							else if (result[i][j].ref.path.substr(0, 5) === 'user/')
 								lesson_list[i].data.teacher = result[i][j].data();
-							else if (result[i][j].ref.path.substr(0, 8) === 'classes/')
+							else if (result[i][j].ref.path.substr(0, 10) === 'classroom/')
 								lesson_list[i].data.classroom = result[i][j].data();
 						}
 					}
@@ -124,10 +124,10 @@ export function getLessonDetails(lessonId) {
 									ret_lesson.data.teacher.id = details[i].ref.path.substr(5);
 									ret_lesson.data.teacher.data = details[i].data();
 								}
-								if (details[i].ref.path.substr(0, 8) === 'classes/')
+								if (details[i].ref.path.substr(0, 10) === 'classroom/')
 								{
 									ret_lesson.data.classroom = {};
-									ret_lesson.data.classroom.id = details[i].ref.path.substr(8);
+									ret_lesson.data.classroom.id = details[i].ref.path.substr(10);
 									ret_lesson.data.classroom.data = details[i].data();
 								}
 							}	
