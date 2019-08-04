@@ -97,9 +97,6 @@ class AddLesson extends React.Component {
 		});
 
 		getLessonDetails(id_num).then((lessonData) => {
-			console.log('===> LESSON DATA');
-			console.log(lessonData);
-			console.log(lessonData.data.classroom.id);
 			this.setState({
 				lessonData,
 				lesson: lessonData.data.name,

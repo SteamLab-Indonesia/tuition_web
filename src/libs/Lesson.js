@@ -101,7 +101,8 @@ export function getLessonDetails(lessonId) {
 						ret_lesson.id = snapshot.id;
 						ret_lesson.data = {};
 						ret_lesson.data.name = lesson.name;	
-						ret_lesson.data.schedule = lesson.schedule;									
+						ret_lesson.data.schedule = lesson.schedule;
+						ret_lesson.data.student = lesson.student;								
 						if (lesson.program)
 							lesson_details.push(lesson.program.get());
 						if (lesson.teacher)
