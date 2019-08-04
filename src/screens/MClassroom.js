@@ -335,7 +335,7 @@ class MClassroom extends Component{
                       ))
                     }
                     {emptyRows > 0 && (
-                      <TableRow style={{ height: 48 * emptyRows }}>
+                      <TableRow style={{ height: 10 * emptyRows }}>
                         <TableCell colSpan={6} />
                       </TableRow>
                     )}

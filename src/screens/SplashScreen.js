@@ -33,7 +33,7 @@ const styles = {
         backgroundColor: '#ADD8E6'
     },
     logoImage: {
-        width: 200
+        width: 200,
     },
     loading: {
         marginTop: 20
