@@ -12,8 +12,10 @@ import CardContent from '@material-ui/core/CardContent'
 import MenuItem from '@material-ui/core/MenuItem';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom'
 import { getUserListByPermission } from '../libs/User';
-
+import {getPayment} from '../libs/Payment'
 
 const months = [
     {
@@ -80,6 +82,10 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
+  button: {
+  margin: theme.spacing.unit,
+  width: 230,
+  }, 
 });
 
 class SimpleTable extends Component  {
@@ -88,6 +94,7 @@ class SimpleTable extends Component  {
     this.state = {
       user: [],
       searchResult: [],
+      payment:[],
       page: 0,
       rowsPerPage:12,
       search : '',
@@ -102,6 +109,7 @@ class SimpleTable extends Component  {
     state = {
         user:'',
         month: '',
+        payment:[],
         checkedB: true,
       }
       handleChange = name => event => {
@@ -120,16 +128,25 @@ class SimpleTable extends Component  {
         });
       }
 
+      componentDidMount() {
+        //window.location.reload()
+        getPayment((cou_list) => {
+          this.setState({
+            payment: cou_list
+          })
+        });
+      }
+
     render(){
+      const { payment } = this.state
+      console.log(this.state.payment[0])
       const { user, rowsPerPage, page, searchResult } = this.state;
       let list=[]
       const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
         const { classes } = this.props;
         return (
-          
-            <div id="msurface" className="surface">
+           <div id="msurface" className="surface">
             <Card>
-             
                 <CardContent>
                     <Table className={classes.table} style={{color:'gray'}}>
                         <TableRow><TableCell>Lesson :</TableCell></TableRow>
@@ -180,6 +197,12 @@ class SimpleTable extends Component  {
                               
                             </TableBody>
                         </Table>
+                        <div> 
+                          <Button variant="contained" color="secondary" className={classes.button} onClick={this.handleClickOpen} >
+                          save
+                          </Button>
+                          <Button variant="outlined" className={classes.button} component={Link} to="/dashboard">cancel</Button>
+                        </div>
                     </Paper>
                 </CardContent>
             </Card>
