@@ -273,6 +273,34 @@ export function getUserDetails(id_num) {
     })
 }
 
+export function getUserListDetails(id_list) {
+    return new Promise((resolve, reject) => {
+        const db = firebase.firestore();
+        let promise_array = id_list.map((id) => {
+            if (typeof id == 'object')
+            {
+                return id.get();
+            }
+            else
+            {
+                return db.collection("user").doc(id).get();
+            }            
+        });
+
+        Promise.all(promise_array).then((userArray) => {
+            let users = [];
+            for (let i=0; i < userArray.length; ++i)
+            {
+                users.push(userArray[i].data());
+            }
+            resolve(users);
+        })
+        .catch((err) => {
+            reject(err);
+        })        
+    })
+}
+
 export function setUserDetails(id_num,name,username,password,birthday,gender,email,phone,address,school) {
     console.log(id_num);
     const db = firebase.firestore();

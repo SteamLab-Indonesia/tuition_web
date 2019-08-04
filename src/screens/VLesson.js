@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import '../Projj.css';
 import { Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import {Button, List, ListItem, ListItemText} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { setLessonDetails } from '../libs/Lesson';
 import { getTeacher } from '../libs/Teacher';
@@ -16,6 +16,7 @@ import Schedule from '../components/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import { getLessonDetails } from "../libs/Lesson";
+import { getUserListDetails } from '../libs/User';
 
 const styles = theme => ({
    root: {
@@ -70,7 +71,8 @@ class AddLesson extends React.Component {
 			selectedClassroom: "",
 			courses: [],
 			selectedCourses: "",
-			scheduleList: []
+			scheduleList: [],
+			studentList: []
 		}
 	}
 
@@ -97,6 +99,9 @@ class AddLesson extends React.Component {
 		});
 
 		getLessonDetails(id_num).then((lessonData) => {
+			getUserListDetails(lessonData.data.student).then((studentList) => {
+				this.setState({studentList});
+			})
 			this.setState({
 				lessonData,
 				lesson: lessonData.data.name,
@@ -248,7 +253,17 @@ class AddLesson extends React.Component {
 						<AddIcon />
 						</Fab>
 					</div>
-
+					<List component="nav">
+					{
+						this.state.studentList.map((item, index) => {
+							return (
+								<ListItem button key={index}>
+									<ListItemText primary={item.name} />
+								</ListItem>
+							)
+						})
+					}
+					</List>
 					<br />					
 					<div>
 						<Button variant="contained" color="secondary" className={classes.button}  onClick={this.saveLesson}>save</Button>
