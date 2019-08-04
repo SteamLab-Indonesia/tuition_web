@@ -391,19 +391,20 @@ class MUsers extends Component {
                     </IconButton>
                   </Paper>
                 </Grid>
-
+                <Grid item xs={4} >
                 {
                   this.props.permission ? null : (
-                    <Grid item xs={2}>
+                   
                       <Button 
                         variant="contained" 
                         color="primary" 
                         className={classes.button}  
-                        onClick={this.clickUser}                 
+                        onClick={this.clickUser}
+                        style={{marginLeft:100,marginRight:10}}                 
                       >
                         Role Filter
                       </Button>
-                    </Grid>
+                    
                   )}
                   <StyledMenu
                     anchorEl={this.state.anchor}
@@ -427,10 +428,25 @@ class MUsers extends Component {
                     ))}
                   </StyledMenu>
             
-                <Grid item xs={2}>
-                  <Button variant="contained" color="secondary" className={classes.button} component={Link} to="addusers">
-                    {"+ " + title }
+                  {this.props.permission ? 
+                  <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    style={{marginLeft:200}} 
+                    className={classes.button} 
+                    component={Link} to="addusers">
+                  {"+ " + title }
                   </Button>
+                  :
+                  <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    className={classes.button} 
+                    component={Link} to="addusers">
+                  {"+ " + title }
+                </Button>
+                  }
+                  
                 </Grid>
               </Grid>
             </div>
