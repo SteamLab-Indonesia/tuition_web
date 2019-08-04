@@ -24,10 +24,6 @@ const useStyles = {
     pos: {
       marginBottom: 12,
     },
-    iconButton: {
-        justify: 'flex-end',
-        alignItems: 'center'
-    }
   };
 
 const days = [
@@ -206,7 +202,7 @@ class Schedule extends React.Component{
                             />
                             </Grid>
                             <Grid item xs={1}>
-                                <Fab size="small" color="secondary" className={classes.iconButton} aria-label="Remove" onClick={this.removeSchedule}>
+                                <Fab size="small" color="secondary" aria-label="Remove" onClick={this.removeSchedule}>
                                     <RemoveIcon />
                                 </Fab>
                             </Grid>

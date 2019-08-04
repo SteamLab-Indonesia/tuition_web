@@ -15,7 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import { getUserListByPermission } from '../libs/User';
 
 
-const month = [
+const months = [
     {
       value: 'January',
       label: 'January',
@@ -70,6 +70,7 @@ const month = [
 
 
 
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -88,7 +89,7 @@ class SimpleTable extends Component  {
       user: [],
       searchResult: [],
       page: 0,
-      rowsPerPage:5,
+      rowsPerPage:12,
       search : '',
       open: false,
       archive: false,
@@ -99,7 +100,7 @@ class SimpleTable extends Component  {
     };
   }
     state = {
-        user:[],
+        user:'',
         month: '',
         checkedB: true,
       }
@@ -107,11 +108,12 @@ class SimpleTable extends Component  {
         this.setState({
           [name]: event.target.value,
           });
+          
       };
 
       componentDidMount() {
         getUserListByPermission(this.state.userLevelList).then((user)  => {
-          // console.log(user_list);
+          
           this.setState({
             user
           })
@@ -120,24 +122,26 @@ class SimpleTable extends Component  {
 
     render(){
       const { user, rowsPerPage, page, searchResult } = this.state;
+      let list=[]
       const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
         const { classes } = this.props;
         return (
+          
             <div id="msurface" className="surface">
             <Card>
              
                 <CardContent>
                     <Table className={classes.table} style={{color:'gray'}}>
                         <TableRow><TableCell>Lesson :</TableCell></TableRow>
-                        <TableRow><TableCell>Month :  
+                        <TableRow><TableCell>Student :  
                         <TextField
                         style={{width: '17%'}}
                         select
                         value={this.state.month}
                         onChange={this.handleChange('month')}>
-                        {month.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
+                        {user.map(option => (
+                        <MenuItem key={option.data.email} value={option.data.name}>
+                            {option.data.name}
                         </MenuItem>
                         ))}  </TextField> </TableCell>
                         </TableRow>
@@ -147,26 +151,33 @@ class SimpleTable extends Component  {
                             <TableHead>
                             <TableRow>
                                 <TableCell align='left' width="7%">No</TableCell>
-                                <TableCell align="left">Student</TableCell>
+                                <TableCell align="left">Month</TableCell>
                                 <TableCell align="left">Status</TableCell>
                                 <TableCell align="left">Note</TableCell>
                             </TableRow>
                             
                             </TableHead>
                             <TableBody>
-                            {user.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => (
-                            <TableRow key={item.data.email}>
-                              <TableCell align="left" >{ page * 10 + index +1}</TableCell>
-                              <TableCell align="left" >{item.data.name}</TableCell> 
+                            
+                            {months.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
+                              <TableRow>
+                              <TableCell>{page * 10 + index + 1}</TableCell>
+
+                              <TableCell align="left" >   
+                               {months[index].value}                        
+                              </TableCell>
+                              
                               <TableCell>
                                   <Switch
                                   style={{paddingLeft:'-20px'}}
                                   onChange={this.handleChange('checkedB')}
                                   value={this.state.checkedB}
                                   color="primary"
-                                  />                                                      
+                                  />                                             
                               </TableCell>
-                              </TableRow>))}
+                              </TableRow>
+                            ))}
+                              
                             </TableBody>
                         </Table>
                     </Paper>

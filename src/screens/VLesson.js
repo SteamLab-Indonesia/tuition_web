@@ -16,7 +16,6 @@ import Schedule from '../components/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import { getLessonDetails } from "../libs/Lesson";
-import { getLessons } from "../libs/Lesson";
 
 const styles = theme => ({
    root: {
@@ -75,42 +74,43 @@ class AddLesson extends React.Component {
 		}
 	}
 
-  componentDidMount = () => {
-  const id_num = this.props.match.params.id;
-  console.log('idnum=' + id_num)
-	getLessonDetails(id_num).then((lessonData) => {
-		console.log(lessonData);
-    this.setState({
-      lessonData,
-      lesson: lessonData.data.name,
-      scheduleList: lessonData.data.schedule ? lessonData.data.schedule : [],
-      selectedCourses: lessonData.data.program ? lessonData.data.program.id : '',
-      selectedTeacher: lessonData.data.teacher ? lessonData.data.teacher.id : '',
-      selectedClassroom: lessonData.data.classroom ? lessonData.data.classroom.id : ''
-    })
-  });
-	getCourses((cou_list) => {
+	componentDidMount = () => {
+		const id_num = this.props.match.params.id;
+
+		getCourses((cou_list) => {
 			this.setState({
-			courses: cou_list
+				courses: cou_list
 			})
-	});
-	getTeacher().then((teacher_list) => {
-		this.setState({
-			teacher: teacher_list
+		});
+		getTeacher().then((teacher_list) => {
+			this.setState({
+				teacher: teacher_list
+			})
 		})
-	})
-	.catch((err) => {
-		console.log(err);
-	});
-	getClass((class_list) => {
+		.catch((err) => {
+			console.log(err);
+		});
+		getClass((class_list) => {
+			this.setState({
+				classroom: class_list
+			})
+		});
+
+		getLessonDetails(id_num).then((lessonData) => {
+			this.setState({
+				lessonData,
+				lesson: lessonData.data.name,
+				scheduleList: lessonData.data.schedule ? lessonData.data.schedule : [],
+				selectedCourses: lessonData.data.program ? lessonData.data.program.id : '',
+				selectedTeacher: lessonData.data.teacher ? lessonData.data.teacher.id : '',
+				selectedClassroom: lessonData.data.classroom ? lessonData.data.classroom.id : ''
+			})
+		});
+
 		this.setState({
-			classroom: class_list
+			selectedCourses: id_num
 		})
-	});
-	this.setState({
-		selectedCourses: id_num
-	})
-  }
+	}
 
 	onAddSchedule = () => {
 		let {scheduleList} = this.state;
@@ -122,7 +122,7 @@ class AddLesson extends React.Component {
 		this.setState({scheduleList});
 	}
 
-  onRemoveSchedule = (del) => {
+	onRemoveSchedule = (del) => {
 		let {scheduleList} = this.state;
 		scheduleList.splice(del,1);
 		this.setState({scheduleList});
@@ -136,8 +136,7 @@ class AddLesson extends React.Component {
 			scheduleList[index].start = start;
       		scheduleList[index].end = end;
 			this.setState({scheduleList});
-    }
-    
+    	}
 	}
 
 	saveLesson = () => {
@@ -157,107 +156,114 @@ class AddLesson extends React.Component {
 		})
 	}
 
-  render() {
-    const { classes } = this.props;
-    const { teacher, classroom, courses } = this.state;
-    console.log(this.state.lessonData);
-    return (
-      <div className={classes.root} id="surface">
-        <Paper elevation={1} id="inside">
-            <form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
-                <Typography variant="h5" component="h3" id="papert">
-                    View Lesson
-                </Typography>
-                <TextField
-                  id="standard-name"
-                  label="Lesson Name"
-                  value={this.state.lesson}
-                  className={classes.textField}
-                  onChange={this.handleChange('lesson')}
-                  margin="normal"
-                />
-                <TextField
-                  id="standard-name"
-                  select
-                  label="Courses"
-                  className={classes.textField}
-                  value={this.state.selectedCourses}
-                  onChange={this.handleChange('selectedCourses')}
-                  margin="normal"
-                  SelectProps={{
-                    MenuProps: {
-                      className: classes.menu,
-                    },
-                  }}
-                  helperText="Select Course"
-                  >
-                  {courses.map(option => (
-                    <MenuItem key={option.id} value={option.id}>
-                      {option.data.subject + "_" + option.data.curriculum + "_" + option.data.level}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                <TextField
-                select
-                //id="standard-name"
-                label="Classroom"
-                className={classes.textField}
-                value={this.state.selectedClassroom}
-                helperText="Select Classroom"
-                onChange={this.handleChange('selectedClassroom')}
-                margin="normal"
-                >
-                {classroom.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.data.name}
-                  </MenuItem>
-                ))}
-                </TextField>
-                <TextField
-                select
-                //id="standard-name"
-                label="Teacher"
-                className={classes.textField}
-                value={this.state.selectedTeacher}
-                helperText="Select Teacher"
-                onChange={this.handleChange('selectedTeacher')}
-                margin="normal"
-                >
-                {teacher.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.data.name}
-                  </MenuItem>
-                ))}
-                </TextField>
-                <br />
-                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Typography style={{ fontSize: '20px' }}>Schedule </Typography>
-                  <Fab size="small" color="primary" className={classes.iconButton} aria-label="Add" onClick={this.onAddSchedule}>
-                    <AddIcon />
-                  </Fab>
-                </div>
-                {
-                  this.state.scheduleList.map((item, index) => {
-                    return (
-                      <Schedule key={index} id={index} day={item.day} start={item.start} end={item.end} onUpdate={this.onUpdateSchedule} onRemove={this.onRemoveSchedule}/>
-                    )
-                  })
-                }
-                <br />
-                <div>
-                  <Button variant="contained" color="secondary" className={classes.button}  onClick={this.saveLesson}>save</Button>
-                  <Button variant="outlined" className={classes.button} component={ Link } to="/courses">cancel</Button>
-                </div>
-                
-            </form>
-        </Paper>
-        </div>
-    );
-  }
+	render() {
+		const { classes } = this.props;
+		const { teacher, classroom, courses } = this.state;
+		return (
+			<div className={classes.root} id="surface">
+			<Paper elevation={1} id="inside">
+				<form className={classes.container} noValidate autoComplete="off" onSubmit={this.addCourses}>
+					<Typography variant="h5" component="h3" id="papert">
+						View Lesson
+					</Typography>
+					<TextField
+						id="standard-name"
+						label="Lesson Name"
+						value={this.state.lesson}
+						className={classes.textField}
+						onChange={this.handleChange('lesson')}
+						margin="normal"
+					/>
+					<TextField
+						id="standard-name"
+						select
+						label="Courses"
+						className={classes.textField}
+						value={this.state.selectedCourses}
+						onChange={this.handleChange('selectedCourses')}
+						margin="normal"
+						SelectProps={{
+							MenuProps: {
+								className: classes.menu,
+							},
+						}}
+						helperText="Select Course"
+					>
+						{courses.map(option => (
+							<MenuItem key={option.id} value={option.id}>
+								{option.data.subject + "_" + option.data.curriculum + "_" + option.data.level}
+							</MenuItem>
+						))}
+					</TextField>
+					<TextField
+						select
+						//id="standard-name"
+						label="Classroom"
+						className={classes.textField}
+						value={this.state.selectedClassroom}
+						helperText="Select Classroom"
+						onChange={this.handleChange('selectedClassroom')}
+						margin="normal"
+					>
+					{classroom.map((option) => (
+						<MenuItem key={option.id} value={option.id}>
+						{option.data.name}
+						</MenuItem>
+					))}
+					</TextField>
+					<TextField
+						select
+						//id="standard-name"
+						label="Teacher"
+						className={classes.textField}
+						value={this.state.selectedTeacher}
+						helperText="Select Teacher"
+						onChange={this.handleChange('selectedTeacher')}
+						margin="normal"
+					>
+					{teacher.map((option) => (
+						<MenuItem key={option.id} value={option.id}>
+						{option.data.name}
+						</MenuItem>
+					))}
+					</TextField>
+					<br />
+					<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+						<Typography style={{ fontSize: '20px' }}>Schedule </Typography>
+						<Fab size="small" color="primary" className={classes.iconButton} aria-label="Add" onClick={this.onAddSchedule}>
+						<AddIcon />
+						</Fab>
+					</div>
+					{
+						this.state.scheduleList.map((item, index) => {
+							return (
+								<Schedule key={index} id={index} day={item.day} start={item.start} end={item.end} onUpdate={this.onUpdateSchedule} onRemove={this.onRemoveSchedule}/>
+							)
+						})
+					}
+					<br />
+					<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+						<Typography style={{ fontSize: '20px' }}>Students </Typography>
+						<Fab size="small" color="primary" className={classes.iconButton} aria-label="Add" onClick={this.onAddSchedule}>
+						<AddIcon />
+						</Fab>
+					</div>
+
+					<br />					
+					<div>
+						<Button variant="contained" color="secondary" className={classes.button}  onClick={this.saveLesson}>save</Button>
+						<Button variant="outlined" className={classes.button} component={ Link } to="/courses">cancel</Button>
+					</div>
+					
+				</form>
+			</Paper>
+			</div>
+		);
+	}
 }
 
 AddLesson.propTypes = {
-  classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(AddLesson);

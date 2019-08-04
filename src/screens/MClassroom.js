@@ -291,7 +291,7 @@ class MClassroom extends Component{
                           </Paper>
                         </Grid>
                         <Grid container item lg={2} justify="flex-end" style={{marginRight: 0}}>
-                          <Button style={{height: '1cm'}} variant="contained" color="secondary" className={classes.button} component={Link} to="/addclassroom">add classes</Button>
+                          <Button style={{height: '1cm'}} variant="contained" color="secondary" className={classes.button} component={Link} to="/addclassroom">+ Classroom</Button>
                         </Grid>
                     </Grid>
                 </div>

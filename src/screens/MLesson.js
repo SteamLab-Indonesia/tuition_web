@@ -81,7 +81,7 @@ const styles = theme => ({
 		padding: 7,
 	},
 	table: {
-		minWidth: 700,
+		// minWidth: 700,
 	},
 	card: {
 		minWidth: 275,
@@ -197,7 +197,8 @@ class VLesson extends Component{
 			search: "",
 			open: false,
 			id_num: null,
-			day: ['MON']
+			daySelect: [],
+			schdule: []
 		}
 	}
 
@@ -226,28 +227,43 @@ class VLesson extends Component{
 	}
 
 	onDayClick = (item) => {
-		let {day} = this.state;
-		if (day.includes(item.text))
+		let {daySelect, lesson, searchResult, schedule} = this.state;
+		if (daySelect.includes(item.text))
 		{
-			day = day.filter((obj) => {return obj !== item.text});
+			daySelect = daySelect.filter((obj) => {return obj !== item.text});
 		}
 		else
 		{
-			day.push(item.text);
+			daySelect.push(item.text);
 		}
-		this.setState({day});        
+        if(daySelect.length > 0){
+			searchResult = lesson.filter((c) => {
+				console.log(c);
+				schedule = c.data.schedule.filter((obj) => {
+					console.log(obj.day);
+					return daySelect.includes(obj.day);
+				})
+				return schedule.length > 0;
+			})
+		}else{
+			searchResult = lesson;
+		}
+		this.setState({daySelect, searchResult})
+		console.log('===> SEARCH RESULT');
+		console.log(searchResult);
 	}
 
 	render(){
 
 		const { classes } = this.props;
-		const { lesson,id_num , rowsPerPage, page } = this.state;
+		const { lesson, id_num , rowsPerPage, page, searchResult } = this.state;
 		const emptyRows = rowsPerPage - Math.min(rowsPerPage, lesson.length - page * rowsPerPage);
+		let lessonList = (searchResult.length == 0 ? lesson : searchResult)
 		console.log(lesson);
 
 		console.log('re-render');
 		return (
-			<div id="msurface" class="surface">
+			<div id="msurface" className="surface">
 				<Card className={classes.card} style={{paddingTop: '10px',paddingRight: '30px',paddingLeft: '30px'}}>
 					<CardContent>
 						<div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '30px'}}>
@@ -259,7 +275,7 @@ class VLesson extends Component{
 									<div style={styles.dayContainer}>
 										{
 											days.map((item) => {
-												if (this.state.day.includes(item.text))
+												if (this.state.daySelect.includes(item.text))
 												{
 													return (
 														<Button key={item.text} variant="contained" color="primary" onClick={()=>this.onDayClick(item)}>
@@ -290,7 +306,7 @@ class VLesson extends Component{
 										</IconButton>									
 									</Paper>
 								</Grid>
-								<Grid item lg={2} justify="flex-end" style={{marginRight: 0}}>
+								<Grid item lg={2} style={{marginRight: 0}}>
 									<Button style={{height: '1cm'}} variant="contained" color="secondary" className={classes.button} component={Link} to={'/addlesson/'+id_num}>+ lesson</Button>
 								</Grid>
 							</Grid>
@@ -299,25 +315,25 @@ class VLesson extends Component{
 						<Table className={classes.table}>
 							<TableHead>
 							<TableRow>
-								<TableCell style={{width: '5%'}}>No.</TableCell>
+								<TableCell style={{width: '2%'}}>No.</TableCell>
 								<TableCell style={{width: '25%'}} align="left">Lesson Name</TableCell>
 								<TableCell style={{width: '25%'}} align="left">Level</TableCell>
 								<TableCell style={{width: '25%'}} align="left">Schedule</TableCell>
-								<TableCell style={{width: '10%'}} align="center">Teacher</TableCell>
-								<TableCell style={{width: '10%'}} align="center">Actions</TableCell>
+								<TableCell style={{width: '8%'}} align="center">Teacher</TableCell>
+								<TableCell style={{width: '15%'}} align="center">Actions</TableCell>
 							</TableRow>
 							</TableHead>
 							<TableBody>
 							{
-								lesson.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
-								<TableRow>
+								lessonList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index)=>(
+								<TableRow key={'row' + index}>
 									<TableCell>{page * 10 + index + 1}</TableCell>
 									<TableCell align="left">{item.data.name}</TableCell>
 									<TableCell align="left">{item.data.program.curriculum} - {item.data.program.level}</TableCell>
 									<TableCell align="left">
-									{item.data.schedule.map((item) => {
+									{item.data.schedule.map((item, dindex) => {
 										return (
-										<div>{item.day} {item.start} - {item.end}</div>
+										<div key={'r'+index+'_'+dindex}>{item.day} {item.start} - {item.end}</div>
 										)
 									})}
 									</TableCell>
