@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-export function getClass(callback){
+export function getClassroom(callback){
     const db = firebase.firestore()
     db.collection("classroom").get()
     .then((snapshot) => {
@@ -47,14 +47,11 @@ export function setClassDetails(id_num, name, capacity) {
 
 }
 
-export function addClassroom () {
+export function addClassroom (name, capacity) {
     const db = firebase.firestore();
     db.collection("classroom").add({
-      name: this.state.name,
-      capacity: this.state.capacity,
+      name,
+      capacity,
     });
-    this.setState({
-      name: "",
-      capacity: "",
-    });
+
 }

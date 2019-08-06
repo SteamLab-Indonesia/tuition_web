@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { addLesson } from '../libs/Lesson';
 import { getCoursesDetails } from '../libs/Courses';
 import { getTeacher } from '../libs/Teacher';
-import { getClass } from '../libs/Classroom';
+import { getClassroom } from '../libs/Classroom';
 import { getCourses } from '../libs/Courses';
 import Schedule from '../components/Schedule';
 import AddIcon from '@material-ui/icons/Add';
@@ -100,7 +100,7 @@ class AddLesson extends React.Component {
 	.catch((err) => {
 		console.log(err);
 	});
-	getClass((class_list) => {
+	getClassroom((class_list) => {
 		this.setState({
 			classroom: class_list
 		})

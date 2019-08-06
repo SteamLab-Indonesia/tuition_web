@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import IconButton from '@material-ui/core/IconButton';
-import { getClass } from '../libs/Classroom';
+import { getClassroom } from '../libs/Classroom';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -230,7 +230,7 @@ class MClassroom extends Component{
 
   componentDidMount() {
     //window.location.reload()
-    getClass((class_list) => {
+    getClassroom((class_list) => {
       this.setState({
         classroom: class_list
       })
