@@ -67,7 +67,7 @@ const styles = theme => ({
   },
   card: {
     minWidth: 275,
-    height: window.innerHeight
+    // height: window.innerHeight
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -364,7 +364,7 @@ class MUsers extends Component {
           </DialogActions>
         </Dialog>
         </div>
-      <div id="msurface" className="surface">
+      <div id="msurface">
         <Card className={classes.card} style={{paddingTop: '10px',paddingBottom: 50}}>
           <CardContent>
             <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>

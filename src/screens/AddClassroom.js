@@ -42,76 +42,64 @@ const styles = theme => ({
 
 class AddClassroom extends React.Component {
 
-  handleClickOpen1 = () => {
-    this.setState({ open1: true });
-  };
+	state = {
+		name: '',
+		capacity: '',
+	}
 
-  handleClose1 = () => {
-    this.setState({ open1: false });
-  };
+	handleChange = name => event => {
+		this.setState({
+			[name]: event.target.value,
+		});
+	};
 
-  handleClickOpen2 = () => {
-    this.setState({ open2: true });
-  };
+	saveClassroom = () => {
+		addClassroom(this.state.name, this.state.capacity);
+		this.props.history.push('/classroom');
+	}
 
-  handleClose2 = () => {
-    this.setState({ open2: false });
-  };
+	render() {
+		const { classes } = this.props;
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
+		return (
+			<div className={classes.root} id="surface" class="surface">
+			<Paper elevation={1} id="inside">
+				<form className={classes.container} noValidate autoComplete="off">
+					<Typography variant="h5" component="h3" id="papert">
+						Add Classroom
+					</Typography>
+					<br/>
+					<br/>
+					<TextField
+						className={classes.textField}
+						value={this.state.name}
+						label="Name"   
+						style={{width: '96%'}}
+						margin="normal"
+						onChange={this.handleChange('name')}
+					>
+					</TextField>
 
-  state = {
-    name: '',
-    capacity: '',
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root} id="surface" class="surface">
-        <Paper elevation={1} id="inside">
-            <form className={classes.container} noValidate autoComplete="off">
-                <Typography variant="h5" component="h3" id="papert">
-                    Add Classroom
-                </Typography>
-                <br/>
-                <br/>
-                <TextField
-                  className={classes.textField}
-                  value={this.state.name}
-                  label="Name"   
-                  style={{width: '96%'}}
-                  margin="normal"
-                  onChange={this.handleChange('name')}
-                >
-                </TextField>
-
-                <TextField
-                label="Capacity"
-                className={classes.textField}
-                value={this.state.capacity}
-                onChange={this.handleChange('capacity')}
-                margin="normal"
-                >
-                </TextField>
-                <br />
-                <br/>
-                <br />
-                <div>
-                  <Button variant="contained" color="secondary" className={classes.button} component={ Link } onClick={addClassroom} to="/classroom">save</Button>
-                  <Button variant="outlined" className={classes.button} component={ Link } to="/classroom">cancel</Button>
-                </div>
-                
-            </form>
-        </Paper>
-        </div>
-    );
-  }
+					<TextField
+					label="Capacity"
+					className={classes.textField}
+					value={this.state.capacity}
+					onChange={this.handleChange('capacity')}
+					margin="normal"
+					>
+					</TextField>
+					<br />
+					<br/>
+					<br />
+					<div>
+						<Button variant="contained" color="secondary" className={classes.button} onClick={this.saveClassroom}>save</Button>
+						<Button variant="outlined" className={classes.button} component={ Link } to="/classroom">cancel</Button>
+					</div>					
+				</form>
+			</Paper>
+			</div>
+		);
+	}
 }
 
 AddClassroom.propTypes = {
