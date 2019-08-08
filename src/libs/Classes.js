@@ -1,10 +1,16 @@
 import firebase from 'firebase';
 
-export function getClasses(){
+// Example:
+// getClasses('JpjAeIo5gg1iHvSbQ6oO', 'JNhQ3mCopmWazIuOkx4H').then((classes) => {
+//     console.log(classes);
+// });
+export function getClasses(organization, academic){
     return new Promise((resolve, reject) => {
         const db = firebase.firestore()
-        db.collection("classes").get()
-        .then((snapshot) => {
+        db.collection("classes")
+        .where('organization', '==', db.collection('organization').doc(organization))
+        .where('academic', '==', db.collection('academicYear').doc(academic))
+        .get().then((snapshot) => {
             let class_list = []
             snapshot.forEach((doc) => {
                 class_list.push({
@@ -28,7 +34,15 @@ export function getClassStudents(classId){
             if (snapshot.exists)
             {                
                 let data = snapshot.data();
-                let class_data = {id: classId, data: {name: data.name, students: []}};
+                let class_data = {
+                    id: classId, 
+                    data: {
+                        name: data.name,
+                        academic: data.academic,
+                        label: data.label,
+                        students: []
+                    }
+                };
                 if (data.students && data.students.length > 0)
                 {
                     let promises = data.students.map((student) => {
@@ -64,9 +78,23 @@ export function getClassStudents(classId){
     })
 };
 
-export function addClasses (name, students) {
+// Example:
+// 		
+// addClasses('JpjAeIo5gg1iHvSbQ6oO', 'JNhQ3mCopmWazIuOkx4H', 'P4-Mesir', ['t123cqwr', 'afrasfzdv']);
+
+export function addClasses (organization, academic, name, students, label) {
     const db = firebase.firestore();
     let student_array = [];
+
+    if (typeof organization != 'object')
+    {
+        organization = db.collection('organization').doc(organization);
+    }
+    if (typeof academic != 'object')
+    {
+        academic = db.collection('academicYear').doc(academic);
+    }
+
     if (students)
     {
         student_array = students.map((student) => {
@@ -79,7 +107,10 @@ export function addClasses (name, students) {
     }
 
     db.collection("classes").add({
-      name: name,
-      students: student_array
+        organization,
+        academic,
+        name,
+        students: student_array,
+        label: label ? label : ''
     });
 }
