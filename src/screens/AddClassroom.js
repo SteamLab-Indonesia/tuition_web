@@ -62,7 +62,7 @@ class AddClassroom extends React.Component {
 		const { classes } = this.props;
 
 		return (
-			<div className={classes.root} id="surface" class="surface">
+			<div className={classes.root} id="surface" className="surface">
 			<Paper elevation={1} id="inside">
 				<form className={classes.container} noValidate autoComplete="off">
 					<Typography variant="h5" component="h3" id="papert">
