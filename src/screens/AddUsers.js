@@ -15,9 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {GENDER} from '../libs/User';
-import Student from '../libs/Student';
-import SessionData from '../libs/SessionData';
+import {GENDER,addMe} from '../libs/User';
 import { Link } from 'react-router-dom'
 import '../Projj.css';
 import '../users.css';
@@ -66,40 +64,42 @@ const gender = [
 ];
 class AddUsers extends React.Component {
   state = {
-    age: '',
+    name: '',
+    username: '',
     password: '',
+    birthday: '',
+    gender: '',
+    email: '',
+    phone: '',
+    address: '',
+    school: '',
+    permission: 100,
     showPassword: false,
   };
 
-  addMe = () => {
-
-    let new_user = new Student({
-      name: this.state.name,
-      email: this.state.email,
-      username: this.state.username,
-      birthday: this.state.birthday,
-      password: this.state.password,
-      phone: this.state.phone,
-      address: this.state.address,
-      school: this.state.school,
-      gender : this.state.gender,
-      archive : false,
-      organization: SessionData.organizationId
-    });
-    new_user.save();
-
-    this.setState({
-      name: '',
-      email: '',
-      username: '',
-      birthday: '',
-      password: '',
-      phone: '',
-      address: '',
-      school: '',
-      gender: '',
-      archive: false
-    });
+  saveMe = () => {
+    console.log ( this.state.name,
+      this.state.username,
+      this.state.password,
+      this.state.birthday,
+      this.state.gender,
+      this.state.email,
+      this.state.phone,
+      this.state.address,
+      this.state.school,)
+    addMe(
+      this.state.name,
+      this.state.username,
+      this.state.password,
+      this.state.birthday,
+      this.state.gender,
+      this.state.email,
+      this.state.phone,
+      this.state.address,
+      this.state.school,
+      this.state.permission
+    );
+    this.props.history.push("/users");
   }
 
   handleClickShowPassword = () => {
@@ -247,7 +247,7 @@ class AddUsers extends React.Component {
             </Grid>
             <br/>
             <div> 
-              <Button variant="contained" color="secondary" className={classes.button} onClick={this.addMe} component={Link} to="/users">
+              <Button variant="contained" color="secondary" className={classes.button} onClick={this.saveMe}>
               save
               </Button>
               <Button variant="outlined" className={classes.button} component={ Link } to="/users">cancel</Button>

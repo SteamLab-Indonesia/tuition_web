@@ -320,5 +320,22 @@ export function setUserArchive(id_num,archive){
 }
 
 export function getStaff() {
-    return getUserListByPermission([PermissionLevel.TEACHER])
+    return getUserListByPermission([PermissionLevel.TEACHER]);
 }
+
+export function addMe(name, username, password, birthday, gender, email, phone, address, school, permission){
+    const db = firebase.firestore();
+    db.collection("user").add(
+        {
+        name,
+        username,
+        password,
+        birthday,
+        gender,
+        email,
+        phone,
+        address,
+        school,
+        permission
+    });
+};
