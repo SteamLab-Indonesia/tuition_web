@@ -55,6 +55,10 @@ const styles = theme => ({
     minWidth: 275,
     // height: window.innerHeight
   },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  }
 });
 
 
@@ -234,14 +238,13 @@ class MClasses extends Component {
           <CardContent>
             <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
               <Grid container spacing={24}>
-                <Grid item xs={9}>
+                <Grid item xs={7}>
                   <Typography variant="h5" component="h3">Class</Typography>
                 </Grid>
 
                 <Grid item xs={3}>
-                  <Paper style={{width:'240px'}}>
+                  <Paper style={{width:'100%'}}>
                     <InputBase 
-                      style={{paddingLeft:5}}
                       className={classes.input} 
                       value={this.state.search}
                       placeholder={"Search Classes ..."}
@@ -256,6 +259,15 @@ class MClasses extends Component {
                       <SearchIcon />
                     </IconButton>
                   </Paper>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    className={classes.button} 
+                    component={Link} to="addclasses">
+                      Add Classes
+                  </Button>
                 </Grid>
             </Grid>
             </div>
@@ -278,7 +290,7 @@ class MClasses extends Component {
                       <TableCell align="center">
                         <div>
                         <Tooltip title='view'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"/viewclasses" + item.id}>
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"viewclasses/" + item.id}>
                             <VisibilityIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>

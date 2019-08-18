@@ -26,6 +26,7 @@ import StudentSchedule from '../screens/StudentSchedule';
 import VClasses from '../screens/VClasses';
 import { createBrowserHistory } from "history";
 import SplashScreen from '../screens/SplashScreen';
+import AddClasses from '../screens/AddClasses';
 
 const history = createBrowserHistory();
 
@@ -96,6 +97,7 @@ class Navigation extends Component{
                 <Route path='/classes' component={MClasses}/>
                 <Route path='/studentschedule' component={StudentSchedule}/>
                 <Route path='/viewclasses/:id' component={VClasses}/>
+                <Route path ="/addclasses" component={AddClasses}/>
                 {/*<Route path='/feedback' component={feedback}/> */}
             </Switch>
         );
