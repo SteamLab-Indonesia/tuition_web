@@ -47,11 +47,15 @@ export function setClassDetails(id_num, name, capacity) {
 
 }
 
-export function addClassroom (name, capacity) {
+export function addClassroom (organization, name, capacity) {
     const db = firebase.firestore();
+
+    if (typeof organization != 'object')
+        organization = db.collection('organization').doc(organization);
     db.collection("classroom").add({
       name,
       capacity,
+      organization
     });
 
 }

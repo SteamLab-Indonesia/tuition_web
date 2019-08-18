@@ -19,11 +19,7 @@ export default class Student extends User {
             this.phone = student.phone;
             this.address = student.address;
             this.gender = student.gender;
-            if (student.organization)
-            {
-                const db = firebase.firestore();
-                this.organization = db.collection('user').doc(student.organization);
-            }
+            this.organization = student.organization;
             if (student.branches)
                 this.branches = student.branches;
         }
