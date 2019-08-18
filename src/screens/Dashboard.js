@@ -93,6 +93,16 @@ function Dashboard(props) {
                             </Card>        
                         </Grid>
                     </Button>
+                    <Button component={Link} to="/classes" lg={4} xs={12}>
+                        <Grid item className="dis-content">
+                            <Card className={classes.card}>
+                                <CardContent align='center'>
+                                    <MeetingRoom className={classes.icon} />
+                                    <p id="name">Classes</p>
+                                </CardContent>
+                            </Card>        
+                        </Grid>
+                    </Button>
                     <Button component={Link} to="/attendance" lg={4} xs={12}>
                         <Grid item  className="dis-content">
                             <Card className={classes.card}>

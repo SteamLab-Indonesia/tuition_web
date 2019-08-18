@@ -21,7 +21,9 @@ import MLesson from '../screens/MLesson';
 import AddLesson from '../screens/AddLesson';
 import VLesson from '../screens/VLesson';
 import MStaffAttendance from '../screens/MStaffAttendance';
+import MClasses from '../screens/MClasses';
 import StudentSchedule from '../screens/StudentSchedule';
+import VClasses from '../screens/VClasses';
 import { createBrowserHistory } from "history";
 import SplashScreen from '../screens/SplashScreen';
 
@@ -91,7 +93,9 @@ class Navigation extends Component{
                 <Route path='/viewlesson/:id' component={VLesson}/>
                 <Route path='/payment' component={Payment}/>
                 <Route path='/staffattendance' component={MStaffAttendance}/>
+                <Route path='/classes' component={MClasses}/>
                 <Route path='/studentschedule' component={StudentSchedule}/>
+                <Route path='/viewclasses/:id' component={VClasses}/>
                 {/*<Route path='/feedback' component={feedback}/> */}
             </Switch>
         );

@@ -8,6 +8,7 @@ class SessionData {
     organizationId = null;
     organizationName = 'STEAMLAB';
     branch = [];
+    academic = 'JNhQ3mCopmWazIuOkx4H';
     activeBranch = '';
 
     constructor(data)
@@ -50,6 +51,7 @@ class SessionData {
         this.organizationId = ls.get('organizationId');
         this.organizationName = ls.get('organizationName');
         this.branch = ls.get('branch');
+        this.academic = 'JNhQ3mCopmWazIuOkx4H';
     }
 }
 
