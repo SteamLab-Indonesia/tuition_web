@@ -17,6 +17,7 @@ import Schedule from '../components/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Fab from '@material-ui/core/Fab';
+import SessionData from '../libs/SessionData';
 
 const styles = theme => ({
    root: {
@@ -144,7 +145,7 @@ class AddLesson extends React.Component {
 			selectedCourses, 
 			selectedTeacher, 
 			scheduleList} = this.state;
-		addLesson(lesson, selectedCourses, selectedTeacher, selectedClassroom, scheduleList)
+		addLesson(SessionData.organizationId, lesson, selectedCourses, selectedTeacher, selectedClassroom, scheduleList)
 		.then((doc) => {
 			console.log(doc);
 		})

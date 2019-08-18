@@ -1,3 +1,5 @@
+import ls from 'local-storage';
+
 class SessionData {
     userId = null;
     username = '';
@@ -12,8 +14,6 @@ class SessionData {
     {
         if (data.userId)
             this.userId = data.userId;
-        if (data.userData)
-            this.userData = data.userData;
         if (data.username)
             this.username = data.username;
         if (data.email)
@@ -33,26 +33,48 @@ class SessionData {
         }
         return false;
     }
+
+    saveSession = () => {
+        ls.set('userId', this.userId);
+        ls.set('username', this.username);
+        ls.set('email', this.email);
+        ls.set('organizationId', this.organizationId);
+        ls.set('organizationName', this.organizationName);
+        ls.set('branch', this.branch);
+    }
+
+    getSession = () => {
+        this.userId = ls.get('userId');
+        this.username = ls.get('username');
+        this.email = ls.get('email');
+        this.organizationId = ls.get('organizationId');
+        this.organizationName = ls.get('organizationName');
+        this.branch = ls.get('branch');
+    }
 }
 
 let _sessionData = new SessionData({});
+_sessionData.getSession();
 
-export function setData(organizationId, organizationName, branch, userId, userData)
+export function setData(organizationId, organizationName, branch, userId, username)
 {
     _sessionData = new SessionData({
-        organizationId, organizationName, userId, userData, branch
+        organizationId, organizationName, userId, username, branch
     });
+    _sessionData.saveSession();
 }
 
 export function setOrganization(organizationId, organizationName)
 {
     _sessionData.organizationId = organizationId;
     _sessionData.organizationName = organizationName;
+    _sessionData.saveSession();
 }
 
 export function setActiveBranch(branch)
 {
     _sessionData.activeBranch = branch;
+    _sessionData.saveSession();
 }
 
 export {_sessionData as default};

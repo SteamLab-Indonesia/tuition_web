@@ -8,6 +8,7 @@ import { Typography } from '@material-ui/core';
 import {addClassroom} from '../libs/Classroom'
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import SessionData from '../libs/SessionData';
 
 const styles = theme => ({
    root: {
@@ -54,13 +55,12 @@ class AddClassroom extends React.Component {
 	};
 
 	saveClassroom = () => {
-		addClassroom(this.state.name, this.state.capacity);
+		addClassroom(SessionData.organizationId, this.state.name, this.state.capacity);
 		this.props.history.push('/classroom');
 	}
 
 	render() {
 		const { classes } = this.props;
-
 		return (
 			<div className={classes.root} id="surface" className="surface">
 			<Paper elevation={1} id="inside">

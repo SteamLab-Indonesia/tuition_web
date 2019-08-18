@@ -86,12 +86,16 @@ export function addUser(user)
 {
     return new Promise((resolve, reject) => {
         const db = firebase.firestore();
-            let userRef = db.collection('user').add(user.toJson());
+        if (user.organization && typeof user.organization != 'object')
+        {
+            user.organization = db.collection('organization').doc(user.organization);
+        }
         firebase.auth().createUserWithEmailAndPassword(user.email,user.password)
         .then((success) => {
                 // success.updateProfile({
                 //     displayName: user.name
                 // });
+                let userRef = db.collection('user').add(user.toJson());
                 resolve(userRef);
         })
         .catch(function(error){
@@ -226,7 +230,7 @@ export function updateLoginSession(email)
                 res.data.organization.get().then((orgResp) => {
                     if (orgResp.data())
                     {
-                        setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, res.data);
+                        setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, email);
                     }
                    
                     resolve(res);        

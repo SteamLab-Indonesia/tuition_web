@@ -21,11 +21,6 @@ export default class Teacher extends User{
             this.address = teacher.address;
             this.subject = teacher.subject;
             this.gender = teacher.gender;
-            if (teacher.organization)
-            {
-                const db = firebase.firestore();
-                this.organization = db.collection('user').doc(teacher.organization);
-            }
             if (teacher.branches)
                 this.branches = teacher.branches;
             if (teacher.modules)

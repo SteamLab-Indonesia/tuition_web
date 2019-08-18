@@ -64,11 +64,14 @@ export function getLessons(programId) {
 	});
 }
 
-export function addLesson(lesson_name, program_id, teacher_id, classroom_id, scheduleList)
+export function addLesson(organization, lesson_name, program_id, teacher_id, classroom_id, scheduleList)
 {
 	return new Promise((resolve, reject) => {
 		const db = firebase.firestore();
+		if (typeof organization != 'object')
+        	organization = db.collection('organization').doc(organization);		
 		db.collection("lesson").add({
+			organization,
 			program: db.collection("program").doc(program_id),
 			name: lesson_name,
 			classroom: db.collection("classroom").doc(classroom_id),
