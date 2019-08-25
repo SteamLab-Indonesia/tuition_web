@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { Link } from "react-router-dom";
+import { getUserListByPermission, setUserArchive } from '../libs/User';
+import { Tooltip, Menu, MenuItem} from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,8 +22,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid';
-import { Link } from "react-router-dom";
-import { getUserListByPermission } from '../libs/User';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -31,21 +32,8 @@ import InputBase from '@material-ui/core/InputBase';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import BookIcon from '@material-ui/icons/Book';
-import { Tooltip } from '@material-ui/core';
-import { setUserArchive } from '../libs/User'
-import {Menu, MenuItem} from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import PermissionLevel from '../libs/PermissionLevel';
-
-const CustomTableCell = withStyles(theme => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-}))(TableCell);
 
 const actionsStyles = theme => ({
   root: {
@@ -67,7 +55,6 @@ const styles = theme => ({
   },
   card: {
     minWidth: 275,
-    // height: window.innerHeight
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -124,7 +111,8 @@ const permission = [
     label: 'Super Admin',
   },
 ];
-class TablePaginationActions extends React.Component {
+
+class TablePaginationActions extends Component {
   handleFirstPageButtonClick = event => {
     this.props.onChangePage(event, 0);
   };
@@ -225,11 +213,12 @@ const StyledMenuItem = withStyles(theme => ({
     },
   },
 }))(MenuItem);
-class MUsers extends Component {
+
+class MainUsers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      userList: [],
       searchResult: [],
       page: 0,
       rowsPerPage:5,
@@ -252,10 +241,10 @@ class MUsers extends Component {
         permissionList = [this.props.permission];
       this.setState({userLevelList: permissionList});
     }
-    getUserListByPermission(permissionList).then((user)  => {
+    getUserListByPermission(permissionList).then((userList)  => {
       // console.log(user_list);
       this.setState({
-        user
+        userList
       })
     });
   }
@@ -288,18 +277,18 @@ class MUsers extends Component {
   }
   closeUser = () => {
     this.setState({openMenu: false, anchor: null});
-    getUserListByPermission(this.state.userLevelList).then((user) => {
-      this.setState({user});
+    getUserListByPermission(this.state.userLevelList).then((userList) => {
+      this.setState({userList});
     })
   }
 
   BtnClick = () => {
     if(this.state.search !== ""){
-        let searchResult = this.state.user.filter((item) => {
+        let searchResult = this.state.userList.filter((item) => {
         return item.data.name.toLowerCase() === this.state.search.toLowerCase();
       });
       if (!searchResult || searchResult.length === 0){
-        this.setState({searchResult: this.state.user, open: true, search:''});        
+        this.setState({searchResult: this.state.userList, open: true, search:''});        
       }
       else{
         this.setState({searchResult, search:''})
@@ -308,7 +297,7 @@ class MUsers extends Component {
     }
     else
     {
-      this.setState({searchResult: this.state.user});
+      this.setState({searchResult: this.state.userList});
     }
   }
 
@@ -338,9 +327,9 @@ class MUsers extends Component {
 
 	render() {
     const { classes } = this.props;
-    const { user, rowsPerPage, page, searchResult } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
-    let userList = (searchResult.length > 0 ? searchResult : user);
+    const { userList, rowsPerPage, page, searchResult } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, userList.length - page * rowsPerPage);
+    let showUser = (searchResult.length > 0 ? searchResult : userList);
     let title = ( this.props.title ? this.props.title : "Users");
     return (
       <div>
@@ -453,7 +442,7 @@ class MUsers extends Component {
                 </TableHead>
                 <TableBody>
                   {
-                    userList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
+                  showUser.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                     <TableRow key={item.data.email}>
                       <TableCell align="center" >{item.data.name}</TableCell>
                       <TableCell align="center" >{item.data.email}</TableCell>
@@ -493,7 +482,7 @@ class MUsers extends Component {
                     <TablePagination
                       rowsPerPageOptions={[10]}
                       colSpan={9}
-                      count={user.length}
+                      count={userList.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       SelectProps={{
@@ -516,8 +505,8 @@ class MUsers extends Component {
 
 }
 
-MUsers.propTypes = {
+MainUsers.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MUsers);
+export default withStyles(styles)(MainUsers);

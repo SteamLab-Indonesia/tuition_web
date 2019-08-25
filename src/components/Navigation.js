@@ -3,9 +3,9 @@ import {Switch, Route, withRouter} from 'react-router-dom';
 import Dashboard from '../screens/Dashboard';
 import MCourses from '../screens/MCourses';
 import AddCourses from '../screens/AddCourses';
-import MStudent from '../screens/MStudent'
-import MTeacher from '../screens/MTeacher';
-import MUsers from '../screens/MUsers';
+import MainUsers from '../screens/MainUsers';
+import MainStudents from '../screens/MainStudents';
+import MainTeachers from '../screens/MainTeachers';
 import MStaff from '../screens/MStaff';
 import AddUsers from '../screens/AddUsers';
 import AddTeachers from '../screens/AddTeachers';
@@ -74,30 +74,30 @@ class Navigation extends Component{
             <Switch history={history}>
                 <Route exact path='/' component={SplashScreen}/>
                 <Route path='/dashboard' component={Dashboard}/>
-                <Route path='/users' component={MUsers}/>
-                <Route path='/student' component={MStudent}/>
-                <Route path='/teacher' component={MTeacher}/>
-                <Route path='/staff' component={MStaff}/>
+                <Route path='/login' component={Login}/>
+                <Route path='/users' component={MainUsers}/>
+                <Route path='/students' component={MainStudents}/>
+                <Route path='/teachers' component={MainTeachers}/>
+                <Route path='/staffs' component={MStaff}/>
                 <Route path='/courses' component={MCourses}/>
-                <Route path='/addcourses' component={AddCourses}/>
+                <Route path='/lesson/:id' component={MLesson}/>
+                <Route path='/classroom' component={Classroom}/>
+                <Route path='/classes' component={MClasses}/>
+                <Route path='/attendance' component={Attendance}/>
+                <Route path='/staffattendance' component={MStaffAttendance}/>
+                <Route path='/payment' component={Payment}/>
                 <Route path='/addusers' component={AddUsers}/>
                 <Route path='/addteachers' component={AddTeachers}/>
-                <Route path='/login' component={Login}/>
-                <Route path='/viewcourses/:id' component={VCourses}/>
-                <Route path='/attendance' component={Attendance}/>
-                <Route path='/viewuser/:id' component={VUser}/>
-                <Route path='/classroom' component={Classroom}/>
-                <Route path='/viewclassroom/:id' component={VClassroom}/>
-                <Route path='/addclassroom' component={AddClassroom}/>
-                <Route path='/lesson/:id' component={MLesson}/>
+                <Route path='/addcourses' component={AddCourses}/>
                 <Route path='/addlesson/:id' component={AddLesson}/>
-                <Route path='/viewlesson/:id' component={VLesson}/>
-                <Route path='/payment' component={Payment}/>
-                <Route path='/staffattendance' component={MStaffAttendance}/>
-                <Route path='/classes' component={MClasses}/>
-                <Route path='/studentschedule' component={StudentSchedule}/>
-                <Route path='/viewclasses/:id' component={VClasses}/>
+                <Route path='/addclassroom' component={AddClassroom}/>
                 <Route path ="/addclasses" component={AddClasses}/>
+                <Route path='/viewuser/:id' component={VUser}/>
+                <Route path='/viewcourses/:id' component={VCourses}/>
+                <Route path='/viewclassroom/:id' component={VClassroom}/>
+                <Route path='/viewlesson/:id' component={VLesson}/>
+                <Route path='/viewclasses/:id' component={VClasses}/>
+                <Route path='/studentschedule' component={StudentSchedule}/>
                 {/*<Route path='/feedback' component={feedback}/> */}
             </Switch>
         );

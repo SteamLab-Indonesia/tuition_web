@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import MUsers from './MUsers';
+import MainUsers from './MainUsers';
 import PermissionLevel from '../libs/PermissionLevel'
 
 const permissionList = [
@@ -13,7 +13,7 @@ class MStaff extends Component {
 
   render() {
       return (
-          <MUsers permission={permissionList} title="Staff" />
+          <MainUsers permission={permissionList} title="Staff" />
       )
   }
 }

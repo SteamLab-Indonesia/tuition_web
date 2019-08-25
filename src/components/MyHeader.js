@@ -238,7 +238,7 @@ class MyHeader extends Component {
                           <ListItemText primary="Teacher" />
                       </ListItem> */}
                       {[{text: 'Users',icon: <PersonIcon />,link: '/users'},
-                      {text: 'Teacher',icon: <GroupIcon />,link: '/teacher'},
+                      {text: 'Teachers',icon: <GroupIcon />,link: '/teachers'},
                       {text: 'Classroom',icon: <ClassroomIcon />,link: '/classroom'},
                       {text: 'Courses',icon: <AssignmentIcon />,link: '/courses'},
                       {text: 'Attendance',icon: <BarChartIcon />,link: '/attendance'},

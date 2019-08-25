@@ -43,7 +43,7 @@ function Dashboard(props) {
                             </Card>        
                         </Grid>
                     </Button> */}
-                    <Button component={Link} to="/student" lg={4} xs={12}>
+                    <Button component={Link} to="/students" lg={4} xs={12}>
                         <Grid item className="dis-content">
                             <Card className={classes.card}>
                                 <CardContent align='center'>
@@ -53,7 +53,7 @@ function Dashboard(props) {
                             </Card>        
                         </Grid>
                     </Button>
-                    <Button component={Link} to="/teacher" lg={4} xs={12}>
+                    <Button component={Link} to="/teachers" lg={4} xs={12}>
                         <Grid item className="dis-content">
                             <Card className={classes.card}>
                                 <CardContent align='center'>
