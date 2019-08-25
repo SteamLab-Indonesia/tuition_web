@@ -17,35 +17,16 @@ import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
-import { getUserListByPermission } from '../libs/User';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { getClassStudents } from '../libs/Classes';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import BookIcon from '@material-ui/icons/Book';
 import { Tooltip } from '@material-ui/core';
-import { setUserArchive } from '../libs/User'
 import {Menu, MenuItem} from '@material-ui/core';
-import Checkbox from '@material-ui/core/Checkbox';
-import PermissionLevel from '../libs/PermissionLevel';
-
-const CustomTableCell = withStyles(theme => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-}))(TableCell);
 
 const actionsStyles = theme => ({
   root: {
@@ -69,61 +50,9 @@ const styles = theme => ({
     minWidth: 275,
     // height: window.innerHeight
   },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-  input: {
-    marginLeft: 8,
-    flex: 1,
-    
-  },
-  iconButton: {
-    padding: 7,
-  },
 });
 
-const permission = [
-  {
-    value: PermissionLevel.GUEST,
-    label: 'Guest',
-  },
-  {
-    value: PermissionLevel.STUDENTS,
-    label: 'Students',
-  },
-  {
-    value: PermissionLevel.PARENTS,
-    label: 'Parents',
-  },
-  {
-    value: PermissionLevel.TEACHER,
-    label: 'Teacher',
-  },
-  {
-    value: PermissionLevel.OPERATOR,
-    label: 'Operator',
-  },
-  {
-    value: PermissionLevel.COORDINATOR,
-    label: 'Coordinator',
-  },
-  {
-    value: PermissionLevel.FINANCE,
-    label: 'Finance',
-  },
-  {
-    value: PermissionLevel.BRANCH_ADMIN,
-    label: 'Branch Admin',
-  },
-  {
-    value: PermissionLevel.ORGANIZATION_ADMIN,
-    label: 'Organization Admin',
-  },
-  {
-    value: PermissionLevel.SUPER_ADMIN,
-    label: 'Super Admin',
-  },
-];
+
 class TablePaginationActions extends React.Component {
   handleFirstPageButtonClick = event => {
     this.props.onChangePage(event, 0);
@@ -225,11 +154,12 @@ const StyledMenuItem = withStyles(theme => ({
     },
   },
 }))(MenuItem);
-class MUsers extends Component {
+
+class VClasses extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      classStudents: [],
       searchResult: [],
       page: 0,
       rowsPerPage:5,
@@ -237,35 +167,21 @@ class MUsers extends Component {
       open: false,
       archive: false,
       openMenu: false,
-      userLevelList: [100],
-      anchor: null
+      anchor: null,
     };
   }
 
   componentDidMount() {
-    let permissionList = this.state.userLevelList;
-    if (this.props.permission)
-    {
-      if (Array.isArray(this.props.permission))
-        permissionList = this.props.permission;
-      else
-        permissionList = [this.props.permission];
-      this.setState({userLevelList: permissionList});
-    }
-    getUserListByPermission(permissionList).then((user)  => {
-      // console.log(user_list);
-      this.setState({
-        user
+    const id_num = this.props.match.params.id;
+    getClassStudents(id_num).then((classStudents) => {
+     // console.log(classStudents);
+      this.setState({ 
+        classStudents
       })
-    });
+    })
+    this.setState({id_num});
   }
   
-  handleArchive = (item) => {
-    setUserArchive(
-      item.id,
-      !item.data.archive
-    )
-  };
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -283,23 +199,14 @@ class MUsers extends Component {
     this.setState({ open: false });
   };
 
-  clickUser = (e) => {
-    this.setState({openMenu: true, anchor: e.currentTarget});
-  }
-  closeUser = () => {
-    this.setState({openMenu: false, anchor: null});
-    getUserListByPermission(this.state.userLevelList).then((user) => {
-      this.setState({user});
-    })
-  }
 
   BtnClick = () => {
     if(this.state.search !== ""){
-        let searchResult = this.state.user.filter((item) => {
+        let searchResult = this.state.classStudents.filter((item) => {
         return item.data.name.toLowerCase() === this.state.search.toLowerCase();
       });
       if (!searchResult || searchResult.length === 0){
-        this.setState({searchResult: this.state.user, open: true, search:''});        
+        this.setState({searchResult: this.state.classStudents, open: true, search:''});        
       }
       else{
         this.setState({searchResult, search:''})
@@ -308,178 +215,86 @@ class MUsers extends Component {
     }
     else
     {
-      this.setState({searchResult: this.state.user});
+      this.setState({searchResult: this.state.classStudents});
     }
-  }
-
-  updateList = (userLevel) => {
-    let {userLevelList} = this.state;
-    if (userLevelList.includes(userLevel))
-    {
-      // Remove for array if already checked
-      // Using array.filter
-      userLevelList = userLevelList.filter(item => item !== userLevel);
-    }
-    else
-    {
-      userLevelList.push(userLevel);      
-    }
-    this.setState({userLevelList});
-  }
-
-	getRole = (level) => {
-		let role = permission.filter((item) => item.value === level);
-		if (role && role.length > 0)
-		{
-			return role[0].label;
-		}
-		return 'Unknown';
   }
 
 	render() {
     const { classes } = this.props;
-    const { user, rowsPerPage, page, searchResult } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, user.length - page * rowsPerPage);
-    let userList = (searchResult.length > 0 ? searchResult : user);
-    let title = ( this.props.title ? this.props.title : "Users");
+    const { classStudents, rowsPerPage, page, searchResult } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, classStudents && classStudents.data ? classStudents.data.students.length - page * rowsPerPage : 0);
+    let studentList = (searchResult.length > 0 ? searchResult : classStudents && classStudents.data ? classStudents.data.students : null);
     return (
       <div>
-        <div>
-         <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">NOT FOUND!</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-               Try to search again..
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary" autoFocus>
-              Ok
-            </Button>
-          </DialogActions>
-        </Dialog>
-        </div>
       <div id="msurface">
         <Card className={classes.card} style={{paddingTop: '10px',paddingBottom: 50}}>
           <CardContent>
             <div className={classes.root} style={{paddingTop: '30px',paddingRight: '30px',paddingLeft: '30px',paddingBottom: '20px'}}>
               <Grid container spacing={24}>
-                <Grid item xs={5}>
-                  <Typography variant="h5" component="h3">{title}</Typography>
+                <Grid item xs={9}>
+                  <Typography variant="h5" component="h3">{classStudents && classStudents.data?classStudents.data.name:null}</Typography>
                 </Grid>
 
                 <Grid item xs={3}>
-                  <Paper style={{width:'100%'}}>
+                  <Paper style={{width:'240px'}}>
                     <InputBase 
+                      style={{paddingLeft:5}}
                       className={classes.input} 
                       value={this.state.search}
-                      placeholder={"Search " + title + " ..."}
+                      placeholder={"Search Students ..."}s
                       onChange={(e) => {this.setState({search: e.target.value})}}
                     />
                     <IconButton 
                       className={classes.iconButton} 
                       aria-label="Search" 
                       onClick={this.BtnClick} 
-                      style={{marginLeft:12}}
+                      style={{marginLeft:5}}
                     >
                       <SearchIcon />
                     </IconButton>
                   </Paper>
                 </Grid>
-                <Grid item xs={4} >
-                {
-                  this.props.permission ? null : (
-                   
-                      <Button 
-                        variant="contained" 
-                        color="primary" 
-                        className={classes.button}  
-                        onClick={this.clickUser}
-                        style={{marginLeft:100,marginRight:10}}                 
-                      >
-                        Role Filter
-                      </Button>
-                    
-                  )}
-                  <StyledMenu
-                    anchorEl={this.state.anchor}
-                    keepMounted
-                    open={this.state.openMenu}
-                    onClose={this.closeUser}
-                  >
-                    {permission.map(option => (
-                      <StyledMenuItem>
-                          <Checkbox
-                            checked={this.state.userLevelList.includes(option.value)}
-                            onChange={()=>this.updateList(option.value)}
-                            key={option.value}
-                            color="primary"
-                            inputProps={{
-                              'aria-label': option.label,
-                            }}
-                          />
-                          {option.label}
-                      </StyledMenuItem>
-                    ))}
-                  </StyledMenu>
-            
-                  <Button 
-                    variant="contained" 
-                    color="secondary" 
-                    style={this.props.permission ? {marginLeft:200} : null} 
-                    className={classes.button} 
-                    component={Link} to="addusers">
-                  {"+ " + title }
-                  </Button>      
-                </Grid>
-              </Grid>
+            </Grid>
             </div>
   
             <Paper className={classes.root}>
               <Table className={classes.table} >
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center" >Name</TableCell>
-                    <TableCell align="center" >Email</TableCell>
-                    <TableCell align="center" >Role</TableCell>                    
-                    <TableCell align="center" >Phone Number</TableCell>
-                    <TableCell align="center" style={{width:"18%"}} >Actions</TableCell>
+                    <TableCell align="center" >No.</TableCell>
+                    <TableCell align="center" >Student</TableCell>
+                    <TableCell align="center" >Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {
-                    userList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
-                    <TableRow key={item.data.email}>
-                      <TableCell align="center" >{item.data.name}</TableCell>
-                      <TableCell align="center" >{item.data.email}</TableCell>
-                      <TableCell align="center" >{this.getRole(item.data.permission)}</TableCell>
-                      <TableCell align="center" >{item.data.phone}</TableCell>
+                  
+                  { 
+                    studentList ? 
+                    studentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item,index) => (
+                    <TableRow>
+                      <TableCell align="center">{index + 1}</TableCell>
+                      <TableCell align="center">{item.data.name}</TableCell>
                       <TableCell align="center">
                         <div>
                         <Tooltip title='view'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"viewuser/" + item.id}>
+                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"/viewuser/" + item.id}>
                             <VisibilityIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>
                           <Tooltip title='archive'>
-                            <IconButton aria-label="Delete" className={classes.margin} onClick={()=>this.handleArchive(item)}>
+                            <IconButton aria-label="Delete" className={classes.margin}>
                               <ArchiveIcon className={classes.icon} />
                             </IconButton>
                           </Tooltip>
                         <Tooltip title='lesson'>
-                          <IconButton aria-label="Delete" className={classes.margin} component={Link} to={"studentschedule/" }>
+                          <IconButton aria-label="Delete" className={classes.margin} >
                             <BookIcon className={classes.icon} />
                           </IconButton>
                         </Tooltip>
                         </div>
                         </TableCell>
                     </TableRow>
-                  ))
+                  )) : null
                   }
                   {emptyRows > 0 && (
                       <TableRow style={{ height: 48 * emptyRows }}>
@@ -493,7 +308,7 @@ class MUsers extends Component {
                     <TablePagination
                       rowsPerPageOptions={[10]}
                       colSpan={9}
-                      count={user.length}
+                      count={studentList ? studentList.length : 1}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       SelectProps={{
@@ -511,13 +326,14 @@ class MUsers extends Component {
         </Card>
         </div>
       </div>
+
     );
   }
 
 }
 
-MUsers.propTypes = {
+VClasses.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MUsers);
+export default withStyles(styles)(VClasses);
