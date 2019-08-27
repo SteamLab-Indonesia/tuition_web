@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import '../Projj.css';
-import { Typography } from '@material-ui/core';
+import { TextField, Paper, Typography, Button, MenuItem } from '@material-ui/core';
 import {addClasses} from '../libs/Classes'
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import { getClassroom } from '../libs/Classroom';
 import SessionData from '../libs/SessionData';
 
 const styles = theme => ({
@@ -46,7 +44,17 @@ class AddClassroom extends React.Component {
 	state = {
 		name: '',
         label: '',
-        students: [],
+		students: [],
+		classroom: [],
+		selectedClassroom: ''
+	}
+
+	componentDidMount = () => {
+		getClassroom((class_list) => {
+			this.setState({
+				classroom: class_list
+			})
+		});		
 	}
 
 	handleChange = name => event => {
@@ -55,18 +63,20 @@ class AddClassroom extends React.Component {
 		});
 	};
 
-	saveClassroom = () => {
+	saveClasses = () => {
         addClasses(SessionData.organizationId,
-                    SessionData.academic,
-                    this.state.name,
-                    this.state.students,
-                    this.state.label, 
-                ); 
+			SessionData.academic,
+			this.state.name,
+			this.state.students,
+			this.state.selectedClassroom,
+			this.state.label, 
+		); 
 		this.props.history.push('/classes');
 	}
 
 	render() {
 		const { classes } = this.props;
+		const {classroom} = this.state;
 		return (
 			<div className={classes.root} id="surface" className="surface">
 			<Paper elevation={1} id="inside">
@@ -85,20 +95,33 @@ class AddClassroom extends React.Component {
 						onChange={this.handleChange('name')}
 					>
 					</TextField>
-
 					<TextField
-					label="Label"
-					className={classes.textField}
-					value={this.state.label}
-					onChange={this.handleChange('label')}
-					margin="normal"
+						select
+						label="Classroom"
+						className={classes.textField}
+						value={this.state.selectedClassroom}
+						onChange={this.handleChange('selectedClassroom')}
+						margin="normal"
 					>
+						{classroom.map((option) => (
+							<MenuItem key={option.id} value={option.id}>
+								{option.data.name}
+							</MenuItem>
+						))}
+					</TextField>
+					<TextField
+						label="Label"
+						className={classes.textField}
+						value={this.state.label}
+						onChange={this.handleChange('label')}
+						margin="normal"
+						>
 					</TextField>
 					<br />
 					<br/>
 					<br />
 					<div>
-						<Button variant="contained" color="secondary" className={classes.button} onClick={this.saveClassroom}>save</Button>
+						<Button variant="contained" color="secondary" className={classes.button} onClick={this.saveClasses}>save</Button>
 						<Button variant="outlined" className={classes.button} component={ Link } to="/classes">cancel</Button>
 					</div>					
 				</form>

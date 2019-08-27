@@ -82,7 +82,7 @@ export function getClassStudents(classId){
 // 		
 // addClasses('JpjAeIo5gg1iHvSbQ6oO', 'JNhQ3mCopmWazIuOkx4H', 'P4-Mesir', ['t123cqwr', 'afrasfzdv']);
 
-export function addClasses (organization, academic, name, students, label) {
+export function addClasses (organization, academic, name, students, classroom, label) {
     const db = firebase.firestore();
     let student_array = [];
 
@@ -94,7 +94,10 @@ export function addClasses (organization, academic, name, students, label) {
     {
         academic = db.collection('academicYear').doc(academic);
     }
-
+    if (typeof classroom != 'object')
+    {
+        classroom = db.collection('classroom').doc(classroom);
+    }
     if (students)
     {
         student_array = students.map((student) => {
@@ -111,6 +114,7 @@ export function addClasses (organization, academic, name, students, label) {
         academic,
         name,
         students: student_array,
+        classroom,
         label: label ? label : ''
     });
 }
