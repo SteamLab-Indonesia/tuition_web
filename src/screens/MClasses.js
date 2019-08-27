@@ -277,6 +277,7 @@ class MClasses extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell align="center" >Class</TableCell>
+                    <TableCell align="center" >Classroom</TableCell>
                     <TableCell align="center" >Label</TableCell>
                     <TableCell align="center" >Actions</TableCell>
                   </TableRow>
@@ -284,8 +285,9 @@ class MClasses extends Component {
                 <TableBody>
                   {
                     classList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
-                    <TableRow key={item.data.email}>
+                    <TableRow key={item.data.name}>
                       <TableCell align="center" >{item.data.name}</TableCell>
+                      <TableCell align="center" >{item.data.classroom}</TableCell>
                       <TableCell align="center" >{item.data.label}</TableCell>
                       <TableCell align="center">
                         <div>
