@@ -179,7 +179,6 @@ class MClasses extends Component {
 
   componentDidMount() {
     getClasses(SessionData.organizationId,SessionData.academic).then((classLists) => {
-        console.log(classLists)
         this.setState({
           classLists
         })
@@ -285,8 +284,8 @@ class MClasses extends Component {
                     classList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                     <TableRow key={item.data.name}>
                       <TableCell align="center" >{item.data.name}</TableCell>
-                      <TableCell align="center" >Homeroom</TableCell>
-                      <TableCell align="center" ></TableCell>
+                      <TableCell align="center" >{item.data.homeroom}</TableCell>
+                      <TableCell align="center" >{item.data.classroom}</TableCell>
                       <TableCell align="center" >{item.data.label}</TableCell>
                       <TableCell align="center">
                         <div>

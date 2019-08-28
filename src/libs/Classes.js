@@ -11,14 +11,26 @@ export function getClasses(organization, academic){
         .where('organization', '==', db.collection('organization').doc(organization))
         .where('academic', '==', db.collection('academicYear').doc(academic))
         .get().then((snapshot) => {
-            let class_list = []
+            let class_list = [];
+            let promise_list = [];
             snapshot.forEach((doc) => {
                 class_list.push({
                     id: doc.id,
                     data: doc.data()
                 });
+                promise_list.push(doc.data().classroom.get());
+                promise_list.push(doc.data().homeroom.get());
             });
-            resolve(class_list);
+            Promise.all(promise_list).then((promise_data) => {
+                for(let i=0; i < class_list.length; ++i)
+                {
+                    // 0: classroom, 1: homeroom
+                    // 2: classroom, 3: homeroom
+                    class_list[i].data.classroom = promise_data[i*2].data().name;
+                    class_list[i].data.homeroom = promise_data[i*2+1].data().name;
+                }
+                resolve(class_list);
+            })
         })
         .catch((err) => {
             reject(err);
