@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import PermissionLevel from './PermissionLevel';
-import { setData } from './SessionData';
+import { setData, setAcademicYear } from './SessionData';
+import { getAcademicYear } from './AcademicYear';
 
 export const GENDER = {
     MALE: 'male',
@@ -184,8 +185,11 @@ export function userLogin(user)
                     if (res && res.data && res.data.organization)
                     {
                         res.data.organization.get().then((orgResp) => {
-                            setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, res.data);
-                            resolve(res);        
+                            getAcademicYear(orgResp.id).then((academicList) => {
+                                setData(orgResp.id, orgResp.data().name, res.data.branch, res.id, res.data);
+                                setAcademicYear(academicList[0].id);
+                                resolve(res);            
+                            })
                         }).catch((err) => {
                             reject(err);
                         })

@@ -7,6 +7,7 @@ import {addClasses} from '../libs/Classes'
 import { Link } from 'react-router-dom';
 import { getClassroom } from '../libs/Classroom';
 import { getTeacher } from '../libs/Teacher';
+import { getAcademicYear } from '../libs/AcademicYear';
 import SessionData from '../libs/SessionData';
 
 const styles = theme => ({
@@ -50,15 +51,24 @@ class AddClassroom extends React.Component {
 		homeroom: [],
 		classroom: [],
 		selectedClassroom: '',
-		selectedHomeroom: ''
+		selectedHomeroom: '',
+		selectedAcademic: ''
 	}
 
 	componentDidMount = () => {
+
+		getAcademicYear(SessionData.organizationId).then((academicList) => {
+			this.setState({
+				academic: academicList
+			})
+		});
+
 		getClassroom((class_list) => {
 			this.setState({
 				classroom: class_list
 			})
 		});
+
 		getTeacher().then((teacher_list) => {
 			this.setState({
 				homeroom: teacher_list
@@ -77,7 +87,7 @@ class AddClassroom extends React.Component {
 
 	saveClasses = () => {
         addClasses(SessionData.organizationId,
-			SessionData.academic,
+			this.state.selectedAcademic,
 			this.state.name,
 			this.state.selectedHomeroom,
 			this.state.students,
@@ -110,7 +120,7 @@ class AddClassroom extends React.Component {
 						{
 							academic.map((option) => (
 							<MenuItem key={option.id} value={option.id}>
-								{option.data.name}
+								{option.data.name} ({option.data.start} - {option.data.end})
 							</MenuItem>
 							))
 						}

@@ -25,6 +25,8 @@ class SessionData {
             this.organizationName = data.organizationName;
         if (data.branch)
             this.branch = data.branch;
+        if (data.academic)
+            this.academic = data.academic;
     }
 
     isPermissionLevel = (permission_level) => {
@@ -42,6 +44,7 @@ class SessionData {
         ls.set('organizationId', this.organizationId);
         ls.set('organizationName', this.organizationName);
         ls.set('branch', this.branch);
+        ls.set('academic', this.academic);
     }
 
     getSession = () => {
@@ -51,7 +54,7 @@ class SessionData {
         this.organizationId = ls.get('organizationId');
         this.organizationName = ls.get('organizationName');
         this.branch = ls.get('branch');
-        this.academic = 'JNhQ3mCopmWazIuOkx4H';
+        this.academic = ls.get('academic');
     }
 }
 
@@ -79,5 +82,10 @@ export function setActiveBranch(branch)
     _sessionData.saveSession();
 }
 
+export function setAcademicYear(academic)
+{
+    _sessionData.academic = academic;
+    _sessionData.saveSession();
+}
 export {_sessionData as default};
 

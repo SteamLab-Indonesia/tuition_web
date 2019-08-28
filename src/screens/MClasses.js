@@ -29,9 +29,7 @@ import BookIcon from '@material-ui/icons/Book';
 import { Tooltip } from '@material-ui/core';
 import {Menu, MenuItem} from '@material-ui/core';
 import SessionData from '../libs/SessionData';
-import Checkbox from '@material-ui/core/Checkbox';
-import PermissionLevel from '../libs/PermissionLevel';
-import { resolve } from 'path';
+
 
 const actionsStyles = theme => ({
   root: {
@@ -84,7 +82,6 @@ class TablePaginationActions extends React.Component {
 
   render() {
     const { classes, count, page, rowsPerPage, theme } = this.props;
-
     return (
       <div className={classes.root}>
         <IconButton
@@ -277,6 +274,7 @@ class MClasses extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell align="center" >Class</TableCell>
+                    <TableCell align="center" >Homeroom</TableCell>
                     <TableCell align="center" >Classroom</TableCell>
                     <TableCell align="center" >Label</TableCell>
                     <TableCell align="center" >Actions</TableCell>
@@ -287,7 +285,8 @@ class MClasses extends Component {
                     classList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => (
                     <TableRow key={item.data.name}>
                       <TableCell align="center" >{item.data.name}</TableCell>
-                      <TableCell align="center" >{item.data.classroom}</TableCell>
+                      <TableCell align="center" >Homeroom</TableCell>
+                      <TableCell align="center" ></TableCell>
                       <TableCell align="center" >{item.data.label}</TableCell>
                       <TableCell align="center">
                         <div>
