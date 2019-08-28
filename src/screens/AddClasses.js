@@ -6,6 +6,7 @@ import { TextField, Paper, Typography, Button, MenuItem } from '@material-ui/cor
 import {addClasses} from '../libs/Classes'
 import { Link } from 'react-router-dom';
 import { getClassroom } from '../libs/Classroom';
+import { getTeacher } from '../libs/Teacher';
 import SessionData from '../libs/SessionData';
 
 const styles = theme => ({
@@ -43,10 +44,13 @@ class AddClassroom extends React.Component {
 
 	state = {
 		name: '',
-        label: '',
+		label: '',
+		academic: [],
 		students: [],
+		homeroom: [],
 		classroom: [],
-		selectedClassroom: ''
+		selectedClassroom: '',
+		selectedHomeroom: ''
 	}
 
 	componentDidMount = () => {
@@ -54,6 +58,14 @@ class AddClassroom extends React.Component {
 			this.setState({
 				classroom: class_list
 			})
+		});
+		getTeacher().then((teacher_list) => {
+			this.setState({
+				homeroom: teacher_list
+			})
+		})
+		.catch((err) => {
+			console.log(err);
 		});		
 	}
 
@@ -67,6 +79,7 @@ class AddClassroom extends React.Component {
         addClasses(SessionData.organizationId,
 			SessionData.academic,
 			this.state.name,
+			this.state.selectedHomeroom,
 			this.state.students,
 			this.state.selectedClassroom,
 			this.state.label, 
@@ -76,7 +89,7 @@ class AddClassroom extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		const {classroom} = this.state;
+		const {classroom, homeroom, academic} = this.state;
 		return (
 			<div className={classes.root} id="surface" className="surface">
 			<Paper elevation={1} id="inside">
@@ -87,6 +100,22 @@ class AddClassroom extends React.Component {
 					<br/>
 					<br/>
 					<TextField
+						select						
+						label="Academic Year"
+						className={classes.textField}
+						value={this.state.selectedAcademic}
+						onChange={this.handleChange('selectedAcademic')}
+						margin="normal"
+					>
+						{
+							academic.map((option) => (
+							<MenuItem key={option.id} value={option.id}>
+								{option.data.name}
+							</MenuItem>
+							))
+						}
+					</TextField>					
+					<TextField
 						className={classes.textField}
 						value={this.state.name}
 						label="Name"   
@@ -96,6 +125,22 @@ class AddClassroom extends React.Component {
 					>
 					</TextField>
 					<TextField
+						select						
+						label="Homeroom"
+						className={classes.textField}
+						value={this.state.selectedHomeroom}
+						onChange={this.handleChange('selectedHomeroom')}
+						margin="normal"
+					>
+						{
+							homeroom.map((option) => (
+							<MenuItem key={option.id} value={option.id}>
+								{option.data.name}
+							</MenuItem>
+							))
+						}
+					</TextField>					
+					<TextField
 						select
 						label="Classroom"
 						className={classes.textField}
@@ -103,11 +148,13 @@ class AddClassroom extends React.Component {
 						onChange={this.handleChange('selectedClassroom')}
 						margin="normal"
 					>
-						{classroom.map((option) => (
+						{
+							classroom.map((option) => (
 							<MenuItem key={option.id} value={option.id}>
 								{option.data.name}
 							</MenuItem>
-						))}
+							))
+						}
 					</TextField>
 					<TextField
 						label="Label"
