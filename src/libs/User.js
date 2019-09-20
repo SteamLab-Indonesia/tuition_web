@@ -157,7 +157,7 @@ export function getUserListByPermission(permission) {
             db.collection("user").where("permission", '==', permission).get()
             .then((snapshot) => {
                 if (snapshot.empty)
-                    resolve(null);
+                    resolve([]);
                 let user_list = [];
                 for(let i=0; i < snapshot.docs.length; ++i)
                 {
@@ -284,28 +284,37 @@ export function getUserDetails(id_num) {
 export function getUserListDetails(id_list) {
     return new Promise((resolve, reject) => {
         const db = firebase.firestore();
-        let promise_array = id_list.map((id) => {
-            if (typeof id == 'object')
-            {
-                return id.get();
-            }
-            else
-            {
-                return db.collection("user").doc(id).get();
-            }            
-        });
 
-        Promise.all(promise_array).then((userArray) => {
-            let users = [];
-            for (let i=0; i < userArray.length; ++i)
-            {
-                users.push(userArray[i].data());
-            }
-            resolve(users);
-        })
-        .catch((err) => {
-            reject(err);
-        })        
+        if (id_list && id_list.length > 0)
+        {
+            let promise_array = id_list.map((id) => {
+                if (typeof id == 'object')
+                {
+                    return id.get();
+                }
+                else
+                {
+                    return db.collection("user").doc(id).get();
+                }            
+            });
+    
+            Promise.all(promise_array).then((userArray) => {
+                let users = [];
+                for (let i=0; i < userArray.length; ++i)
+                {
+                    users.push(userArray[i].data());
+                }
+                resolve(users);
+            })
+            .catch((err) => {
+                reject(err);
+            })  
+        }
+        else
+        {
+            reject('Id is empty')
+        }
+      
     })
 }
 

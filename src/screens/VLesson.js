@@ -52,7 +52,7 @@ const styles = theme => ({
   },
 });
 
-class AddLesson extends React.Component {
+class VLesson extends React.Component {
 
 	handleChange = name => event => {
 		this.setState({
@@ -62,7 +62,7 @@ class AddLesson extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-      lessonData: [],
+      		lessonData: [],
 			teacher: [],
 			selectedTeacher: "",
 			lesson: '',
@@ -101,6 +101,9 @@ class AddLesson extends React.Component {
 		getLessonDetails(id_num).then((lessonData) => {
 			getUserListDetails(lessonData.data.student).then((studentList) => {
 				this.setState({studentList});
+			})
+			.catch((err) => {
+				console.log('No Students')
 			})
 			this.setState({
 				lessonData,
@@ -277,8 +280,8 @@ class AddLesson extends React.Component {
 	}
 }
 
-AddLesson.propTypes = {
+VLesson.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddLesson);
+export default withStyles(styles)(VLesson);

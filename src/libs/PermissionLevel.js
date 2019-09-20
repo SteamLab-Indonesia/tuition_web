@@ -6,6 +6,7 @@ const PermissionLevel={
     FINANCE: 320,
     COORDINATOR: 300,
     OPERATOR: 250,
+    HOMEROOM: 220,
     TEACHER: 200,
     PARENTS: 150,
     STUDENTS: 100,
